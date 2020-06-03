@@ -1,0 +1,189 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap");
+
+body {
+    background: #f10935;
+    margin:0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+.message a{
+    color: #ffffff;
+    text-decoration: underline;
+}
+.hide{
+    display: none;
+}
+.clock{
+    color: #ffffff;
+    text-align: center;
+    line-height: normal;
+    padding: 20px 0 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+.clock .days{
+    font-size: 20vw;
+    display: block;
+    word-spacing: -15px;
+    margin-bottom: 5px;
+}
+.clock .seconds{
+    font-size: 7vw;
+    word-spacing: -5px;
+}
+.clock .seconds .board{
+    padding: 0 5px;
+}
+.clock .hours,
+.clock .minutes,
+.clock .seconds{
+    vertical-align: middle;
+}
+.legend{
+    text-align: center;
+    font-size: 25px;
+    line-height: 50px;
+}
+.loading{
+    font-size: 10vw;
+    padding: 40px 0;
+    display: block;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #f10935;
+    z-index: 1;
+}
+.board{
+    background: #fe4767;
+    border-radius: 8px;
+    padding: 0 10px;
+}
+.countdown{
+    display: block;
+    word-spacing: -7px;
+    line-height: 1.5;
+}
+.countdown .time{
+    display: block;
+    font-size: 11vw;
+    font-weight: 600;
+}
+.clock .text{
+    color: #ffffff;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    text-align: center;
+    font-size: 8vw;
+    font-weight: 300;
+}
+.interactions,
+.action-buttons{
+    border-radius: 10px;
+    min-height: 50px;
+}
+.action-buttons{
+    display: flex;
+    padding: 10px 0;
+}
+.action-buttons .button{
+    background: #ffffff;
+    flex: 1;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0000005e;
+    line-height: 50px;
+    font-size: 25px;
+}
+.action-buttons .button:active{
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);
+    font-size: 23px;
+}
+.action-buttons div{
+    flex: 1;
+}
+.action-buttons .button:last-child{
+    margin-left: 10px;
+}
+.interactions{
+    background: #ffffff;
+    padding: 5px;
+    display: block;
+    box-shadow: 0 0 10px #0000005e;
+}
+.messages{
+    font-size: 13px;
+    border-radius: 10px;
+    padding: 7px 8px;
+    display: block;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.messages span{
+    display: block;
+}
+.messages p{
+    margin-bottom: 5px;
+}
+.messages .sent{
+    text-align: right;
+}
+.messages .received{
+    text-align: left;
+}
+.messages p>b,
+.messages .message b{
+    opacity: 50%;
+    font-weight: 400;
+    font-size: 12px;
+    vertical-align: middle;
+}
+.messages span:first-letter{
+    text-transform: capitalize!important;
+}
+.messages .sent.message,
+.messages .received.message{
+    width: 80%;
+    background: #F10937;
+    color: white;
+    padding: 3px 7px;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 5px;
+}
+.messages .sent.message{
+    margin-left: auto;
+}
+.messages .received.message{
+    margin-right: auto;
+}
+.messages .message p{
+    margin-bottom: 0;
+}
+.messages .message b{
+    opacity: 70%;
+    display: block;
+}
+.messages .received.message{
+    text-align: right;
+}
+.header{
+    display: block;
+}
+.header input{
+    width: 100%;
+    display: block;
+    border: 1px solid #f10935;
+    border-radius: 20px;
+    padding: 0 8px;
+    outline: none;
+    font-size: 15px;
+    color: #f10935;
+}
+.header input::placeholder{
+    color: #f10935;
+    font-weight: 200;
+}

@@ -1,0 +1,12 @@
+image: node
+pipelines:
+   branches:
+      master:
+      - step:
+         deployment: production
+         caches:
+         - node
+         script:
+           - pipe: atlassian/firebase-deploy:0.3.8
+             variables:
+               FIREBASE_TOKEN: $FIREBASE_TOKEN
