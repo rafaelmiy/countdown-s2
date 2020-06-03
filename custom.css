@@ -17,9 +17,6 @@ body {
     font-size: 14vw;
     color: #fff;
 }
-.message{
-    margin-bottom: 30px;
-}
 .message a{
     color: #ffffff;
     text-decoration: underline;
