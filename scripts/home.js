@@ -8,6 +8,10 @@ $('#input').on('keypress',function(e) {
 
 moment.locale('pt');
 
+if (typeof window.orientation !== 'undefined') {
+    $('#warning').addClass('hide');
+}
+  
 
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -168,9 +172,9 @@ firebaseDating.on('value',function(date){
 
     // var clockSize = $('#clock').outerHeight()+$('#action-area').outerHeight();
 
-    var data = $('div').html(); //get input (content)
+    var data = $('#page').html(); //get input (content)
     // TODO: ARRUMAR LINK
-    linkify(data); //run function on content
+    // linkify(data); //run function on content
 
 
 });
