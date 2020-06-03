@@ -24,6 +24,9 @@ body {
 .hide{
     display: none;
 }
+.content{
+    height: 100vh;
+}
 .clock{
     color: #ffffff;
     text-align: center;
