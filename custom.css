@@ -120,7 +120,7 @@ body {
     padding: 7px 8px;
     display: block;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-y: scroll;
 }
 .messages span{
     display: block;
