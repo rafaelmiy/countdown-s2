@@ -189,7 +189,7 @@ function sendMessage(type, message){
         date: date,
         uid: firebase.auth().currentUser.uid
     });
-    $('#input').focusout();
+    $('#input').blur();
     $('#input').val('');
 }
 
