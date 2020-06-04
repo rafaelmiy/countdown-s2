@@ -181,7 +181,7 @@ function sendMessage(type, message){
         date: date,
         uid: firebase.auth().currentUser.uid
     });
-    $('#input').blur();
+    // $('#input').blur();
     $('#input').val('');
 }
 
@@ -207,5 +207,12 @@ $(document).keypress(function(event) {
         }
     }
 });
+
+$('#input').focus(function() {
+    console.log('focus');
+  });
+  $('#input').focusout(function() {
+    console.log('focusout');
+  });
 
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
