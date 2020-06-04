@@ -188,7 +188,7 @@ body {
     padding: 3px 7px;
     border-radius: 10px;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     width: max-content;
 }
 .messages .sent.message{
