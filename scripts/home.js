@@ -1,11 +1,3 @@
-
-
-$('#input').on('keypress',function(e) {
-    if(e.which == 13) {
-        alert('You pressed enter!');
-    }
-});
-
 moment.locale('pt');
 
 if (typeof window.orientation !== 'undefined') {
@@ -210,7 +202,9 @@ $(document).keypress(function(event) {
     if(event.which == 13) {
         // alert('You pressed enter!');
         var message = $('#input').val();
-        sendMessage("message", message);
+        if($('#input').val().length >0){
+            sendMessage("message", message);
+        }
     }
 });
 
