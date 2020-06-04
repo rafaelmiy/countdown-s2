@@ -196,6 +196,7 @@ body {
     outline: none;
     font-size: 17px;
     color: #f10935;
+    background: #fff;
 }
 .header input::placeholder{
     color: #f10935;
