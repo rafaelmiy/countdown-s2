@@ -208,11 +208,8 @@ $(document).keypress(function(event) {
     }
 });
 
-$('#input').focus(function() {
-    console.log('focus');
-  });
-  $('#input').focusout(function() {
-    console.log('focusout');
-  });
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
 
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
