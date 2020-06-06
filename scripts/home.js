@@ -1,6 +1,6 @@
 moment.locale('pt');
 
-if (typeof window.orientation !== 'undefined') {
+if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == true) {
     $('#warning').addClass('hide');
 }
   
@@ -122,17 +122,21 @@ firebaseDating.on('value',function(date){
             var type = message.type;
             var date = message.date;
             var uid = message.uid;
-            var message = message.message;
+            var like = message.like;
+            var msg = message.message;
+            var id = i;
 
+            like = message.like == true ? " like" : "";
+            console.log(like);
             var feelingPT = "";
 
             var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
 
             if(type == "feeling"){
-                if(message == "kiss"){
+                if(msg == "kiss"){
                     feelingPT = "beijo 💋";
                 }
-                else if(message == "heart"){
+                else if(msg == "heart"){
                     feelingPT = "carinho ❤️";
                 }
                 // console.log(feelingPT);
@@ -154,18 +158,24 @@ firebaseDating.on('value',function(date){
                 else{
                     var status = "received";
                 }
-                $('#messages').prepend('<span class="message '+status+'"><p>'+message+'<b>'+since+'</b></p></span>');
+                $('#messages').prepend('<span data-id="'+id+'" class="message '+status+''+like+'"><p>'+msg+'<b>'+since+'</b></p></span>');
             }
         }
 
+        $(".received").dblclick(function(){
+            var id = $(this).data("id");
+            var like = $(this).hasClass("like") == true ? false : true;
+            
+            firebase.database().ref('messages/' + id).update({
+                like: like
+            });
+
+        });
+
     });
 
-    
-
-    // var clockSize = $('#clock').outerHeight()+$('#action-area').outerHeight();
-
-    var data = $('#page').html(); //get input (content)
-    // TODO: ARRUMAR LINK
+    // var data = $('#page').html(); //get input (content)
+    // TODO: ARRUMAR O CONVERSOR DE QUALQUER TEXTO PARA LINK
     // linkify(data); //run function on content
 
 
@@ -208,8 +218,10 @@ $(document).keypress(function(event) {
     }
 });
 
+//EVITA O ZOOM
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
+
 
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS

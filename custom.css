@@ -18,6 +18,9 @@ body {
     font-size: 14vw;
     color: #fff;
 }
+.warning h1{
+    line-height: 100vh;
+}
 .message a{
     color: #ffffff;
     text-decoration: underline;
@@ -174,7 +177,7 @@ body {
 .messages .message b{
     opacity: 50%;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 10px;
     vertical-align: middle;
 }
 .messages span:first-letter{
@@ -203,6 +206,23 @@ body {
 .messages .message b{
     opacity: 70%;
     display: block;
+}
+.messages .message.like{
+    margin-top: 8px;
+}
+.messages .message.like:before{
+    content: "❤️";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    font-size: 18px;
+    top: -10px;
+}
+.messages .message.sent.like:before{
+    left: -7px;
+}
+.messages .message.received.like:before{
+    right: -7px;
 }
 .messages .received.message{
     text-align: right;
