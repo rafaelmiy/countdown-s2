@@ -206,8 +206,9 @@ function linkify(str) {
 }
 
 $(document).keypress(function(event) {
-    document.location = "#action-area";
+    // EVITA COLOCAR ESPAÇO COMO PRIMEIRO CARACTER
     if (event.keyCode == 32 & $('#input').val().length == 0){
+        $('#input').val('');
         return false;
     }
     if(event.which == 13) {
@@ -219,16 +220,16 @@ $(document).keypress(function(event) {
     }
 });
 
-//EVITA O ZOOM
+// EVITA O ZOOM
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
 
 //SOBE A TELA QUANDO O TECLADO SOBE NA TELA
-$('#input').focus(function(){
-    setTimeout(function() { document.location = "#action-area"; }, 2000);
-    // document.location = "#action-area";
-});
+// $('#input').focus(function(){
+//     setTimeout(function() { document.location = "#action-area"; }, 2000);
+//     // document.location = "#action-area";
+// });
 
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
 
