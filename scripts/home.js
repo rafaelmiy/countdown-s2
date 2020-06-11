@@ -127,7 +127,7 @@ firebaseDating.on('value',function(date){
             var id = i;
 
             like = message.like == true ? " like" : "";
-            
+            console.log(like);
             var feelingPT = "";
 
             var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
@@ -206,6 +206,7 @@ function linkify(str) {
 }
 
 $(document).keypress(function(event) {
+    // EVITA COLOCAR ESPAÇO COMO PRIMEIRO CARACTER
     if (event.keyCode == 32 & $('#input').val().length == 0){
         return false;
     }
@@ -218,10 +219,10 @@ $(document).keypress(function(event) {
     }
 });
 
-//EVITA O ZOOM
+// EVITA O ZOOM
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
 
-
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
+
