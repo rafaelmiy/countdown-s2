@@ -108,6 +108,7 @@ firebaseDating.on('value',function(date){
     
     var firebaseMessages = firebase.database().ref('messages');
     firebaseMessages.on('value',function(messages){
+        playSound('pop');
         var messages = messages.val();
         if(messages == null){
             $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
@@ -127,7 +128,7 @@ firebaseDating.on('value',function(date){
             var id = i;
 
             like = message.like == true ? " like" : "";
-            console.log(like);
+            // console.log(like);
             var feelingPT = "";
 
             var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
@@ -171,7 +172,7 @@ firebaseDating.on('value',function(date){
             });
 
         });
-
+        // playSound('pop');
     });
 
     // var data = $('#page').html(); //get input (content)
@@ -223,6 +224,18 @@ $(document).keypress(function(event) {
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
+
+// function playSound(){
+//     let src = 'sound/pop.mp3';
+//     let audio = new Audio(src);
+//     audio.play();
+// }
+
+function playSound(filename){
+    var mp3Source = '<source src="sound/' + filename + '.mp3" type="audio/mpeg">';
+    var embedSource = '<embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3">';
+    document.getElementById("sound").innerHTML='<audio autoplay="autoplay">' + mp3Source + embedSource + '</audio>';
+  }
 
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
 
