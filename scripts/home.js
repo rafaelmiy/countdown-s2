@@ -225,7 +225,8 @@ document.addEventListener('gesturestart', function (e) {
 
 //SOBE A TELA QUANDO O TECLADO SOBE NA TELA
 $('#input').focus(function(){
-    document.location = "#action-area";
+    setTimeout(function() { document.location = "#action-area"; }, 2000);
+    // document.location = "#action-area";
 });
 
 // TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
