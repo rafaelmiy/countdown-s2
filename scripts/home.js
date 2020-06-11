@@ -208,7 +208,7 @@ function linkify(str) {
 $(document).keypress(function(event) {
     // EVITA COLOCAR ESPAÇO COMO PRIMEIRO CARACTER
     if (event.keyCode == 32 & $('#input').val().length == 0){
-        $('#input').val('');
+        // $('#input').val('');
         return false;
     }
     if(event.which == 13) {
