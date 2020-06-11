@@ -127,7 +127,7 @@ firebaseDating.on('value',function(date){
             var id = i;
 
             like = message.like == true ? " like" : "";
-            
+            console.log(like);
             var feelingPT = "";
 
             var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
