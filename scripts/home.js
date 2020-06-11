@@ -206,6 +206,7 @@ function linkify(str) {
 }
 
 $(document).keypress(function(event) {
+    document.location = "#action-area";
     if (event.keyCode == 32 & $('#input').val().length == 0){
         return false;
     }
