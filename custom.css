@@ -144,6 +144,13 @@ body {
 }
 .messages p{
     margin-bottom: 5px;
+    line-height: 13px;
+}
+.messages p .qnt{
+    font-weight: bolder;
+    font-size: 13px;
+    color: #F10937;;
+    opacity: 1;
 }
 .messages .sent{
     text-align: right;

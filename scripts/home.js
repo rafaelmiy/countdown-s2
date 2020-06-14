@@ -105,81 +105,114 @@ firebaseDating.on('value',function(date){
         // var clockSize = $('#clock').outerHeight()+$('#action-area').outerHeight();
         
     }
-    
-    var firebaseMessages = firebase.database().ref('messages');
-    firebaseMessages.on('value',function(messages){
-        playSound('pop');
-        var messages = messages.val();
-        if(messages == null){
-            $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
-        }
-        else{
-            $('#messages').html('');
-        }
-
-        for(var i in messages){
-            var message = messages[i];
-
-            var type = message.type;
-            var date = message.date;
-            var uid = message.uid;
-            var like = message.like;
-            var msg = message.message;
-            var id = i;
-
-            like = message.like == true ? " like" : "";
-            // console.log(like);
-            var feelingPT = "";
-
-            var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
-
-            if(type == "feeling"){
-                if(msg == "kiss"){
-                    feelingPT = "beijo 💋";
-                }
-                else if(msg == "heart"){
-                    feelingPT = "carinho ❤️";
-                }
-                // console.log(feelingPT);
-                if(uid == firebase.auth().currentUser.uid){
-                    var status = "sent";
-                    var statusPT = "enviou";
-                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' um '+feelingPT+'</p></span>')
-                }
-                else{
-                    var status = "received";
-                    var statusPT = "recebeu";
-                    $('#messages').prepend('<span class="'+status+'"><p>Você '+statusPT+' um '+feelingPT+'&nbsp;<b>'+since+'</b></p></span>')
-                }
-            }
-            else if(type == "message"){
-                if(uid == firebase.auth().currentUser.uid){
-                    var status = "sent";
-                }
-                else{
-                    var status = "received";
-                }
-                $('#messages').prepend('<span data-id="'+id+'" class="message '+status+''+like+'"><p>'+msg+'<b>'+since+'</b></p></span>');
-            }
-        }
-
-        $(".received").dblclick(function(){
-            var id = $(this).data("id");
-            var like = $(this).hasClass("like") == true ? false : true;
-            
-            firebase.database().ref('messages/' + id).update({
-                like: like
-            });
-
-        });
-        // playSound('pop');
-    });
 
     // var data = $('#page').html(); //get input (content)
     // TODO: ARRUMAR O CONVERSOR DE QUALQUER TEXTO PARA LINK
     // linkify(data); //run function on content
 
+});
 
+var firebaseMessages = firebase.database().ref('messages');
+firebaseMessages.on('value',function(messages){
+    var messages = messages.val();
+
+    playSound('pop');
+    if(messages == null){
+        $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
+    }
+    else{
+        $('#messages').html('');
+    }
+    
+    var messagesIDs = Object.keys(messages);
+    console.log(messagesIDs);
+
+    for(var i=0; i<messagesIDs.length; i++){
+        var message = messages[messagesIDs[i]];
+        // console.log(i);
+        var type = message.type;
+        var date = message.date;
+        var uid = message.uid;
+        var like = message.like;
+        var msg = message.message;
+        var id = messagesIDs[i];
+
+        like = message.like == true ? " like" : "";
+        // console.log(like);
+        var feelingPT = "";
+
+        var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
+
+        if(type == "feeling"){
+            if(msg == "kiss"){
+                feelingPT = "beijo 💋";
+                feelingsPT = "beijos 💋";
+            }
+            else if(msg == "heart"){
+                feelingPT = "carinho ❤️";
+                feelingsPT = "carinhos ❤️";
+            }
+            // console.log(feelingPT);
+            if(uid == firebase.auth().currentUser.uid){
+                var status = "sent";
+                var statusPT = "enviou";
+                for(var j=1, k=0, n=1; j>k && i+1<messagesIDs.length; j++){
+                    var next = i+1;
+                    if(messages[messagesIDs[next]].type == "feeling" && messages[messagesIDs[next]].message == msg && messages[messagesIDs[next]].uid == firebase.auth().currentUser.uid){
+                        i++;
+                        n++;
+                    }
+                    else j=k-1;
+                }
+                if(n>1){
+                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' <b class="qnt">'+n+'</b> '+feelingsPT+'</p></span>');
+                }
+                else{
+                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' um '+feelingPT+'</p></span>');
+                }
+            }
+            else{
+                var status = "received";
+                var statusPT = "recebeu";
+
+                for(var j=1, k=0, n=1; j>k && i+1<messagesIDs.length; j++){
+                    var next = i+1;
+                    if(messages[messagesIDs[next]].type == "feeling" && messages[messagesIDs[next]].message == msg && messages[messagesIDs[next]].uid != firebase.auth().currentUser.uid){
+                        i++;
+                        n++;
+                    }
+                    else j=k-1;
+                }
+                if(n>1){
+                    $('#messages').prepend('<span class="'+status+'"><p>Você '+statusPT+' <b class="qnt">'+n+'</b> '+feelingsPT+'&nbsp;<b>'+since+'</b></p></span>');
+                }
+                else{
+                    $('#messages').prepend('<span class="'+status+'"><p>Você '+statusPT+' um '+feelingPT+'&nbsp;<b>'+since+'</b></p></span>');
+                }
+
+                
+            }
+        }
+        else if(type == "message"){
+            if(uid == firebase.auth().currentUser.uid){
+                var status = "sent";
+            }
+            else{
+                var status = "received";
+            }
+            $('#messages').prepend('<span data-id="'+id+'" class="message '+status+''+like+'"><p>'+msg+'<b>'+since+'</b></p></span>');
+        }
+    }
+
+    $(".received").dblclick(function(){
+        var id = $(this).data("id");
+        var like = $(this).hasClass("like") == true ? false : true;
+        
+        firebase.database().ref('messages/' + id).update({
+            like: like
+        });
+
+    });
 });
 
 function sendMessage(type, message){
@@ -225,17 +258,10 @@ document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
 
-// function playSound(){
-//     let src = 'sound/pop.mp3';
-//     let audio = new Audio(src);
-//     audio.play();
-// }
-
 function playSound(filename){
     var mp3Source = '<source src="sound/' + filename + '.mp3" type="audio/mpeg">';
     var embedSource = '<embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3">';
     document.getElementById("sound").innerHTML='<audio autoplay="autoplay">' + mp3Source + embedSource + '</audio>';
-  }
+}
 
-// TODO: AGRUPAR MUITOS BEIJOS SEGUIDOS OU MUITOS CARINHOS SEGUIDOS
 
