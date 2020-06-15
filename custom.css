@@ -223,13 +223,13 @@ body {
     height: 20px;
     position: absolute;
     font-size: 18px;
-    top: -10px;
+    top: -11px;
 }
 .messages .message.sent.like:before{
-    left: -7px;
+    left: -10px;
 }
 .messages .message.received.like:before{
-    right: -7px;
+    right: -8px;
 }
 .messages .received.message{
     text-align: right;

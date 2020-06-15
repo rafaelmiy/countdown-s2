@@ -125,7 +125,7 @@ firebaseMessages.on('value',function(messages){
     }
     
     var messagesIDs = Object.keys(messages);
-    console.log(messagesIDs);
+    // console.log(messagesIDs);
 
     for(var i=0; i<messagesIDs.length; i++){
         var message = messages[messagesIDs[i]];
