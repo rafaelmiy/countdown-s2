@@ -83,8 +83,13 @@ firebaseDating.on('value',function(date){
             s2 = s.substring(1, 2);
             // console.log(d2);
 
-            $('#d1').text(d1);
-            $('#d2').text(d2);
+            if(d1 == 0 && d2 == 0){
+                $('#days').hide();
+            }
+            else{
+                $('#d1').text(d1);
+                $('#d2').text(d2);
+            }
             $('#h1').text(h1);
             $('#h2').text(h2);
             $('#m1').text(m1);
