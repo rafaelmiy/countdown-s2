@@ -117,11 +117,16 @@ firebaseDating.on('value',function(date){
 
 });
 
+var firstLoad = 0;
+
 var firebaseMessages = firebase.database().ref('messages');
 firebaseMessages.on('value',function(messages){
     var messages = messages.val();
 
-    playSound('pop');
+    if(firstLoad != 0){
+        playSound('pop');
+        firstLoad = 1;
+    }
     if(messages == null){
         $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
     }
