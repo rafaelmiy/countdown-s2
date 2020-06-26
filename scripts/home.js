@@ -87,8 +87,18 @@ firebaseDating.on('value',function(date){
                 $('#days').hide();
             }
             else{
+                $('#days').show();
                 $('#d1').text(d1);
                 $('#d2').text(d2);
+            }
+
+            if(h1 == 0 && h2 == 0 && m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0){
+                $('#countdown').hide();
+                $('#text').text("Aproveitem cada segundinho");
+            }
+            else{
+                $('#countdown').show();
+                $('#text').text("para nos encontrar");
             }
             $('#h1').text(h1);
             $('#h2').text(h2);
