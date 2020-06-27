@@ -94,22 +94,19 @@ firebaseDating.on('value',function(date){
 
             if(h1 == 0 && h2 == 0 && m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0){
                 $('#countdown').hide();
-                $('#text').text("Aproveitem cada segundinho");
+                $('#text').text("Aproveitem cada segundinho juntos");
             }
             else{
                 $('#countdown').show();
                 $('#text').text("para nos encontrar");
+                $('#h1').text(h1);
+                $('#h2').text(h2);
+                $('#m1').text(m1);
+                $('#m2').text(m2);
+                $('#s1').text(s1);
+                $('#s2').text(s2);
             }
-            $('#h1').text(h1);
-            $('#h2').text(h2);
-            $('#m1').text(m1);
-            $('#m2').text(m2);
-            $('#s1').text(s1);
-            $('#s2').text(s2);
 
-            // FIXA O TAMANHO DO BOX DE MENSAGENS
-            var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
-            $('#messages').css('max-height',topSize-70);
 
             j++;
             if(j>0){
@@ -120,6 +117,22 @@ firebaseDating.on('value',function(date){
         // var clockSize = $('#clock').outerHeight()+$('#action-area').outerHeight();
         
     }
+    else{
+
+        $('#days').hide();
+        $('#countdown').hide();
+        $('#text').text("Aproveitem cada segundinho");
+
+        setInterval(function(){
+            // FIXA O TAMANHO DO BOX DE MENSAGENS
+            var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
+            $('#messages').css('max-height',topSize-70);
+            
+        }, interval);
+    }
+
+    
+
 
     // var data = $('#page').html(); //get input (content)
     // TODO: ARRUMAR O CONVERSOR DE QUALQUER TEXTO PARA LINK
@@ -223,6 +236,9 @@ firebaseMessages.on('value',function(messages){
             $('#messages').prepend('<span data-id="'+id+'" class="message '+status+''+like+'"><p>'+msg+'<b>'+since+'</b></p></span>');
         }
     }
+
+    $('#content').removeClass('hide');
+    $('#loading').addClass('hide');
 
     $(".received").dblclick(function(){
         var id = $(this).data("id");
