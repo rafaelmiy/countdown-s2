@@ -107,7 +107,6 @@ firebaseDating.on('value',function(date){
                 $('#s2').text(s2);
             }
 
-
             j++;
             if(j>0){
                 $('#content').removeClass('hide');
