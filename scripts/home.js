@@ -145,10 +145,10 @@ var firebaseMessages = firebase.database().ref('messages');
 firebaseMessages.on('value',function(messages){
     var messages = messages.val();
 
-    if(firstLoad != 0){
+    if(firstLoad == 1){
         playSound('pop');
-        firstLoad = 1;
-    }
+    }else firstLoad = 1;
+    
     if(messages == null){
         $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
     }
