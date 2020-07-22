@@ -141,7 +141,7 @@ firebaseDating.on('value',function(date){
 
 var firstLoad = 0;
 
-var firebaseMessages = firebase.database().ref('messages');
+var firebaseMessages = firebase.database().ref('messages').limit(300);
 firebaseMessages.on('value',function(messages){
     var messages = messages.val();
 
