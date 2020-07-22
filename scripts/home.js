@@ -94,7 +94,8 @@ firebaseDating.on('value',function(date){
 
             if(h1 == 0 && h2 == 0 && m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0){
                 $('#countdown').hide();
-                $('#text').text("Aproveitem cada segundinho juntos");
+                // $('#text').text("Aproveitem cada segundinho juntos");
+                $('#text').text("Quando vai ser o próximo encontro?");
             }
             else{
                 $('#countdown').show();
@@ -120,7 +121,8 @@ firebaseDating.on('value',function(date){
 
         $('#days').hide();
         $('#countdown').hide();
-        $('#text').text("Aproveitem cada segundinho");
+        // $('#text').text("Aproveitem cada segundinho");
+        $('#text').text("Quando vai ser o próximo encontro?");
 
         setInterval(function(){
             // FIXA O TAMANHO DO BOX DE MENSAGENS
@@ -141,7 +143,7 @@ firebaseDating.on('value',function(date){
 
 var firstLoad = 0;
 
-var firebaseMessages = firebase.database().ref('messages').limit(300);
+var firebaseMessages = firebase.database().ref('messages').limitToLast(400);
 firebaseMessages.on('value',function(messages){
     var messages = messages.val();
 
