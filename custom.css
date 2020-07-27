@@ -252,3 +252,47 @@ body {
     color: #f10935;
     font-weight: 200;
 }
+
+/* FlipDown Countdown */
+
+.flipdown{
+    overflow: visible;
+    width: max-content;  
+    /* height: 110px; */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.flipdown.flipdown__theme-dark {
+    margin: 0 auto;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+/* Rotor group headings */
+.flipdown.flipdown__theme-dark .rotor-group-heading:before {
+    color: #fff;
+  }
+  /* Delimeters */
+.flipdown.flipdown__theme-dark .rotor-group:nth-child(n+2):nth-child(-n+3):before,
+.flipdown.flipdown__theme-dark .rotor-group:nth-child(n+2):nth-child(-n+3):after {
+  background-color: #fff;
+}
+/* Rotor tops */
+.flipdown.flipdown__theme-dark .rotor,
+.flipdown.flipdown__theme-dark .rotor-top,
+.flipdown.flipdown__theme-dark .rotor-leaf-front {
+  background-color: #fe4767;
+}
+/* Rotor bottoms */
+.flipdown.flipdown__theme-dark .rotor-bottom,
+.flipdown.flipdown__theme-dark .rotor-leaf-rear {
+  background-color: #fe4767;
+}
+/* Hinge */
+.flipdown.flipdown__theme-dark .rotor:after {
+  border-top: solid 1px #fe4767;
+}
+@media (max-width: 550px){
+    .flipdown .rotor-group-heading:before {
+        font-size: 1.2rem;
+    }
+}

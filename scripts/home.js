@@ -43,94 +43,61 @@ firebaseDating.on('value',function(date){
     var dating = date.val();
     // var dating = date.dating;
     // console.log(dating);
-    
-    var $clock = $('#countdown'),
-        eventTime = moment(dating, 'YYYYMMDDHHmmss').unix(),
-        currentTime = moment().unix(),
-        diffTime = eventTime - currentTime,
-        duration = moment.duration(diffTime * 1000, 'milliseconds'),
-        interval = 1000;
+    dating = moment(dating, 'YYYYMMDDHHmm').unix();
 
-    var j=0;
-    // if time to countdown
-    if(diffTime > 0) {
+    // clear Flipdown
+    $('#flipdown').empty();
+    // Set up FlipDown
+    var flipdown = new FlipDown(dating)
 
-        setInterval(function(){
+        // Start the countdown
+        .start()
 
-            duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
-            var d = moment.duration(duration).days(),
-                h = moment.duration(duration).hours(),
-                m = moment.duration(duration).minutes(),
-                s = moment.duration(duration).seconds();
+        // Do something when the countdown ends
+        .ifEnded(() => {
+            // console.log('The countdown has ended!');
+            // $('#flipdown').addClass('hide');
+            // $('#text').text("Quando vai ser o próximo encontro?");
+        });
 
-            d = $.trim(d).length === 1 ? '0' + d : d;
-            h = $.trim(h).length === 1 ? '0' + h : h;
-            m = $.trim(m).length === 1 ? '0' + m : m;
-            s = $.trim(s).length === 1 ? '0' + s : s;
 
-            d = d.toString();
-            h = h.toString();
-            m = m.toString();
-            s = s.toString();
-
-            d1 = d.substring(0, 1);
-            d2 = d.substring(1, 2);
-            h1 = h.substring(0, 1);
-            h2 = h.substring(1, 2);
-            m1 = m.substring(0, 1);
-            m2 = m.substring(1, 2);
-            s1 = s.substring(0, 1);
-            s2 = s.substring(1, 2);
-            // console.log(d2);
-
-            if(d1 == 0 && d2 == 0){
-                $('#days').hide();
+    var finished = 1;
+    var hide = 0;
+    // Verifica se regressiva está zerada
+    for(var i = 0; i < $('.flipdown .rotor-group').length; i++){
+        var a = i+1;
+        for(var j = 0; j < $('.flipdown .rotor-group:nth-child('+a+') .rotor div:last-child').length; j++){
+            hide = 0;
+            if($('.flipdown .rotor-group:nth-child('+a+') .rotor div:last-child')[j].innerHTML > 0){
+                finished = 0;
+                hide = 0;
+                break;
+            }else{
+                hide = 1;
             }
-            else{
-                $('#days').show();
-                $('#d1').text(d1);
-                $('#d2').text(d2);
-            }
+        }
+        if(finished == 0){
+            break;
+        }else if(hide == 1){
+            $('.flipdown .rotor-group:nth-child('+a+'):first-child').addClass('hide');
+        }
+    }
+    if(finished == 1){
+        $('#flipdown').addClass('hide');
+        $('#text').text("Aproveitem cada segundinho juntos");
+        // $('#text').text("Quando vai ser o próximo encontro?");
+    }else{
+        $('#flipdown').removeClass('hide');
+        $('#text').text("para nos encontrar.");
+    }
 
-            if(h1 == 0 && h2 == 0 && m1 == 0 && m2 == 0 && s1 == 0 && s2 == 0){
-                $('#countdown').hide();
-                // $('#text').text("Aproveitem cada segundinho juntos");
-                $('#text').text("Quando vai ser o próximo encontro?");
-            }
-            else{
-                $('#countdown').show();
-                $('#text').text("para nos encontrar");
-                $('#h1').text(h1);
-                $('#h2').text(h2);
-                $('#m1').text(m1);
-                $('#m2').text(m2);
-                $('#s1').text(s1);
-                $('#s2').text(s2);
-            }
-
-            j++;
-            if(j>0){
-                $('#content').removeClass('hide');
-                $('#loading').addClass('hide');
-            }
-        }, interval);
-        // var clockSize = $('#clock').outerHeight()+$('#action-area').outerHeight();
+    var interval = 1000;
+    setInterval(function(){
+        // FIXA O TAMANHO DO BOX DE MENSAGENS
+        var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
+        $('#messages').css('max-height',topSize-70);
         
-    }
-    else{
-
-        $('#days').hide();
-        $('#countdown').hide();
-        // $('#text').text("Aproveitem cada segundinho");
-        $('#text').text("Quando vai ser o próximo encontro?");
-
-        setInterval(function(){
-            // FIXA O TAMANHO DO BOX DE MENSAGENS
-            var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
-            $('#messages').css('max-height',topSize-70);
-            
-        }, interval);
-    }
+    }, interval);
 
     
 
@@ -300,5 +267,4 @@ function playSound(filename){
     var embedSource = '<embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3">';
     document.getElementById("sound").innerHTML='<audio autoplay="autoplay">' + mp3Source + embedSource + '</audio>';
 }
-
-
+  
