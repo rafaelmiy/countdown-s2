@@ -144,7 +144,7 @@ body {
 }
 .messages p{
     margin-bottom: 5px;
-    line-height: 13px;
+    line-height: 14px;
 }
 .messages p .qnt{
     font-weight: bolder;
@@ -153,7 +153,7 @@ body {
     opacity: 1;
 }
 .messages .sent{
-    /* text-align: right; */
+    text-align: right;
 }
 .messages .received{
     text-align: left;
@@ -205,8 +205,14 @@ body {
 .messages .sent.message{
     margin-left: auto;
 }
+.messages .sent.message p{
+    text-align: left;
+}
 .messages .received.message{
     margin-right: auto;
+}
+.messages .received.message p{
+    text-align: left;
 }
 .messages .message p{
     margin-bottom: 0;
@@ -214,6 +220,7 @@ body {
 .messages .message b{
     opacity: 70%;
     display: block;
+    line-height: 13px;
 }
 .messages .message.like{
     margin-top: 8px;
@@ -233,7 +240,7 @@ body {
     right: -8px;
 }
 .messages .received.message{
-    /* text-align: right; */
+    text-align: right;
 }
 .header{
     display: block;
