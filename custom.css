@@ -297,7 +297,7 @@ body {
 }
 /* Hinge */
 .flipdown.flipdown__theme-dark .rotor:after {
-  border-top: solid 2px #fe4767;
+  border-top: solid 1px #fe4767;
 }
 @media (max-width: 550px){
     .flipdown .rotor-group-heading:before {
