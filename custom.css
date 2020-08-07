@@ -133,7 +133,8 @@ body {
 }
 .messages{
     font-size: 13px;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 7px 10px;
     display: block;
     max-width: 100%;
@@ -297,7 +298,7 @@ body {
 }
 /* Hinge */
 .flipdown.flipdown__theme-dark .rotor:after {
-  border-top: solid 1px #fe4767;
+  border-top: solid 1.5px #fe4767;
 }
 @media (max-width: 550px){
     .flipdown .rotor-group-heading:before {
