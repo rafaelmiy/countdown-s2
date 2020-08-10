@@ -298,10 +298,22 @@ body {
 }
 /* Hinge */
 .flipdown.flipdown__theme-dark .rotor:after {
-  border-top: solid 1.5px #fe4767;
+  border-top: solid 2px #f10935;
 }
 @media (max-width: 550px){
     .flipdown .rotor-group-heading:before {
         font-size: 1.2rem;
     }
+    .flipdown .rotor {
+        font-size: 4rem;
+        margin-right: 3px;
+        text-align: center;
+    }
+} 
+
+.flipdown.flipdown__theme-dark{
+    font-weight: 400;
+}
+.flipdown .rotor-group-heading:before {
+    font-weight: bold;
 }
