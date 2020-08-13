@@ -89,15 +89,16 @@
                 </span>
                 <div id="flipdown" class="flipdown"></div>
                 <div id="text" class="text">para nos encontrar.</div>
+                <a id="address" class="address">📍Endereço do próximo encontro</a>
             </div>
             <div class="action-buttons" id="action-area">
-                <div class="legend">🐝❤️🦁</div>
-                <div class="button" onclick="sendMessage('feeling', 'heart')">❤️</div>
-                <div class="button" onclick="sendMessage('feeling', 'kiss')">💋</div>
+                <!-- <div class="legend">🐝❤️🦁</div> -->
+                <div class="button" onclick="checkLastSameAction('heart', 'feeling')">❤️</div>
+                <div class="button" onclick="checkLastSameAction('kiss', 'feeling')">💋</div>
             </div>
             <div class="interactions" id="interactions">
                 <div class="header" id="header">
-                    <input id="input" placeholder="Compartilhe aqui tudo que importa 🐝">
+                    <input id="input" placeholder="Escreva aqui tudo que importa 🐝❤️🦁">
                 </div>
                 <div id="messages" class="messages">
                     <!-- <span class="received"><p>Você recebeu um carinho ❤️<b> Há 3 minutos</b></p></span>

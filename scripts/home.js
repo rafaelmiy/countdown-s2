@@ -108,6 +108,43 @@ firebaseDating.on('value',function(date){
 
 });
 
+var firebaseAddress = firebase.database().ref('address');
+
+// FICA ESCUTANDO O ENDEREÇO
+firebaseAddress.on('value',function(a){
+    var address = a.val();
+
+    // ATUALIZA O ENDEREÇO COM A INFORMAÇÃO DO BANCO
+    $('#address').attr('href',address);
+})
+
+
+function checkLastSameAction(message, type){
+    firebase.database().ref('messages').orderByKey().limitToLast(1).once('value', function(l) {
+        var last = l.val();
+        var lastObjectID = Object.keys(last);
+        var lastObject = last[lastObjectID];
+        
+        var lastObjectType = lastObject.type;
+        var lastObjectMessage = lastObject.message;
+        var lastObjectUID = lastObject.uid;
+        if(lastObject.count > 0){
+            var lastObjectCount = lastObject.count;
+        } else{
+            var lastObjectCount = 1;
+        }
+        
+        if(lastObjectType == type && lastObjectMessage == message && lastObjectUID == firebase.auth().currentUser.uid){
+            firebase.database().ref('messages/' + lastObjectID).update({
+                count: lastObjectCount+1
+            });
+        }else{
+            sendMessage(type, message);
+        }
+    });
+}
+
+
 var firstLoad = 0;
 
 var firebaseMessages = firebase.database().ref('messages').limitToLast(400);
@@ -157,16 +194,12 @@ firebaseMessages.on('value',function(messages){
             if(uid == firebase.auth().currentUser.uid){
                 var status = "sent";
                 var statusPT = "enviou";
-                for(var j=1, k=0, n=1; j>k && i+1<messagesIDs.length; j++){
-                    var next = i+1;
-                    if(messages[messagesIDs[next]].type == "feeling" && messages[messagesIDs[next]].message == msg && messages[messagesIDs[next]].uid == firebase.auth().currentUser.uid){
-                        i++;
-                        n++;
-                    }
-                    else j=k-1;
-                }
-                if(n>1){
-                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' <b class="qnt">'+n+'</b> '+feelingsPT+'</p></span>');
+                if(message.count > 0){
+                    var msgCount = message.count;
+                } else var msgCount = 1;
+
+                if(msgCount>1){
+                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' <b class="qnt">'+msgCount+'</b> '+feelingsPT+'</p></span>');
                 }
                 else{
                     $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' um '+feelingPT+'</p></span>');

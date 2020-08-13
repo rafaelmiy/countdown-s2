@@ -261,6 +261,15 @@ body {
     color: #f10935;
     font-weight: 200;
 }
+.address{
+    color: #f10935;
+    font-size: 17px;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 10px;
+    margin-top: 5px;
+    background: #fff;
+}
 
 /* FlipDown Countdown */
 
@@ -298,7 +307,7 @@ body {
 }
 /* Hinge */
 .flipdown.flipdown__theme-dark .rotor:after {
-  border-top: solid 2px #f10935;
+  border-top: solid 3px #f10935;
 }
 @media (max-width: 550px){
     .flipdown .rotor-group-heading:before {
