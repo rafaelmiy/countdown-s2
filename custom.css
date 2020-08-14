@@ -152,6 +152,7 @@ body {
     font-size: 13px;
     color: #F10937;;
     opacity: 1;
+    vertical-align: initial;
 }
 .messages .sent{
     text-align: right;

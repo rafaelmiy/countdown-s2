@@ -120,40 +120,55 @@ firebaseAddress.on('value',function(a){
 
 
 function checkLastSameAction(message, type){
-    firebase.database().ref('messages').orderByKey().limitToLast(1).once('value', function(l) {
-        var last = l.val();
-        var lastObjectID = Object.keys(last);
-        var lastObject = last[lastObjectID];
+    var lastObjectID = $('#messages span').data('id');
+    var lastObjectType = $('#messages span').data('type');
+    var lastObjectMessage = $('#messages span').data('message');
+    var lastObjectCount = $('#messages span').data('count');
+    var lastObjectUID = $('#messages span').data('uid');
+
+    if(lastObjectType == type && lastObjectMessage == message && lastObjectUID == firebase.auth().currentUser.uid){
+        firebase.database().ref('messages/' + lastObjectID).update({
+            count: lastObjectCount+1
+        });
+    }else{
+        sendMessage(type, message);
+    }
+
+
+    // firebase.database().ref('messages').orderByKey().limitToLast(1).once('value', function(l) {
+    //     var last = l.val();
+    //     var lastObjectID = Object.keys(last);
+    //     var lastObject = last[lastObjectID];
         
-        var lastObjectType = lastObject.type;
-        var lastObjectMessage = lastObject.message;
-        var lastObjectUID = lastObject.uid;
-        if(lastObject.count > 0){
-            var lastObjectCount = lastObject.count;
-        } else{
-            var lastObjectCount = 1;
-        }
+    //     var lastObjectType = lastObject.type;
+    //     var lastObjectMessage = lastObject.message;
+    //     var lastObjectUID = lastObject.uid;
+    //     if(lastObject.count > 0){
+    //         var lastObjectCount = lastObject.count;
+    //     } else{
+    //         var lastObjectCount = 1;
+    //     }
         
-        if(lastObjectType == type && lastObjectMessage == message && lastObjectUID == firebase.auth().currentUser.uid){
-            firebase.database().ref('messages/' + lastObjectID).update({
-                count: lastObjectCount+1
-            });
-        }else{
-            sendMessage(type, message);
-        }
-    });
+    //     if(lastObjectType == type && lastObjectMessage == message && lastObjectUID == firebase.auth().currentUser.uid){
+    //         firebase.database().ref('messages/' + lastObjectID).update({
+    //             count: lastObjectCount+1
+    //         });
+    //     }else{
+    //         sendMessage(type, message);
+    //     }
+    // });
 }
 
 
-var firstLoad = 0;
+var firstLoad = 1;
 
-var firebaseMessages = firebase.database().ref('messages').limitToLast(400);
+var firebaseMessages = firebase.database().ref('messages').limitToLast(80);
 firebaseMessages.on('value',function(messages){
     var messages = messages.val();
 
     if(firstLoad == 1){
-        playSound('pop');
-    }else firstLoad = 1;
+        firstLoad = 0;
+    }else playSound('pop');
     
     if(messages == null){
         $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
@@ -175,7 +190,7 @@ firebaseMessages.on('value',function(messages){
         var msg = message.message;
         var id = messagesIDs[i];
 
-        like = message.like == true ? " like" : "";
+        like = message.like == true ? "like" : "";
         // console.log(like);
         var feelingPT = "";
 
@@ -199,10 +214,10 @@ firebaseMessages.on('value',function(messages){
                 } else var msgCount = 1;
 
                 if(msgCount>1){
-                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' <b class="qnt">'+msgCount+'</b> '+feelingsPT+'</p></span>');
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since}&nbsp;</b>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}</p></span>`);
                 }
                 else{
-                    $('#messages').prepend('<span class="'+status+'"><p><b>'+since+'&nbsp;</b>Você '+statusPT+' um '+feelingPT+'</p></span>');
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since}&nbsp;</b>Você ${statusPT} um ${feelingPT}</p></span>`);
                 }
             }
             else{
@@ -218,10 +233,10 @@ firebaseMessages.on('value',function(messages){
                     else j=k-1;
                 }
                 if(n>1){
-                    $('#messages').prepend('<span class="'+status+'"><p>Você '+statusPT+' <b class="qnt">'+n+'</b> '+feelingsPT+'&nbsp;<b>'+since+'</b></p></span>');
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} <b class="qnt">${n}</b> ${feelingsPT}&nbsp;<b>${since}</b></p></span>`);
                 }
                 else{
-                    $('#messages').prepend('<span class="'+status+'"><p>Você '+statusPT+' um '+feelingPT+'&nbsp;<b>'+since+'</b></p></span>');
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} um ${feelingPT}&nbsp;<b>${since}</b></p></span>`);
                 }
 
                 
@@ -234,7 +249,7 @@ firebaseMessages.on('value',function(messages){
             else{
                 var status = "received";
             }
-            $('#messages').prepend('<span data-id="'+id+'" class="message '+status+''+like+'"><p>'+msg+'<b>'+since+'</b></p></span>');
+            $('#messages').prepend(`<span data-id="${id}" data-uid="${uid}" class="message ${status} ${like}"><p>${msg}<b>${since}</b></p></span>`);
         }
     }
 
