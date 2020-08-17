@@ -206,12 +206,14 @@ firebaseMessages.on('value',function(messages){
                 feelingsPT = "carinhos ❤️";
             }
             // console.log(feelingPT);
+
+            if(message.count > 0){
+                var msgCount = message.count;
+            } else var msgCount = 1;
+
             if(uid == firebase.auth().currentUser.uid){
                 var status = "sent";
                 var statusPT = "enviou";
-                if(message.count > 0){
-                    var msgCount = message.count;
-                } else var msgCount = 1;
 
                 if(msgCount>1){
                     $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since}&nbsp;</b>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}</p></span>`);
@@ -224,16 +226,8 @@ firebaseMessages.on('value',function(messages){
                 var status = "received";
                 var statusPT = "recebeu";
 
-                for(var j=1, k=0, n=1; j>k && i+1<messagesIDs.length; j++){
-                    var next = i+1;
-                    if(messages[messagesIDs[next]].type == "feeling" && messages[messagesIDs[next]].message == msg && messages[messagesIDs[next]].uid != firebase.auth().currentUser.uid){
-                        i++;
-                        n++;
-                    }
-                    else j=k-1;
-                }
-                if(n>1){
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} <b class="qnt">${n}</b> ${feelingsPT}&nbsp;<b>${since}</b></p></span>`);
+                if(msgCount>1){
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}&nbsp;<b>${since}</b></p></span>`);
                 }
                 else{
                     $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} um ${feelingPT}&nbsp;<b>${since}</b></p></span>`);
