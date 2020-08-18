@@ -373,7 +373,7 @@ firebaseLastDate.on('value',function(dates){
                         </span>`
                     );
                 }
-                console.log(item);
+                // console.log(item);
             }
         });
 
@@ -418,7 +418,7 @@ firebaseLastDate.on('value',function(dates){
                         </span>`
                     );
                 }
-                console.log(item);
+                // console.log(item);
             }
         });
 

@@ -499,9 +499,7 @@ svg{
     background: none;
     border: none;
     font-size: 17px;
-    /* line-height: 32px; */
     vertical-align: middle;
-    /* text-transform: capitalize; */
     width: calc(100% - 36px);
     display: inline-flex;
 }
