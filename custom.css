@@ -511,7 +511,7 @@ svg{
 .modal.reminder-list .input:focus{
     outline: none;
 }
-[contentEditable=true]:empty:not(:focus):before{
+[contentEditable]:empty:not(:focus):before{
     content:attr(data-text);
     font-size: 20px;
 }
