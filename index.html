@@ -198,7 +198,7 @@
                 <!-- <h2>Pendentes</h2> -->
                 <div class="list" id="ourPendingItens"></div>
                 <div class="add-item">
-                    <input type="text" id="addOurItem" placeholder="Novo item">
+                    <div class="input" id="addOurItem" contentEditable=true data-text="Novo item" contenteditable></div>
                 </div>
                 <!-- <h3>Concluídos</h3> -->
                 <div class="list done-itens" id="ourDoneItens"></div>
@@ -208,7 +208,7 @@
                 <!-- <h2>Pendentes</h2> -->
                 <div class="list" id="myPendingItens"></div>
                 <div class="add-item">
-                    <input type="text" id="addMyItem" placeholder="Novo item">
+                    <div class="input" id="addMyItem" placeholder="Novo item" contenteditable></div>
                 </div>
                 <!-- <h3>Concluídos</h3> -->
                 <div class="list done-itens" id="myDoneItens"></div>
@@ -219,6 +219,7 @@
     </div>
     
     <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+    <script src="scripts/autoresize.jquery.js"></script>
     <script src="scripts/home.js?1"></script>
 
 	

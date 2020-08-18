@@ -241,7 +241,7 @@ svg{
     border: 1px solid white;
     border-radius: 15px;
     display: block;
-    padding: 4px 4px;
+    padding: 4px;
 }
 .messages .message.sent.like:before{
     left: -18px;
@@ -494,21 +494,26 @@ svg{
     color: #fff;
     opacity: 0.6;
 }
-.modal.reminder-list .list .item input,
-.modal.reminder-list .add-item input{
+.modal.reminder-list .list .item .input,
+.modal.reminder-list .add-item .input{
     background: none;
     border: none;
-    font-size: 20px;
-    line-height: 35px;
+    font-size: 17px;
+    /* line-height: 32px; */
     vertical-align: middle;
-    text-transform: capitalize;
-    width: calc(100% - 40px);
+    /* text-transform: capitalize; */
+    width: calc(100% - 36px);
+    display: inline-flex;
 }
-.modal.reminder-list .add-item input{
+.modal.reminder-list .add-item .input{
     width: 100%;
 }
-.modal.reminder-list input:focus{
+.modal.reminder-list .input:focus{
     outline: none;
+}
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text);
+    font-size: 20px;
 }
 
 /* END REMINDER MODAL */

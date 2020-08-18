@@ -356,20 +356,20 @@ firebaseLastDate.on('value',function(dates){
                 if(itemDone == false){
                     $('#reminder-list #ourPendingItens').append(
                         `<span class="item">
-                            <svg onclick="completeItem('${lastDateID}', '${itemID}', 'shared')" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg onclick="completeItem('${lastDateID}', '${itemID}', 'shared')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
                             </svg>
-                            <input type="text" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}">
+                            <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}" contenteditable>${itemName}</div>
                         </span>`
                     );
                 }
                 else{
                     $('#reminder-list #ourDoneItens').append(
                         `<span class="item">
-                            <svg onclick="pendentItem('${lastDateID}', '${itemID}', 'shared')" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg onclick="pendentItem('${lastDateID}', '${itemID}', 'shared')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 10.5C13.86 10.5 10.5 13.86 10.5 18C10.5 22.14 13.86 25.5 18 25.5C22.14 25.5 25.5 22.14 25.5 18C25.5 13.86 22.14 10.5 18 10.5ZM18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
                             </svg>
-                            <input type="text" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}">
+                            <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}" contenteditable>${itemName}</div>
                         </span>`
                     );
                 }
@@ -404,7 +404,7 @@ firebaseLastDate.on('value',function(dates){
                             <svg onclick="completeItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
                             </svg>
-                            <input type="text" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}">
+                            <div id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}">${itemName}</div>
                         </span>`
                     );
                 }
@@ -414,7 +414,7 @@ firebaseLastDate.on('value',function(dates){
                             <svg onclick="pendentItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 10.5C13.86 10.5 10.5 13.86 10.5 18C10.5 22.14 13.86 25.5 18 25.5C22.14 25.5 25.5 22.14 25.5 18C25.5 13.86 22.14 10.5 18 10.5ZM18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
                             </svg>
-                            <input type="text" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}">
+                            <div id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}">${itemName}</div>
                         </span>`
                     );
                 }
@@ -430,6 +430,9 @@ function addItem(dateID, actualList, reminderAddress){
     actualList = actualList.charAt(0).toUpperCase()+actualList.substr(1).toLowerCase();
     var lastDateRef = firebase.database().ref().child('dates/'+dateID+'/reminder-list/'+reminderAddress);
     var description = document.getElementById('add'+actualList+'Item').value;
+    if(description == undefined){
+        description = document.getElementById('add'+actualList+'Item').innerHTML;
+    }
 
     var date = getLocalTime();
 
@@ -438,9 +441,10 @@ function addItem(dateID, actualList, reminderAddress){
         date: date,
         done: false,
         uid: firebase.auth().currentUser.uid
+    }).then(function(){
+        document.getElementById('add'+actualList+'Item').innerHTML = "";
     });
     // $('#input').blur();
-    document.getElementById('add'+actualList+'Item').value = "";
 }
 
 function completeItem(dateID, itemID, reminderAddress){
@@ -456,7 +460,8 @@ function pendentItem(dateID, itemID, reminderAddress){
 }
 
 function updateItem(dateID, itemID, reminderAddress){
-    var itemText = document.getElementById('list-item-'+itemID).value;
+    var itemText = $('#list-item-'+itemID).html();
+    var itemText = document.getElementById('list-item-'+itemID).innerHTML;
     // REMOVE ESPAÇO VAZIO
     itemText = itemText.trim();
 
