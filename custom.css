@@ -314,6 +314,7 @@ svg{
     position: fixed;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    z-index: 1;
 }
 .modal .close-modal{
     position: fixed;
@@ -323,19 +324,20 @@ svg{
     padding: 5px 12px;
     line-height: 40px;
     font-weight: 300;
+    z-index: 1;
 }
 .ticket,
 .reminder-list{
     width: 100%;
-    max-height: 95%;
+    /* max-height: 95%; */
+    height: 100%;
     background: #f10935;
     margin: auto;
     border-radius: 15px;
-    padding: 15px 20px;
+    padding: 65px 10px 15px;
     color: #fff;
     position: relative;
     overflow-y: scroll;
-    padding-top: 65px;
     font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 .ticket>div{
@@ -484,11 +486,17 @@ svg{
     margin-top: 5px;
 }
 .modal.reminder-list .list .item{
-    padding-bottom: 3px;
     display: block;
+}
+.modal.reminder-list .list .item svg{
+    vertical-align: top;
 }
 .modal.reminder-list .list .item::first-letter{
     text-transform: uppercase;
+}
+.modal.reminder-list .add-item{
+    margin-bottom: 5px;
+    color: #fff;
 }
 .modal.reminder-list .add-item input::placeholder{
     color: #fff;
@@ -498,13 +506,16 @@ svg{
 .modal.reminder-list .add-item .input{
     background: none;
     border: none;
-    font-size: 17px;
-    vertical-align: middle;
+    font-size: 16px;
+    vertical-align: top;
     width: calc(100% - 36px);
     display: inline-flex;
+    padding: 5px 0;
+    border-bottom: 1px solid #ffffffc9;
 }
 .modal.reminder-list .add-item .input{
     width: 100%;
+    border: none;
 }
 .modal.reminder-list .input:focus{
     outline: none;
