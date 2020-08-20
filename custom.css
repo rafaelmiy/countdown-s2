@@ -299,7 +299,6 @@ svg{
     display: block;
     height: 100%;
     width: 100%;
-    /* padding: 10% 30px 30px; */
     background: rgba(0, 0, 0, 0.8);
     z-index: 1;
 }
@@ -309,12 +308,14 @@ svg{
     left: 0;
     top: 0;
     background: #f10935;
-    padding: 10px 20px;
+    padding-top: 10px;
     font-size: 30px;
-    position: fixed;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     z-index: 1;
+}
+.modal .modal-title .title{
+    padding: 0 20px 10px;
 }
 .modal .close-modal{
     position: fixed;
@@ -326,19 +327,22 @@ svg{
     font-weight: 300;
     z-index: 1;
 }
+.ticket{
+    padding: 0 10px 15px;
+}
 .ticket,
 .reminder-list{
     width: 100%;
-    /* max-height: 95%; */
     height: 100%;
     background: #f10935;
     margin: auto;
     border-radius: 15px;
-    padding: 65px 10px 15px;
+    padding: 0 10px;
     color: #fff;
     position: relative;
     overflow-y: scroll;
     font-family: 'M PLUS Rounded 1c', sans-serif;
+    overflow-y: hidden;
 }
 .ticket>div{
     margin-bottom: 10px;
@@ -469,7 +473,6 @@ svg{
     font-size: 25px;
     display: flex;
     text-align: center;
-    margin-bottom: 15px;
 }
 .modal.reminder-list .tab-list span{
     flex: 1;
@@ -485,6 +488,16 @@ svg{
 .modal.reminder-list>h3{
     margin-top: 5px;
 }
+.reminder-list .principal-list{
+    overflow-y: scroll;
+    height: calc(100% - 90px);
+}
+.reminder-list .principal-list .list .item:first-child{
+    margin-top: 10px;
+}
+.reminder-list .principal-list>div:last-child{
+    padding-bottom: 15px;
+}
 .modal.reminder-list .list .item{
     display: block;
 }
@@ -497,6 +510,12 @@ svg{
 .modal.reminder-list .add-item{
     margin-bottom: 5px;
     color: #fff;
+    display: flex;
+    margin-top: 5px;
+}
+.modal.reminder-list .add-item svg{
+    flex: none;
+    margin-right: 5px;
 }
 .modal.reminder-list .add-item input::placeholder{
     color: #fff;
@@ -516,6 +535,7 @@ svg{
 .modal.reminder-list .add-item .input{
     width: 100%;
     border: none;
+    font-size: 20px;
 }
 .modal.reminder-list .input:focus{
     outline: none;
