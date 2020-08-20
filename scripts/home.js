@@ -118,7 +118,7 @@ firebaseDating.on('value',function(date){
 function resizeMessageBox(){
     // FIXA O TAMANHO DO BOX DE MENSAGENS
     var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
-    $('#messages').css('max-height',topSize-40);
+    $('#messages').css('max-height',topSize-50);
 }
 
 
