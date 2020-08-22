@@ -576,5 +576,5 @@ function focusListTab(id){
 };
 
 
-openModal('checkin-ticket');
+// openModal('checkin-ticket');
 // openModal('reminder-list');
