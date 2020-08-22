@@ -118,7 +118,7 @@ firebaseDating.on('value',function(date){
 function resizeMessageBox(){
     // FIXA O TAMANHO DO BOX DE MENSAGENS
     var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
-    $('#messages').css('max-height',topSize-50);
+    $('#messages').css('max-height',topSize-45);
 }
 
 
@@ -303,9 +303,6 @@ function closeModal(i){
     document.getElementById(i).style.display = "none";
 }
 
-// openModal('checkin-ticket');
-// openModal('reminder-list');
-
 
 // EVITA O ZOOM
 document.addEventListener('gesturestart', function (e) {
@@ -328,7 +325,6 @@ firebaseLastDate.on('value',function(dates){
     lastDateID = lastDate[0];
     lastDate = dates[lastDate];
     // console.log(lastDate);
-
 
     if(firstRead == true){
 
@@ -422,6 +418,60 @@ firebaseLastDate.on('value',function(dates){
             }
         });
 
+        // POPULA O TICKET
+        var firebaseDateTicket = firebase.database().ref('dates/'+lastDateID+'/ticket');
+        firebaseDateTicket.on('value',function(ticket){
+            var ticket = ticket.val();
+            console.log(ticket);
+            
+            var checkinDate = ticket.checkin.date;
+            var checkinDay = moment(checkinDate, 'YYYYMMDDHHmmss').format('DD');
+            var checkinMonth = moment(checkinDate, 'YYYYMMDDHHmmss').format('MMM');
+            var checkinTime = moment(checkinDate, 'YYYYMMDDHHmmss').format('HH:mm');
+
+            var checkoutDate = ticket.checkout.date;
+            var checkoutDay = moment(checkoutDate, 'YYYYMMDDHHmmss').format('DD');
+            var checkoutMonth = moment(checkoutDate, 'YYYYMMDDHHmmss').format('MMM');
+            var checkoutTime = moment(checkoutDate, 'YYYYMMDDHHmmss').format('HH:mm');
+
+            var hostName = ticket.host;
+            var street = ticket.street;
+            var apto = ticket.apto;
+            var streetComplement = ticket.streetComplement;
+            var wazeLink = ticket.wazeLink;
+
+            var infos = ticket.infos;
+
+            document.getElementById('checkin-month').innerHTML = checkinMonth;
+            document.getElementById('checkin-day').innerHTML = checkinDay;
+
+            document.getElementById('checkout-month').innerHTML = checkoutMonth;
+            document.getElementById('checkout-day').innerHTML = checkoutDay;
+
+            document.getElementById('checkin-date').innerHTML = moment(checkinDate, 'YYYYMMDDHHmmss').format('ddd')+', '+checkinDay+' de '+checkinMonth;
+            document.getElementById('checkin-time').innerHTML = checkinTime;
+
+            document.getElementById('checkout-date').innerHTML = moment(checkoutDate, 'YYYYMMDDHHmmss').format('ddd')+', '+checkoutDay+' de '+checkoutMonth;
+            document.getElementById('checkout-time').innerHTML = checkoutTime;
+
+            document.getElementById('host-name').innerHTML = hostName;
+            document.getElementById('apto-info').innerHTML = apto;
+
+            document.getElementById('address-complement').innerHTML = street+', '+apto+' <br>'+streetComplement;
+            document.getElementById('waze-button').href = wazeLink;
+
+            document.getElementById('more-info-area').innerHTML = "";
+            for(var i in infos){
+                var info = infos[i];
+                var title = info.title;
+                var content = info.content;
+
+                $('#more-info-area').append('<div class="more-info"><span class="title">'+title+'</span><span class="content">'+content+'</span></div>');
+            }
+
+        });
+
+
     } else firstRead = false;
 
 });
@@ -476,6 +526,7 @@ function updateItem(dateID, itemID, reminderAddress){
     }
 }
 
+
 // firebase.database().ref('messages').orderByKey().limitToLast(1).once('value', function(l){})
 
 $(document.getElementById("input")).keypress(function(event) {
@@ -524,4 +575,6 @@ function focusListTab(id){
     document.getElementById(`${id}`).style.display = "block";
 };
 
-// $(document.getElementsByClassName(''))
+
+openModal('checkin-ticket');
+// openModal('reminder-list');
