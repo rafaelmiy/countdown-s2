@@ -422,7 +422,7 @@ firebaseLastDate.on('value',function(dates){
         var firebaseDateTicket = firebase.database().ref('dates/'+lastDateID+'/ticket');
         firebaseDateTicket.on('value',function(ticket){
             var ticket = ticket.val();
-            console.log(ticket);
+            // console.log(ticket);
             
             var checkinDate = ticket.checkin.date;
             var checkinDay = moment(checkinDate, 'YYYYMMDDHHmmss').format('DD');
