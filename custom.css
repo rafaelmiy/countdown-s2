@@ -519,10 +519,10 @@ svg{
     text-transform: uppercase;
 }
 .modal.reminder-list .add-item{
+    margin-top: 5px;
     margin-bottom: 5px;
     color: #fff;
     display: flex;
-    margin-top: 5px;
 }
 .modal.reminder-list .add-item svg{
     flex: none;
@@ -546,7 +546,7 @@ svg{
 .modal.reminder-list .add-item .input{
     width: 100%;
     border: none;
-    font-size: 20px;
+    font-size: 18px;
 }
 .modal.reminder-list .input:focus{
     outline: none;
