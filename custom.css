@@ -97,6 +97,30 @@ svg{
     font-size: 8vw;
     font-weight: 300;
 }
+.clock .title{
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+.clock .day-tip-area{
+    border-radius: 10px;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 16px;
+    margin-top: 5px;
+    border: 2px solid #fff;
+}
+.clock .day-tip-area .day-tip{
+    padding-bottom: 5px;
+    display: block;
+}
+.clock .tips-button{
+    width: fit-content;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 .interactions,
 .action-buttons{
     border-radius: 10px;
@@ -327,8 +351,7 @@ svg{
 .ticket{
     padding: 0 10px 15px;
 }
-.ticket,
-.reminder-list{
+.modal{
     width: 100%;
     height: 100%;
     background: #f10935;
@@ -554,9 +577,50 @@ svg{
 [contentEditable]:empty:not(:focus):before{
     content:attr(data-text);
     font-size: 20px;
+    opacity: 0.7;
 }
 
 /* END REMINDER MODAL */
+
+
+/* TIPS MODAL */
+
+.modal.tips .tips-list{
+    height: calc(100% - 70px);
+    overflow-y: scroll;
+}
+.modal.tips .tips-list .past-tips .tip,
+.modal.tips .tips-list .future-tips .tip{
+    display: flex;
+    border-bottom: 1px solid #fff;
+    padding: 10px 0;
+}
+.modal.tips .tips-list .past-tips .tip:first-child,
+.modal.tips .tips-list .future-tips .tip:first-child{
+    border-top: 1px solid #fff;
+}
+.modal.tips .tips-list .past-tips{
+    opacity: 0.6;
+}
+.modal.tips .tips-list .tip .date{
+    flex: 0.5;
+}
+.modal.tips .tips-list .tip .date span{
+    display: block;
+    text-align: center;
+}
+.modal.tips .tips-list .tip .date span{
+    font-size: 14px;
+}
+
+.modal.tips .tips-list .tip .date span:first-child{
+    font-size: 18px;
+}
+.modal.tips .tips-list .tip div{
+    flex: 2;
+}
+
+/* END TIPS MODAL */
 
 
 /* FlipDown Countdown */

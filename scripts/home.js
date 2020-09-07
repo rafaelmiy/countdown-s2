@@ -258,6 +258,129 @@ firebaseMessages.on('value',function(messages){
     resizeMessageBox();
 });
 
+function checkTipDate(){
+    setInterval(function() {
+        if(moment().format('YYYYMMDD') == document.getElementById('dayTip').getAttribute('data-date-tip')){
+        // if('202009071300' == document.getElementById('dayTip').getAttribute('data-date-tip')){
+            document.getElementById('dayTipArea').style.display = "block";
+        }
+        else{
+            document.getElementById('dayTipArea').style.display = "none";
+        }
+        resizeMessageBox();
+    }, 5 * 1000);
+}
+checkTipDate();
+
+var firebaseDate = firebase.database().ref('dates').orderByKey().limitToLast(1);
+firebaseDate.on('value',function(dates){
+    var dates = dates.val();
+    var lastDate = Object.keys(dates);
+    lastDateID = lastDate[0];
+    lastDate = dates[lastDate];
+
+    // QUANDO FOR EU
+    if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+        document.getElementById('tipsButton').style.display = 'block';
+    }
+
+    var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');;
+    var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');;
+
+    var firebaseDateTips = firebase.database().ref('dates/'+lastDateID+'/tips');
+    firebaseDateTips.on('value',function(tips){
+        var tips = tips.val();
+        // console.log(tips);
+        var start = moment(checkinDate, 'YYYYMMDD');
+        var end = moment(checkoutDate, 'YYYYMMDD');
+        var daysTotalCount = daysCount(start, end);
+        // console.log(daysTotalCount);
+
+        // PEGA A DICA DO DIA E ATUALIZA QUADRO DE 'DICA DO DIA'
+        for(var t in tips){
+            var tip = tips[t];
+            // console.log(t);
+            var place = tip.place;
+            
+            if(moment().format('YYYYMMDD') == t){
+                var numTip = daysTotalCount-(daysCount(t, end)-1);
+                document.getElementById('tipsCount').innerHTML = numTip+'/'+daysTotalCount;
+                document.getElementById('dayTip').innerHTML = place;
+                document.getElementById('dayTip').setAttribute('data-date-tip', t);
+                if(place != ""){
+                    document.getElementById('dayTipArea').style.display = "block";
+                }else{
+                    document.getElementById('dayTipArea').style.display = "none";
+                }
+                resizeMessageBox();
+                // console.log(numTip);
+                break;
+            }
+            else{
+                document.getElementById('dayTipArea').style.display = "none";
+                resizeMessageBox();
+            }
+        }
+
+        if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+            var d = checkinDate;
+            var numTip;
+            $('#futureTips, #pastTips').html("");
+            while(d <= checkoutDate){
+                var list;
+                if(d > moment().format('YYYYMMDD')){
+                    list = 'future';
+                } else{
+                    list = 'past';
+                }
+
+                var numTip = daysTotalCount-(daysCount(d, checkoutDate)-1);
+                var dateFormat = moment(d, 'YYYYMMDD').format('DD MMM');
+                if(tips[d] == undefined){
+                    // console.log('dia '+d+' não existe');
+                    $('#'+list+'Tips').append(`
+                    <div class="tip">
+                        <div class="date">
+                            <span>${dateFormat}</span>
+                            <span>(${numTip}/${daysTotalCount})</span>
+                        </div>
+                        <div class="input input-secondary" id="list-tip-item-${d}" onfocusout="updateTip(${lastDateID}, ${d})" data-text="Digite uma dica" contenteditable=""></div>
+                    </div>`);
+                }
+                else{
+                    // console.log('dia '+d+' existe');
+                    $('#'+list+'Tips').append(`
+                    <div class="tip">
+                        <div class="date">
+                            <span>${dateFormat}</span>
+                            <span>(${numTip}/${daysTotalCount})</span>
+                        </div>
+                        <div class="input input-secondary" id="list-tip-item-${d}" onfocusout="updateTip(${lastDateID}, ${d})" data-text="Digite uma dica" contenteditable="">${tips[d].place}</div>
+                    </div>`);
+                }
+                d = moment(d, "YYYYMMDD").add(1,'days').format("YYYYMMDD");
+                // console.log(d);
+            }
+        }
+
+    });
+
+});
+
+function daysCount(startDay, endDay){
+    var start = moment(startDay, 'YYYYMMDD');
+    var end = moment(endDay, 'YYYYMMDD');
+    return end.diff(start, 'days')+1;
+}
+
+function updateTip(dateID, tipDate){
+    var tipRef = firebase.database().ref('dates/'+dateID+'/tips/'+tipDate);
+
+    tipRef.update({
+        place: document.getElementById('list-tip-item-'+tipDate).innerHTML
+    });
+}
+
 function sendMessage(type, message){
     var postsRef = firebase.database().ref().child('messages');
     var date = getLocalTime();
@@ -302,6 +425,16 @@ function openModal(id){
 function closeModal(i){
     document.getElementById(i).style.display = "none";
 }
+
+// function checkNextTip(){
+//     // QUANDO FOR ELA
+//     if(firebase.auth().currentUser.uid == "LwoAoQuKVOOii83IoZAuDdi1OI42"){
+//     }
+//     // QUANDO FOR EU
+//     else if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+//         alert('Ele');
+//     }
+// }
 
 
 // EVITA O ZOOM
