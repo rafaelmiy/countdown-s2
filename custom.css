@@ -494,6 +494,13 @@ svg{
     font-weight: bold;
     display: block;
 }
+.ticket .more-info .title{
+    font-size: 14px;
+    font-weight: 400;
+}
+.ticket .more-info .content{
+    font-size: 18px;
+}
 .ticket .address-area>span{
     font-size: 24px;
 }
