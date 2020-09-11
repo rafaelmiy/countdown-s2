@@ -260,7 +260,7 @@ firebaseMessages.on('value',function(messages){
 
 function checkTipDate(){
     setInterval(function() {
-        if(moment().format('YYYYMMDD') == document.getElementById('dayTip').getAttribute('data-date-tip')){
+        if(moment().format('YYYYMMDD') == document.getElementById('dayTip').getAttribute('data-date-tip') && document.getElementById('dayTip').innerHTML != ""){
         // if('202009071300' == document.getElementById('dayTip').getAttribute('data-date-tip')){
             document.getElementById('dayTipArea').style.display = "block";
         }
