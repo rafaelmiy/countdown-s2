@@ -284,8 +284,8 @@ firebaseDate.on('value',function(dates){
         document.getElementById('tipsButton').style.display = 'block';
     }
 
-    var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');;
-    var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');;
+    var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+    var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
 
     var firebaseDateTips = firebase.database().ref('dates/'+lastDateID+'/tips');
     firebaseDateTips.on('value',function(tips){
@@ -461,150 +461,168 @@ firebaseLastDate.on('value',function(dates){
 
     if(firstRead == true){
 
-        // LISTA COMPARTILHADA
-        var firebaseLastDateReminder = firebase.database().ref('dates/'+lastDateID+'/reminder-list/shared');
-        firebaseLastDateReminder.on('value',function(list){
-            var list = list.val();
-            // console.log(list);
+        var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+        var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
 
-            $('#reminder-list #ourPendingItens').html("");
-            $('#reminder-list #ourDoneItens').html("");
+        if(checkoutDate >= moment().format('YYYYMMDD') && checkinDate > moment().subtract(8,'days').format('YYYYMMDD')){
+            // POPULA O TICKET
+            var firebaseDateTicket = firebase.database().ref('dates/'+lastDateID+'/ticket');
+            firebaseDateTicket.on('value',function(ticket){
+                var ticket = ticket.val();
+                // console.log(ticket);
+                
+                var checkinDate = ticket.checkin.date;
+                var checkinDay = moment(checkinDate, 'YYYYMMDDHHmmss').format('DD');
+                var checkinMonth = moment(checkinDate, 'YYYYMMDDHHmmss').format('MMM');
+                var checkinTime = moment(checkinDate, 'YYYYMMDDHHmmss').format('HH:mm');
 
-            if(list == null){
-                $('#reminder-list #ourPendingItens').append('<span style="display:block;text-align:center;">Não existem itens 🥺</span>')
-            }
+                var checkoutDate = ticket.checkout.date;
+                var checkoutDay = moment(checkoutDate, 'YYYYMMDDHHmmss').format('DD');
+                var checkoutMonth = moment(checkoutDate, 'YYYYMMDDHHmmss').format('MMM');
+                var checkoutTime = moment(checkoutDate, 'YYYYMMDDHHmmss').format('HH:mm');
 
-            for(var l in list){
-                var item = list[l];
+                var hostName = ticket.host;
+                var street = ticket.street;
+                var apto = ticket.apto;
+                var streetComplement = ticket.streetComplement;
+                var wazeLink = ticket.wazeLink;
 
-                var itemID = l;
-                var itemName = item.description;
-                var itemDone = item.done;
-                // console.log(itemID);
+                var infos = ticket.infos;
 
-                if(itemDone == false){
-                    $('#reminder-list #ourPendingItens').append(
-                        `<span class="item">
-                            <svg onclick="completeItem('${lastDateID}', '${itemID}', 'shared')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
-                            </svg>
-                            <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}" contenteditable>${itemName}</div>
-                        </span>`
-                    );
+                document.getElementById('checkin-month').innerHTML = checkinMonth;
+                document.getElementById('checkin-day').innerHTML = checkinDay;
+
+                document.getElementById('checkout-month').innerHTML = checkoutMonth;
+                document.getElementById('checkout-day').innerHTML = checkoutDay;
+
+                document.getElementById('checkin-date').innerHTML = moment(checkinDate, 'YYYYMMDDHHmmss').format('ddd')+', '+checkinDay+' de '+checkinMonth;
+                document.getElementById('checkin-time').innerHTML = checkinTime;
+
+                document.getElementById('checkout-date').innerHTML = moment(checkoutDate, 'YYYYMMDDHHmmss').format('ddd')+', '+checkoutDay+' de '+checkoutMonth;
+                document.getElementById('checkout-time').innerHTML = checkoutTime;
+
+                document.getElementById('host-name').innerHTML = hostName;
+                document.getElementById('apto-info').innerHTML = apto;
+
+                document.getElementById('address-complement').innerHTML = street+', '+apto+' <br>'+streetComplement;
+                document.getElementById('waze-button').href = wazeLink;
+
+                document.getElementById('more-info-area').innerHTML = "";
+                for(var i in infos){
+                    var info = infos[i];
+                    var title = info.title;
+                    var content = info.content;
+
+                    $('#more-info-area').append('<div class="more-info"><span class="title">'+title+'</span><span class="content">'+content+'</span></div>');
                 }
-                else{
-                    $('#reminder-list #ourDoneItens').append(
-                        `<span class="item">
-                            <svg onclick="pendentItem('${lastDateID}', '${itemID}', 'shared')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 10.5C13.86 10.5 10.5 13.86 10.5 18C10.5 22.14 13.86 25.5 18 25.5C22.14 25.5 25.5 22.14 25.5 18C25.5 13.86 22.14 10.5 18 10.5ZM18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
-                            </svg>
-                            <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}" contenteditable>${itemName}</div>
-                        </span>`
-                    );
+
+            });
+        }
+        else{
+            document.getElementById('ticket-button').remove();
+        }
+        if(checkinDate >= moment().format('YYYYMMDD') || checkoutDate >= moment().format('YYYYMMDD')){
+
+            // LISTA COMPARTILHADA
+            var firebaseLastDateReminder = firebase.database().ref('dates/'+lastDateID+'/reminder-list/shared');
+            firebaseLastDateReminder.on('value',function(list){
+                var list = list.val();
+                // console.log(list);
+
+                $('#reminder-list #ourPendingItens').html("");
+                $('#reminder-list #ourDoneItens').html("");
+
+                if(list == null){
+                    $('#reminder-list #ourPendingItens').append('<span style="display:block;text-align:center;">Não existem itens 🥺</span>')
                 }
-                // console.log(item);
-            }
-        });
 
-        // LISTA INDIVIDUAL
-        var firebaseLastDateReminder = firebase.database().ref('dates/'+lastDateID+'/reminder-list/'+firebase.auth().currentUser.uid);
-        firebaseLastDateReminder.on('value',function(list){
-            var list = list.val();
-            // console.log(list);
+                for(var l in list){
+                    var item = list[l];
 
-            $('#reminder-list #myPendingItens').html("");
-            $('#reminder-list #myDoneItens').html("");
+                    var itemID = l;
+                    var itemName = item.description;
+                    var itemDone = item.done;
+                    // console.log(itemID);
 
-            if(list == null){
-                $('#reminder-list #myPendingItens').append('<span style="display:block;text-align:center;">Não existem itens 🥺</span>')
-            }
-
-            for(var l in list){
-                var item = list[l];
-
-                var itemID = l;
-                var itemName = item.description;
-                var itemDone = item.done;
-                // console.log(itemID);
-
-                if(itemDone == false){
-                    $('#reminder-list #myPendingItens').append(
-                        `<span class="item">
-                            <svg onclick="completeItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
-                            </svg>
-                            <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}" contenteditable>${itemName}</div>
-                        </span>`
-                    );
+                    if(itemDone == false){
+                        $('#reminder-list #ourPendingItens').append(
+                            `<span class="item">
+                                <svg onclick="completeItem('${lastDateID}', '${itemID}', 'shared')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
+                                </svg>
+                                <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}" contenteditable>${itemName}</div>
+                            </span>`
+                        );
+                    }
+                    else{
+                        $('#reminder-list #ourDoneItens').append(
+                            `<span class="item">
+                                <svg onclick="pendentItem('${lastDateID}', '${itemID}', 'shared')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 10.5C13.86 10.5 10.5 13.86 10.5 18C10.5 22.14 13.86 25.5 18 25.5C22.14 25.5 25.5 22.14 25.5 18C25.5 13.86 22.14 10.5 18 10.5ZM18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
+                                </svg>
+                                <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', 'shared')" value="${itemName}" contenteditable>${itemName}</div>
+                            </span>`
+                        );
+                    }
+                    // console.log(item);
                 }
-                else{
-                    $('#reminder-list #myDoneItens').append(
-                        `<span class="item">
-                            <svg onclick="pendentItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 10.5C13.86 10.5 10.5 13.86 10.5 18C10.5 22.14 13.86 25.5 18 25.5C22.14 25.5 25.5 22.14 25.5 18C25.5 13.86 22.14 10.5 18 10.5ZM18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
-                            </svg>
-                            <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}" contenteditable>${itemName}</div>
-                        </span>`
-                    );
+            });
+
+            // LISTA INDIVIDUAL
+            var firebaseLastDateReminder = firebase.database().ref('dates/'+lastDateID+'/reminder-list/'+firebase.auth().currentUser.uid);
+            firebaseLastDateReminder.on('value',function(list){
+                var list = list.val();
+                // console.log(list);
+
+                $('#reminder-list #myPendingItens').html("");
+                $('#reminder-list #myDoneItens').html("");
+
+                if(list == null){
+                    $('#reminder-list #myPendingItens').append('<span style="display:block;text-align:center;">Não existem itens 🥺</span>')
                 }
-                // console.log(item);
-            }
-        });
 
-        // POPULA O TICKET
-        var firebaseDateTicket = firebase.database().ref('dates/'+lastDateID+'/ticket');
-        firebaseDateTicket.on('value',function(ticket){
-            var ticket = ticket.val();
-            // console.log(ticket);
-            
-            var checkinDate = ticket.checkin.date;
-            var checkinDay = moment(checkinDate, 'YYYYMMDDHHmmss').format('DD');
-            var checkinMonth = moment(checkinDate, 'YYYYMMDDHHmmss').format('MMM');
-            var checkinTime = moment(checkinDate, 'YYYYMMDDHHmmss').format('HH:mm');
+                for(var l in list){
+                    var item = list[l];
 
-            var checkoutDate = ticket.checkout.date;
-            var checkoutDay = moment(checkoutDate, 'YYYYMMDDHHmmss').format('DD');
-            var checkoutMonth = moment(checkoutDate, 'YYYYMMDDHHmmss').format('MMM');
-            var checkoutTime = moment(checkoutDate, 'YYYYMMDDHHmmss').format('HH:mm');
+                    var itemID = l;
+                    var itemName = item.description;
+                    var itemDone = item.done;
+                    // console.log(itemID);
 
-            var hostName = ticket.host;
-            var street = ticket.street;
-            var apto = ticket.apto;
-            var streetComplement = ticket.streetComplement;
-            var wazeLink = ticket.wazeLink;
+                    if(itemDone == false){
+                        $('#reminder-list #myPendingItens').append(
+                            `<span class="item">
+                                <svg onclick="completeItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
+                                </svg>
+                                <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}" contenteditable>${itemName}</div>
+                            </span>`
+                        );
+                    }
+                    else{
+                        $('#reminder-list #myDoneItens').append(
+                            `<span class="item">
+                                <svg onclick="pendentItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 10.5C13.86 10.5 10.5 13.86 10.5 18C10.5 22.14 13.86 25.5 18 25.5C22.14 25.5 25.5 22.14 25.5 18C25.5 13.86 22.14 10.5 18 10.5ZM18 3C9.72 3 3 9.72 3 18C3 26.28 9.72 33 18 33C26.28 33 33 26.28 33 18C33 9.72 26.28 3 18 3ZM18 30C11.37 30 6 24.63 6 18C6 11.37 11.37 6 18 6C24.63 6 30 11.37 30 18C30 24.63 24.63 30 18 30Z" fill="white"/>
+                                </svg>
+                                <div class="input" id="list-item-${itemID}" onkeypress="return checkKeypress(event)" onfocusout="updateItem('${lastDateID}', '${itemID}', '${firebase.auth().currentUser.uid}')" value="${itemName}" contenteditable>${itemName}</div>
+                            </span>`
+                        );
+                    }
+                    // console.log(item);
+                }
+            });
 
-            var infos = ticket.infos;
+        }
+        else{
+            document.getElementById('dateButtons').remove();
+        }
 
-            document.getElementById('checkin-month').innerHTML = checkinMonth;
-            document.getElementById('checkin-day').innerHTML = checkinDay;
-
-            document.getElementById('checkout-month').innerHTML = checkoutMonth;
-            document.getElementById('checkout-day').innerHTML = checkoutDay;
-
-            document.getElementById('checkin-date').innerHTML = moment(checkinDate, 'YYYYMMDDHHmmss').format('ddd')+', '+checkinDay+' de '+checkinMonth;
-            document.getElementById('checkin-time').innerHTML = checkinTime;
-
-            document.getElementById('checkout-date').innerHTML = moment(checkoutDate, 'YYYYMMDDHHmmss').format('ddd')+', '+checkoutDay+' de '+checkoutMonth;
-            document.getElementById('checkout-time').innerHTML = checkoutTime;
-
-            document.getElementById('host-name').innerHTML = hostName;
-            document.getElementById('apto-info').innerHTML = apto;
-
-            document.getElementById('address-complement').innerHTML = street+', '+apto+' <br>'+streetComplement;
-            document.getElementById('waze-button').href = wazeLink;
-
-            document.getElementById('more-info-area').innerHTML = "";
-            for(var i in infos){
-                var info = infos[i];
-                var title = info.title;
-                var content = info.content;
-
-                $('#more-info-area').append('<div class="more-info"><span class="title">'+title+'</span><span class="content">'+content+'</span></div>');
-            }
-
-        });
-
-
+        if(moment().format('YYYYMMDD') > checkoutDate){
+            document.getElementById('text').innerHTML = "Quando será o próximo?";
+        }
+        resizeMessageBox();
+        
     } else firstRead = false;
 
 });
