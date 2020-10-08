@@ -53,11 +53,15 @@ var firebaseDating = firebase.database().ref('dating');
 var duration;
 
 // FICA ESCUTANDO A DATA
-firebaseDating.on('value',function(date){
-    var dating = date.val();
-    // var dating = date.dating;
-    // console.log(dating);
-    dating = moment(dating, 'YYYYMMDDHHmm').unix();
+var firebaseDate = firebase.database().ref('dates').orderByKey().limitToLast(1);
+
+firebaseDate.on('value',function(dates){
+    var dates = dates.val();
+    var lastDate = Object.keys(dates);
+    lastDateID = lastDate[0];
+    lastDate = dates[lastDateID].date;
+
+    dating = moment(lastDate, 'YYYYMMDDHHmm').unix();
 
     // clear Flipdown
     $('#flipdown').empty();
@@ -164,10 +168,10 @@ firebaseMessages.on('value',function(messages){
     }else playSound('pop');
     
     if(messages == null){
-        $('#messages').html('<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>')
+        document.getElementById('messages').innerHTML = '<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>';
     }
     else{
-        $('#messages').html('');
+        document.getElementById('messages').innerHTML = '';
     }
     
     var messagesIDs = Object.keys(messages);
@@ -270,7 +274,7 @@ function checkTipDate(){
         resizeMessageBox();
     }, 5 * 1000);
 }
-checkTipDate();
+// checkTipDate();
 
 var firebaseDate = firebase.database().ref('dates').orderByKey().limitToLast(1);
 firebaseDate.on('value',function(dates){
@@ -283,9 +287,10 @@ firebaseDate.on('value',function(dates){
     if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
         document.getElementById('tipsButton').style.display = 'block';
     }
-
-    var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
-    var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+    if(lastDate.ticket != undefined){
+        var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+        var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+    }
 
     var firebaseDateTips = firebase.database().ref('dates/'+lastDateID+'/tips');
     firebaseDateTips.on('value',function(tips){
@@ -460,11 +465,13 @@ firebaseLastDate.on('value',function(dates){
     // console.log(lastDate);
 
     if(firstRead == true){
+        
+        if(lastDate.ticket != undefined){
+            var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+            var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+        }
 
-        var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
-        var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
-
-        if(checkoutDate >= moment().format('YYYYMMDD') && checkinDate > moment().subtract(8,'days').format('YYYYMMDD')){
+        if(checkoutDate >= moment().format('YYYYMMDD') && checkinDate > moment().subtract(8,'days').format('YYYYMMDD') && lastDate.ticket != undefined){
             // POPULA O TICKET
             var firebaseDateTicket = firebase.database().ref('dates/'+lastDateID+'/ticket');
             firebaseDateTicket.on('value',function(ticket){
@@ -519,9 +526,12 @@ firebaseLastDate.on('value',function(dates){
             });
         }
         else{
-            document.getElementById('ticket-button').remove();
+            if(document.getElementById('ticket-button') != null){
+                document.getElementById('ticket-button').remove();
+            }
+            
         }
-        if(checkinDate >= moment().format('YYYYMMDD') || checkoutDate >= moment().format('YYYYMMDD')){
+        if(checkinDate >= moment().format('YYYYMMDD') || checkoutDate >= moment().format('YYYYMMDD') || lastDate >= moment().format('YYYYMMDD')){
 
             // LISTA COMPARTILHADA
             var firebaseLastDateReminder = firebase.database().ref('dates/'+lastDateID+'/reminder-list/shared');
@@ -615,7 +625,9 @@ firebaseLastDate.on('value',function(dates){
 
         }
         else{
-            document.getElementById('dateButtons').remove();
+            if(document.getElementById('dateButtons') != null){
+                document.getElementById('dateButtons').remove();
+            }
         }
 
         if(moment().format('YYYYMMDD') > checkoutDate){
