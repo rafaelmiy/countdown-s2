@@ -195,15 +195,20 @@ firebaseMessages.on('value',function(messages){
 
         var heartSVG = `<svg width="19" height="19" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 26.6875L13.1875 25.0375C6.75 19.2 2.5 15.35 2.5 10.625C2.5 6.775 5.525 3.75 9.375 3.75C11.55 3.75 13.6375 4.7625 15 6.3625C16.3625 4.7625 18.45 3.75 20.625 3.75C24.475 3.75 27.5 6.775 27.5 10.625C27.5 15.35 23.25 19.2 16.8125 25.05L15 26.6875Z" fill="#f10935"/></svg>`;
         var kissSVG = `<svg width="19" height="19" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.20392 14.1311C4.94785 15.7529 3.58586 20.7112 4.12522 21.3584C4.66457 22.0057 5.51055 22.362 7.57709 20.927C11.4604 18.2302 11.0265 16.4766 12.3234 15.5334C13.51 14.6704 14.2651 15.4255 15.8832 14.4547C17.5012 13.4838 16.6383 12.9445 18.0406 11.9737C19.4429 11.0028 19.8744 11.4343 23.1105 10.3556C25.6994 9.49262 25.4837 8.41391 25.268 7.55094C25.0522 6.68797 21.7082 5.60926 19.8744 5.0699C17.4673 4.36194 15.6674 3.45184 13.9415 4.42268C12.5094 5.2282 13.2943 6.36436 11.9998 7.44307C10.7054 8.52178 9.73451 7.22732 8.00857 8.09029C6.28264 8.95326 5.52754 12.0815 5.20392 14.1311Z" fill="#f10935"/><path d="M20.5216 23.0844C26.2388 19.4168 26.886 10.7871 26.3467 10.3556C25.8073 9.9241 23.4126 10.6145 22.0318 11.2186C20.3059 11.9737 19.0114 15.2098 17.3934 16.2885C15.7753 17.3672 13.2943 16.9357 10.5975 19.201C8.44006 21.0132 6.71412 22.7608 6.92986 23.5159C7.14561 24.271 14.8044 26.752 20.5216 23.0844Z" fill="#f10935"/></svg>`;
+        var biteSVG = `<svg width="19" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M8.06654 21.2769C8.25914 20.3029 7.52449 19.2173 6.89575 18.5018C5.13711 16.3897 3.40684 15.4475 2.19361 16.148L2.11272 16.1947C0.899486 16.8951 0.850335 18.8647 1.75345 21.3629C2.05866 22.2651 2.58485 23.3633 3.5713 23.7643C4.2559 24.0162 5.12394 23.8385 6.17541 23.2315C7.35446 22.6586 7.94231 21.9956 8.06654 21.2769Z" fill="#f10935"/><path d="M13.5116 21.3685C14.8057 20.6213 15.5553 19.865 15.7012 18.8102C15.9622 17.5811 15.3301 16.1127 14.0134 14.3925C11.5668 11.2756 9.01187 9.83893 7.47511 10.7262C7.47511 10.7262 7.47511 10.7262 7.39422 10.7729C5.85746 11.6601 5.82417 14.5911 7.25347 18.1875C8.00399 20.2346 9.04049 21.4695 10.2354 21.858C11.2686 22.34 12.3451 22.1498 13.5116 21.3685Z" fill="#f10935"/><path d="M23.0274 14.6883C23.2884 13.4592 22.6563 11.9908 21.3396 10.2706C18.7654 7.11951 16.2572 5.76372 14.7204 6.65097C14.7204 6.65097 14.7204 6.65097 14.6395 6.69767C13.1028 7.58492 13.0695 10.5159 14.4988 14.1123C15.2493 16.1594 16.2858 17.3943 17.4807 17.7828C18.4205 18.103 19.5778 17.8662 20.7911 17.1657C22.051 16.5461 22.7539 15.7089 23.0274 14.6883Z" fill="#f10935"/><path d="M27.9211 9.81388C28.1137 8.83994 27.379 7.75428 26.7503 7.03885C24.9917 4.92675 23.1805 4.03123 22.0482 4.685C20.8349 5.38546 20.6582 7.32083 21.608 9.89991C21.9132 10.8021 22.4394 11.9003 23.4259 12.3014C24.1105 12.5532 24.9785 12.3755 26.03 11.7685C27.209 11.1956 27.7969 10.5327 27.9211 9.81388Z" fill="#f10935"/><path d="M9.5489 27.4309C10.407 27.3793 8.62219 21.675 7.9787 20.2492L2.80763 23.2347C3.27458 24.0435 7.79672 27.536 9.5489 27.4309Z" fill="#f10935"/><path d="M28.0782 16.733C27.6045 17.4504 23.5568 13.0525 22.6437 11.7823L27.8148 8.7968C28.2818 9.60562 29.0453 15.2682 28.0782 16.733Z" fill="#f10935"/></g><defs><clipPath id="clip0"><rect width="30" height="30" fill="white"/></clipPath></defs></svg>`;
         
         if(type == "feeling"){
             if(msg == "kiss"){
-                feelingPT = `beijo ${kissSVG}`;
-                feelingsPT = `beijos ${kissSVG}`;
+                feelingPT = ` beijo ${kissSVG}`;
+                feelingsPT = ` beijos ${kissSVG}`;
             }
             else if(msg == "heart"){
-                feelingPT = `carinho ${heartSVG}`;
-                feelingsPT = `carinhos ${heartSVG}`;
+                feelingPT = ` carinho ${heartSVG}`;
+                feelingsPT = ` carinhos ${heartSVG}`;
+            }
+            else if(msg == "bite"){
+                feelingPT = `a mordida ${biteSVG}`;
+                feelingsPT = ` mordidas ${biteSVG}`;
             }
             // console.log(feelingPT);
 
@@ -219,7 +224,7 @@ firebaseMessages.on('value',function(messages){
                     $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since}&nbsp;</b>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}</p></span>`);
                 }
                 else{
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since}&nbsp;</b>Você ${statusPT} um ${feelingPT}</p></span>`);
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since}&nbsp;</b>Você ${statusPT} um${feelingPT}</p></span>`);
                 }
             }
             else{
@@ -230,7 +235,7 @@ firebaseMessages.on('value',function(messages){
                     $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}&nbsp;<b>${since}</b></p></span>`);
                 }
                 else{
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} um ${feelingPT}&nbsp;<b>${since}</b></p></span>`);
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} um${feelingPT}&nbsp;<b>${since}</b></p></span>`);
                 }
                 
             }
