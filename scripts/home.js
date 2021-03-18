@@ -498,6 +498,7 @@ firebaseLastDate.on('value',function(dates){
                 var apto = ticket.apto;
                 var streetComplement = ticket.streetComplement;
                 var wazeLink = ticket.wazeLink;
+                var uberLink = ticket.uberLink;
 
                 var infos = ticket.infos;
 
@@ -518,6 +519,7 @@ firebaseLastDate.on('value',function(dates){
 
                 document.getElementById('address-complement').innerHTML = street+', '+apto+' <br>'+streetComplement;
                 document.getElementById('waze-button').href = wazeLink;
+                document.getElementById('uber-button').href = uberLink;
 
                 document.getElementById('more-info-area').innerHTML = "";
                 for(var i in infos){
