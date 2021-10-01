@@ -130,7 +130,8 @@ svg{
     padding: 10px 0;
 }
 .action-buttons .button{
-    background: #ffffff;
+    /* background: #ffffff; */
+    border: 1px solid #fff;
     flex: 1;
     text-align: center;
     border-radius: 10px;
@@ -139,13 +140,20 @@ svg{
     font-size: 25px;
     min-height: 50px;
 }
-.action-buttons .button.svg img{
-    margin: 10px auto 0;
-    display: block;
+.action-buttons .button.svg svg{
+    width: auto;
+    height: 70%;
+}
+.action-buttons .button.svg path{
+    fill: #fff;
 }
 .action-buttons .button:active{
-    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px #f10935;
+    border: 1px solid transparent;
     font-size: 23px;
+}
+.action-buttons .button:active svg{
+    height: 65%;
 }
 .action-buttons div{
     flex: 1;
@@ -298,7 +306,7 @@ svg{
 }
 .modal-buttons-area .button{
     font-size: 20px;
-    color: #f10935;
+    color: #fff;
     line-height: 50px;
     font-weight: 500;
 }
