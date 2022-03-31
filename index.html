@@ -150,7 +150,7 @@
                         Dica do dia (<span id="tipsCount">10/16</span>)</span>
                     <span id="dayTip" class="day-tip">Local onde guardamos o nosso liquidificador e panela de fazer macarrão</span>
                 </div>
-                <div class="tips-button" id="tipsButton" onclick="openModal('tips-dates')" hidden>
+                <div class="config" id="config" onclick="openModal('tips-dates')" hidden>
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19.14 12.936C19.176 12.636 19.2 12.324 19.2 12C19.2 11.676 19.176 11.364 19.128 11.064L21.156 9.48C21.336 9.336 21.384 9.072 21.276 8.868L19.356 5.544C19.236 5.328 18.984 5.256 18.768 5.328L16.38 6.288C15.876 5.904 15.348 5.592 14.76 5.352L14.4 2.808C14.364 2.568 14.16 2.4 13.92 2.4H10.08C9.84 2.4 9.648 2.568 9.612 2.808L9.252 5.352C8.664 5.592 8.124 5.916 7.632 6.288L5.244 5.328C5.028 5.244 4.776 5.328 4.656 5.544L2.736 8.868C2.616 9.084 2.664 9.336 2.856 9.48L4.884 11.064C4.836 11.364 4.8 11.688 4.8 12C4.8 12.312 4.824 12.636 4.872 12.936L2.844 14.52C2.664 14.664 2.616 14.928 2.724 15.132L4.644 18.456C4.764 18.672 5.016 18.744 5.232 18.672L7.62 17.712C8.124 18.096 8.652 18.408 9.24 18.648L9.6 21.192C9.648 21.432 9.84 21.6 10.08 21.6H13.92C14.16 21.6 14.364 21.432 14.388 21.192L14.748 18.648C15.336 18.408 15.876 18.084 16.368 17.712L18.756 18.672C18.972 18.756 19.224 18.672 19.344 18.456L21.264 15.132C21.384 14.916 21.336 14.664 21.144 14.52L19.14 12.936V12.936ZM12 15.6C10.02 15.6 8.4 13.98 8.4 12C8.4 10.02 10.02 8.4 12 8.4C13.98 8.4 15.6 10.02 15.6 12C15.6 13.98 13.98 15.6 12 15.6Z" fill="#fff"/>
                     </svg>
@@ -162,9 +162,10 @@
                         </svg>
                          Ticket
                     </div>
-                    <div id="list-button" class="button" onclick="openModal('reminder-list')">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5.48C20.96 5.34 21 5.17 21 5C21 4.45 20.55 4 20 4H5.21L4.27 2H1ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18Z" fill="#fff"/>
+                    <div id="list-button" class="button list-button" onclick="openModal('reminder-list')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
                         </svg>
                          Lista
                     </div>
@@ -275,39 +276,36 @@
         <div class="reminder-list modal" style="display: block;">
             <span class="modal-title">
                 <div class="title">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5.48C20.96 5.34 21 5.17 21 5C21 4.45 20.55 4 20 4H5.21L4.27 2H1ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18Z" fill="#fff"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
                     </svg>
                       Lista
                 </div>
                 <div id="tabList" class="tab-list">
-                    <span id="ourListTab" class="active" onclick="focusListTab('ourList')">Nossa Lista</span>
-                    <span id="myListTab" onclick="focusListTab('myList')">Minha Lista</span>
+                    <span id="ourListTab" class="active" onclick="focusListTab('ourList')">A nossa</span>
+                    <span id="myListTab" onclick="focusListTab('myList')">Só minha</span>
                 </div>
             </span>
             <div id="ourList" class="principal-list">
-                <!-- <h2>Pendentes</h2> -->
                 <div class="list" id="ourPendingItens"></div>
                 <div class="add-item">
                     <!-- <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.3333 9.33333H14.6667V14.6667H9.33333V17.3333H14.6667V22.6667H17.3333V17.3333H22.6667V14.6667H17.3333V9.33333ZM16 2.66667C8.64 2.66667 2.66667 8.64 2.66667 16C2.66667 23.36 8.64 29.3333 16 29.3333C23.36 29.3333 29.3333 23.36 29.3333 16C29.3333 8.64 23.36 2.66667 16 2.66667ZM16 26.6667C10.12 26.6667 5.33333 21.88 5.33333 16C5.33333 10.12 10.12 5.33333 16 5.33333C21.88 5.33333 26.6667 10.12 26.6667 16C26.6667 21.88 21.88 26.6667 16 26.6667Z" fill="#fff"/>
                     </svg> -->
-                    <div class="input" id="addOurItem" contentEditable=true data-text="Novo item" contenteditable></div>
+                    <div class="input" id="addOurItem" contentEditable=true data-text="Clique aqui para novo item" contenteditable></div>
                 </div>
-                <!-- <h3>Concluídos</h3> -->
                 <div class="list done-itens" id="ourDoneItens"></div>
             </div>
 
             <div id="myList" class="principal-list" style="display: none;">
-                <!-- <h2>Pendentes</h2> -->
                 <div class="list" id="myPendingItens"></div>
                 <div class="add-item">
                     <!-- <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.3333 9.33333H14.6667V14.6667H9.33333V17.3333H14.6667V22.6667H17.3333V17.3333H22.6667V14.6667H17.3333V9.33333ZM16 2.66667C8.64 2.66667 2.66667 8.64 2.66667 16C2.66667 23.36 8.64 29.3333 16 29.3333C23.36 29.3333 29.3333 23.36 29.3333 16C29.3333 8.64 23.36 2.66667 16 2.66667ZM16 26.6667C10.12 26.6667 5.33333 21.88 5.33333 16C5.33333 10.12 10.12 5.33333 16 5.33333C21.88 5.33333 26.6667 10.12 26.6667 16C26.6667 21.88 21.88 26.6667 16 26.6667Z" fill="#fff"/>
                     </svg> -->
-                    <div class="input" id="addMyItem" contentEditable=true data-text="Novo item" contenteditable></div>
+                    <div class="input" id="addMyItem" contentEditable=true data-text="Clique aqui para novo item" contenteditable></div>
                 </div>
-                <!-- <h3>Concluídos</h3> -->
                 <div class="list done-itens" id="myDoneItens"></div>
             </div>
             
@@ -322,7 +320,7 @@
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.99 2C6.47 2 2 6.48 2 12C2 17.52 6.47 22 11.99 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 11.99 2ZM16.23 18L12 15.45L7.77 18L8.89 13.19L5.16 9.96L10.08 9.54L12 5L13.92 9.53L18.84 9.95L15.11 13.18L16.23 18Z" fill="#fff"/>
                     </svg>
-                     Dicas
+                    Dicas
                 </div>
             </span>
             <div class="tips-list">
@@ -332,10 +330,74 @@
             <span class="close-modal" onclick="closeModal('tips-dates')">Fechar</span>
         </div>
     </div>
+
+    <div class="modal-area" id="dates" style="display: none;">
+        <div class="dates modal" style="display: block;">
+            <span class="modal-title">
+                <div class="title">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff">
+                        <path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                    </svg>
+                    Encontros
+                </div>
+            </span>
+            <div id="dates-area" class="dates-area">
+                <div class="date show" id="date7">
+                    <span class="item" onclick="toggleAccordion('date7')">
+                        <span class="meeting-num">7</span>
+                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                        </svg>
+                    </span>
+                    <span class="details">
+                        <span class="date-edit">
+                            <input type="date">
+                            <input type="date">
+                        </span>
+                        <h5>Ticket</h5>
+                        <span class="ticket">
+                            Endereço
+                            <input type="text" placeholder="Endereço">
+                            <input type="text" placeholder="Complemento">
+                            <label>Apto</label>
+                            <input type="text">
+                        </span>
+                    </span>
+                </div>
+                <div class="date" id="date6" onclick="toggleAccordion('date6')">
+                    <span class="item">
+                        <span class="meeting-num">6</span>
+                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="date">
+                    <span class="item" id="date5">
+                        <span class="meeting-num">5</span>
+                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="date">
+                    <span class="item" id="date4">
+                        <span class="meeting-num">4</span>
+                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            <span class="close-modal" onclick="closeModal('dates')">Fechar</span>
+        </div>
+    </div>
     
     <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
     <script src="scripts/home.js?4"></script>    
 
 </body>
-
+<script>
+    // openModal('dates');
+</script>
 </html>

@@ -290,7 +290,10 @@ firebaseDate.on('value',function(dates){
 
     // QUANDO FOR EU
     if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
-        document.getElementById('tipsButton').style.display = 'block';
+        // document.getElementById('tipsButton').style.display = 'block';
+        document.getElementById('config').style.display = 'block';
+        document.getElementById('text').setAttribute("onclick","openModal('dates')");
+        document.getElementById('flipdown').setAttribute("onclick","openModal('dates')");
     }
     if(lastDate.ticket != undefined){
         var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
@@ -376,6 +379,25 @@ firebaseDate.on('value',function(dates){
     });
 
 });
+
+var firebaseDate = firebase.database().ref('dates').orderByKey();
+firebaseDate.on('value',function(dates){
+    var dates = dates.val();
+    // console.log(dates);
+
+    for(var d in dates){
+        var date = dates[d];
+        console.log(date);
+        // var place = tip.place;
+
+    }
+
+});
+
+function toggleAccordion(e) {
+    var element = document.getElementById(e);
+    element.classList.toggle("show");
+}
 
 function daysCount(startDay, endDay){
     var start = moment(startDay, 'YYYYMMDD');
@@ -550,7 +572,7 @@ firebaseLastDate.on('value',function(dates){
                 $('#reminder-list #ourDoneItens').html("");
 
                 if(list == null){
-                    $('#reminder-list #ourPendingItens').append('<span style="display:block;text-align:center;">Não existem itens 🥺</span>')
+                    $('#reminder-list #ourPendingItens').append('<span style="display:block;text-align:center;" class="none">Não existem itens 🥺</span>')
                 }
 
                 for(var l in list){
@@ -595,7 +617,7 @@ firebaseLastDate.on('value',function(dates){
                 $('#reminder-list #myDoneItens').html("");
 
                 if(list == null){
-                    $('#reminder-list #myPendingItens').append('<span style="display:block;text-align:center;">Não existem itens 🥺</span>')
+                    $('#reminder-list #myPendingItens').append('<span style="display:block;text-align:center;" class="none">Não existem itens 🥺</span>')
                 }
 
                 for(var l in list){
