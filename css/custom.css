@@ -349,7 +349,12 @@ svg{
     z-index: 1;
 }
 .modal .modal-title .title{
-    padding: 0 20px 10px;
+    padding: 0 10px 10px;
+}
+.modal .modal-title .title .togetherSum{
+    margin-bottom: 0;
+    font-size: 24px;
+    text-align: center;
 }
 .modal .close-modal{
     position: fixed;
@@ -648,6 +653,49 @@ svg{
 
 /* DATES MODAL */
 
+.modal.dates .dates-area{
+    overflow: scroll;
+    height: calc( 100% - 95px );
+}
+.modal.dates .dates-area.viewer button{
+    display: none;
+}
+.modal.dates .dates-area input{
+    pointer-events: none;
+}
+.modal.dates .dates-area .date.editor .details input{
+    pointer-events: auto;
+    background: #ffffff;
+    color: #fe4767;
+    border: none;
+}
+.modal.dates .dates-area .date.editor .details input::placeholder{
+    color: #fe4767!important;
+}
+.modal.dates .dates-area .date.show .cancel,
+.modal.dates .dates-area .date.show .save{
+    display: none;
+}
+.modal.dates .dates-area .date.editor .buttons-area .edit{
+    display: none;
+}
+.modal.dates .dates-area .date.editor .cancel,
+.modal.dates .dates-area .date.editor .save{
+    display: initial;
+}
+.modal.dates .dates-area .date .buttons-area .button.save{
+    margin-left: 12px;
+}
+.modal.dates .dates-area .date .buttons-area .button.cancel{
+    box-shadow: none;
+    border: 1px solid #ffffffbd;
+}
+.modal.dates .dates-area .date .buttons-area .button.cancel:active{
+    border: none;
+}
+.modal.dates .dates-area.viewer .buttons-area{
+    display: none;
+}
 .modal.dates .date{
     margin-bottom: 10px;
     border: 2px solid #fff;
@@ -659,9 +707,8 @@ svg{
 }
 .modal.dates .dates-area .meeting-num{
     font-size: 28px;
-    font-weight: 200;
+    font-weight: 300;
     padding-right: 5px;
-    /* line-height: 55px; */
 }
 .modal.dates .dates-area .date span.details{
     display: none;
@@ -688,6 +735,9 @@ svg{
 .modal.dates .dates-area .date.show .details{
     display: block;
 }
+.modal.dates .dates-area .date.show .details input{
+    margin-bottom: 5px;
+}
 .modal.dates .dates-area .date.show .item svg{
     fill: #fe4767;
     animation-duration: 300ms;
@@ -702,18 +752,19 @@ svg{
     display: block;
     padding: 12px;
 }
-.modal.dates .dates-area .date .details .date-edit{
-    display: flex;
-}
 .modal.dates .dates-area .date .details input{
-    color: #fe4767;
     flex: 1;
     font-size: medium;
-    border: none;
     border-radius: 6px;
     padding: 3px 6px;
-    background: #fff;
     height: 35px;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+.modal.dates .dates-area .date .details input[type=datetime-local]{
+    text-align: center;
+    width: 100%;
 }
 .modal.dates .dates-area .date .details .date-edit input:last-child{
     margin-left: 5px;
@@ -721,12 +772,40 @@ svg{
 .modal.dates .dates-area .date .details .ticket{
     padding: 0 0 2px;
     display: block;
+    margin-top: 5px;
+}
+.modal.dates .dates-area.viewer .date .details .ticket .hide-toggle{
+    display: none;
+}
+.modal.dates .dates-area .date .details .ticket .buttons-area{
+    display: flex;
 }
 .modal.dates .dates-area .date .details .ticket label{
     display: block;
 }
 .modal.dates .dates-area .date .details .ticket input{
     display: block;
+    width: 100%;
+}
+.modal.dates .dates-area .date .details .ticket input::placeholder{
+    opacity: 0.7;
+    color: #ffffff;
+}
+.modal.dates .dates-area .date .details .ticket button{
+    height: 42px;
+    font-size: 18px;
+    box-shadow: -4px -4px 8px #b80526, 4px 4px 8px #e23156;
+    text-align: center;
+    margin-top: 14px;
+    border-radius: 10px;
+    font-weight: 500;
+    width: 100%;
+    background-color: #f10935;
+    border: 0;
+}
+.modal.dates .dates-area .date .details .ticket button:active {
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px #f10935;
+    font-size: 16px;
 }
 
 /* END DATES MODAL */

@@ -140,8 +140,8 @@
                         </span>
                     </span>
                 </span>
-                <div id="flipdown" class="flipdown"></div>
-                <div id="text" class="text">para nos encontrar.</div>
+                <div id="flipdown" class="flipdown" onclick="openModal('dates')"></div>
+                <div id="text" class="text" onclick="openModal('dates')">para nos encontrar.</div>
                 <div id="dayTipArea" class="day-tip-area" hidden>
                     <span class="title">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -338,10 +338,10 @@
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff">
                         <path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
                     </svg>
-                    Encontros
+                    Encontros <p class="togetherSum" id="togetherSum"></p>
                 </div>
             </span>
-            <div id="dates-area" class="dates-area">
+            <div id="dates-area" class="dates-area viewer">
                 <div class="date show" id="date7">
                     <span class="item" onclick="toggleAccordion('date7')">
                         <span class="meeting-num">7</span>
@@ -350,17 +350,21 @@
                         </svg>
                     </span>
                     <span class="details">
-                        <span class="date-edit">
-                            <input type="date">
-                            <input type="date">
-                        </span>
-                        <h5>Ticket</h5>
+                        <label>Checkin</label>
+                        <input type="datetime-local" id="checkin" value="2017-06-01T10:00">
+                        <label>Checkout</label>
+                        <input type="datetime-local" id="checkout" value="2017-06-01T10:00">
+                        <!-- <h5>Ticket</h5> -->
                         <span class="ticket">
-                            Endereço
-                            <input type="text" placeholder="Endereço">
-                            <input type="text" placeholder="Complemento">
+                            <label>Endereço</label>
+                            <input type="text" id="address" placeholder="Endereço">
+                            <label>Complemento</label>
+                            <input type="text" id="complement" placeholder="Complemento">
                             <label>Apto</label>
-                            <input type="text">
+                            <input type="text" id="apto" placeholder="Apartamento">
+                            <label>Anfitrião</label>
+                            <input type="text" id="host" placeholder="Anfitrião">
+                            <button class="button">Salvar</button>
                         </span>
                     </span>
                 </div>
@@ -397,7 +401,4 @@
     <script src="scripts/home.js?4"></script>    
 
 </body>
-<script>
-    // openModal('dates');
-</script>
 </html>

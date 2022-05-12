@@ -281,118 +281,189 @@ function checkTipDate(){
 }
 // checkTipDate();
 
-var firebaseDate = firebase.database().ref('dates').orderByKey().limitToLast(1);
-firebaseDate.on('value',function(dates){
-    var dates = dates.val();
-    var lastDate = Object.keys(dates);
-    lastDateID = lastDate[0];
-    lastDate = dates[lastDate];
+// var firebaseDate = firebase.database().ref('dates').orderByKey().limitToLast(1);
+// firebaseDate.on('value',function(dates){
+//     var dates = dates.val();
+//     var lastDate = Object.keys(dates);
+//     lastDateID = lastDate[0];
+//     lastDate = dates[lastDate];
 
-    // QUANDO FOR EU
-    if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
-        // document.getElementById('tipsButton').style.display = 'block';
-        document.getElementById('config').style.display = 'block';
-        document.getElementById('text').setAttribute("onclick","openModal('dates')");
-        document.getElementById('flipdown').setAttribute("onclick","openModal('dates')");
-    }
-    if(lastDate.ticket != undefined){
-        var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
-        var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
-    }
+//     // QUANDO FOR EU
+//     if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+//         // document.getElementById('tipsButton').style.display = 'block';
+//         document.getElementById('config').style.display = 'block';
+//     }
+//     if(lastDate.ticket != undefined){
+//         var checkinDate = moment(lastDate.ticket.checkin.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+//         var checkoutDate = moment(lastDate.ticket.checkout.date, 'YYYYMMDDHHmmss').format('YYYYMMDD');
+//     }
 
-    var firebaseDateTips = firebase.database().ref('dates/'+lastDateID+'/tips');
-    firebaseDateTips.on('value',function(tips){
-        var tips = tips.val();
-        // console.log(tips);
-        var start = moment(checkinDate, 'YYYYMMDD');
-        var end = moment(checkoutDate, 'YYYYMMDD');
-        var daysTotalCount = daysCount(start, end);
-        // console.log(daysTotalCount);
+//     var firebaseDateTips = firebase.database().ref('dates/'+lastDateID+'/tips');
+//     firebaseDateTips.on('value',function(tips){
+//         var tips = tips.val();
+//         // console.log(tips);
+//         var start = moment(checkinDate, 'YYYYMMDD');
+//         var end = moment(checkoutDate, 'YYYYMMDD');
+//         var daysTotalCount = daysCount(start, end);
+//         // console.log(daysTotalCount);
 
-        // PEGA A DICA DO DIA E ATUALIZA QUADRO DE 'DICA DO DIA'
-        for(var t in tips){
-            var tip = tips[t];
-            // console.log(t);
-            var place = tip.place;
+//         // PEGA A DICA DO DIA E ATUALIZA QUADRO DE 'DICA DO DIA'
+//         for(var t in tips){
+//             var tip = tips[t];
+//             // console.log(t);
+//             var place = tip.place;
             
-            if(moment().format('YYYYMMDD') == t){
-                var numTip = daysTotalCount-(daysCount(t, end)-1);
-                document.getElementById('tipsCount').innerHTML = numTip+'/'+daysTotalCount;
-                document.getElementById('dayTip').innerHTML = place;
-                document.getElementById('dayTip').setAttribute('data-date-tip', t);
-                if(place != ""){
-                    document.getElementById('dayTipArea').style.display = "block";
-                }else{
-                    document.getElementById('dayTipArea').style.display = "none";
-                }
-                resizeMessageBox();
-                // console.log(numTip);
-                break;
-            }
-            else{
-                document.getElementById('dayTipArea').style.display = "none";
-                resizeMessageBox();
-            }
-        }
+//             if(moment().format('YYYYMMDD') == t){
+//                 var numTip = daysTotalCount-(daysCount(t, end)-1);
+//                 document.getElementById('tipsCount').innerHTML = numTip+'/'+daysTotalCount;
+//                 document.getElementById('dayTip').innerHTML = place;
+//                 document.getElementById('dayTip').setAttribute('data-date-tip', t);
+//                 if(place != ""){
+//                     document.getElementById('dayTipArea').style.display = "block";
+//                 }else{
+//                     document.getElementById('dayTipArea').style.display = "none";
+//                 }
+//                 resizeMessageBox();
+//                 // console.log(numTip);
+//                 break;
+//             }
+//             else{
+//                 document.getElementById('dayTipArea').style.display = "none";
+//                 resizeMessageBox();
+//             }
+//         }
 
-        if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
-            var d = checkinDate;
-            var numTip;
-            $('#futureTips, #pastTips').html("");
-            while(d <= checkoutDate){
-                var list;
-                if(d > moment().format('YYYYMMDD')){
-                    list = 'future';
-                } else{
-                    list = 'past';
-                }
+//         if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+//             var d = checkinDate;
+//             var numTip;
+//             $('#futureTips, #pastTips').html("");
+//             while(d <= checkoutDate){
+//                 var list;
+//                 if(d > moment().format('YYYYMMDD')){
+//                     list = 'future';
+//                 } else{
+//                     list = 'past';
+//                 }
 
-                var numTip = daysTotalCount-(daysCount(d, checkoutDate)-1);
-                var dateFormat = moment(d, 'YYYYMMDD').format('DD MMM');
-                if(tips[d] == undefined){
-                    // console.log('dia '+d+' não existe');
-                    $('#'+list+'Tips').append(`
-                    <div class="tip">
-                        <div class="date">
-                            <span>${dateFormat}</span>
-                            <span>(${numTip}/${daysTotalCount})</span>
-                        </div>
-                        <div class="input input-secondary" id="list-tip-item-${d}" onfocusout="updateTip(${lastDateID}, ${d})" data-text="Digite uma dica" contenteditable=""></div>
-                    </div>`);
-                }
-                else{
-                    // console.log('dia '+d+' existe');
-                    $('#'+list+'Tips').append(`
-                    <div class="tip">
-                        <div class="date">
-                            <span>${dateFormat}</span>
-                            <span>(${numTip}/${daysTotalCount})</span>
-                        </div>
-                        <div class="input input-secondary" id="list-tip-item-${d}" onfocusout="updateTip(${lastDateID}, ${d})" data-text="Digite uma dica" contenteditable="">${tips[d].place}</div>
-                    </div>`);
-                }
-                d = moment(d, "YYYYMMDD").add(1,'days').format("YYYYMMDD");
-                // console.log(d);
-            }
-        }
+//                 var numTip = daysTotalCount-(daysCount(d, checkoutDate)-1);
+//                 var dateFormat = moment(d, 'YYYYMMDD').format('DD MMM');
+//                 if(tips[d] == undefined){
+//                     // console.log('dia '+d+' não existe');
+//                     $('#'+list+'Tips').append(`
+//                     <div class="tip">
+//                         <div class="date">
+//                             <span>${dateFormat}</span>
+//                             <span>(${numTip}/${daysTotalCount})</span>
+//                         </div>
+//                         <div class="input input-secondary" id="list-tip-item-${d}" onfocusout="updateTip(${lastDateID}, ${d})" data-text="Digite uma dica" contenteditable=""></div>
+//                     </div>`);
+//                 }
+//                 else{
+//                     // console.log('dia '+d+' existe');
+//                     $('#'+list+'Tips').append(`
+//                     <div class="tip">
+//                         <div class="date">
+//                             <span>${dateFormat}</span>
+//                             <span>(${numTip}/${daysTotalCount})</span>
+//                         </div>
+//                         <div class="input input-secondary" id="list-tip-item-${d}" onfocusout="updateTip(${lastDateID}, ${d})" data-text="Digite uma dica" contenteditable="">${tips[d].place}</div>
+//                     </div>`);
+//                 }
+//                 d = moment(d, "YYYYMMDD").add(1,'days').format("YYYYMMDD");
+//                 // console.log(d);
+//             }
+//         }
 
-    });
+//     });
 
-});
+// });
 
+
+// PREENCHE O MODAL DE CONTROLE DE ENCONTROS
 var firebaseDate = firebase.database().ref('dates').orderByKey();
 firebaseDate.on('value',function(dates){
     var dates = dates.val();
     // console.log(dates);
 
-    for(var d in dates){
-        var date = dates[d];
-        console.log(date);
-        // var place = tip.place;
-
+    if(firebase.auth().currentUser.uid == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+        $('#dates-area').removeClass('viewer');
     }
 
+    // $('#dates-area').addClass('editor');
+
+    $('#dates-area').empty();
+
+    var togetherSum = 0;
+    $('#togetherSum').html("");
+
+    for(var d in dates){
+        var date = dates[d];
+
+        var checkin = moment(date.date, 'YYYYMMDDhhmm').format('DD/MMM/YY');
+
+        var ticket = (date.ticket === undefined) ? "" : date.ticket;
+        var checkout = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDhhmm').format('DD/MMM/YY');
+
+        var host = (ticket.host === undefined) ? "" : ticket.host;
+        var hostShow = (ticket.host === undefined) ? "hide-toggle" : ticket.host;
+
+        var street = (ticket.street === undefined) ? "" : ticket.street;
+        var streetShow = (ticket.street === undefined) ? "hide-toggle" : ticket.street;
+
+        var streetComplement = (ticket.streetComplement === undefined) ? "" : ticket.streetComplement;
+        var streetComplementShow = (ticket.streetComplement === undefined) ? "hide-toggle" : ticket.streetComplement;
+
+        var apto = (ticket.apto === undefined) ? "" : ticket.apto;
+        var aptoShow = (ticket.apto === undefined) ? "hide-toggle" : ticket.apto;
+
+        var start = moment(date.date, 'YYYYMMDD');
+        var end = moment(ticket.checkout.date, 'YYYYMMDD');
+        var together = end.diff(start, 'days')+1;
+
+        console.log(date);
+
+        $('#dates-area').prepend(`
+            <div class="date" id="date${d}">
+                <span class="item" onclick="toggleAccordion('date${d}')">
+                    <span class="meeting-num">${d}</span>
+                    <p class="range">${checkin} - ${checkout} (${together} dias)</p>
+                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                    </svg>
+                </span>
+                <span class="details">
+                    <label>Checkin</label>
+                    <input type="datetime-local" id="checkin" value="2017-06-01T18:29">
+                    <label>Checkout</label>
+                    <input type="datetime-local" id="checkout" value="2017-06-01T10:00">
+                    <!-- <h5>Ticket</h5> -->
+                    <span class="ticket">
+                        <label class=${streetShow}>Endereço</label>
+                        <input class="${streetShow}" type="text" id="address" placeholder="Coloque o endereço" value="${street}">
+                        <label class=${streetComplementShow}>Complemento</label>
+                        <input class="${streetComplementShow}" type="text" id="complement" placeholder="Coloque o complemento" value="${streetComplement}">
+                        <label class="${aptoShow}">Apto</label>
+                        <input class="${aptoShow}" type="text" id="apto" placeholder="Coloque o apartamento" value="${apto}">
+                        <label class="${hostShow}">Anfitrião</label>
+                        <input class="${hostShow}" type="text" id="host" placeholder="Coloque o anfitrião" value="${host}">
+                        <div class="buttons-area">
+                            <button class="button edit" onclick="toggleDateEdit('date${d}')">Editar</button>
+                            <button class="button cancel" onclick="toggleDateEdit('date${d}')">Cancelar</button>
+                            <button class="button save">Salvar</button>
+                        </div>
+                    </span>
+                </span>
+            </div>
+        `);
+        togetherSum += together;
+
+    }
+    $('#togetherSum').html("Já são "+togetherSum+" dias juntos");
+
 });
+
+function toggleDateEdit(d){
+    $('#'+d).toggleClass('editor');
+}
 
 function toggleAccordion(e) {
     var element = document.getElementById(e);
@@ -767,6 +838,6 @@ function focusListTab(id){
     document.getElementById(`${id}`).style.display = "block";
 };
 
-
 // openModal('checkin-ticket');
 // openModal('reminder-list');
+openModal('dates');
