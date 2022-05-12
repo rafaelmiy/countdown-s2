@@ -672,6 +672,12 @@ svg{
 .modal.dates .dates-area .date.editor .details input::placeholder{
     color: #fe4767!important;
 }
+.modal.dates .dates-area .date .details input[type=datetime-local]::-webkit-calendar-picker-indicator{
+    filter: invert(1);
+}
+.modal.dates .dates-area .date.editor .details input[type=datetime-local]::-webkit-calendar-picker-indicator{
+    filter: none;
+}
 .modal.dates .dates-area .date.show .cancel,
 .modal.dates .dates-area .date.show .save{
     display: none;
