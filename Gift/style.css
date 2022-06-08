@@ -1,0 +1,117 @@
+html{
+  background-color: #7D170F;
+  font-family: Roboto;
+  color: #F2EFE5;
+}
+.text {
+  font-size: 20px;
+  text-align: center;
+  width: 90%;
+  margin: 8px auto;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24px;
+  text-align: center;
+}
+.text:first-child{
+  margin-top: 30px;
+}
+
+.button-start{
+  width: 90%;
+  text-align: center;
+  font-family: Roboto;
+  color: white;
+  display: block;
+  margin: 50% auto;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 11px 0;
+  text-transform: uppercase;
+}
+.gift{
+  display: flex;  
+  margin: 18px 10px 12px;
+  color: #7D170F;
+}
+.gift h3{
+  font-size: 60px;
+  font-family: 'Snell Roundhand';
+  text-align: center;
+  margin: 0;
+}
+.gift .subtitle{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: right;
+  margin-top: -18px;
+}
+.gift .border{
+  background-color: #F3F1E7;
+  width: 100%;
+  border-top: 3px solid #DEA547;
+  border-bottom: 3px solid #DEA547;
+  padding: 10px 0;
+}
+.video{
+  margin: 0 10px;
+}
+.video p{
+  text-align: center;
+  font-weight: 200;
+  margin-bottom: 6px;
+  font-size: 14px;
+  margin-top: 0px;
+}
+
+.logo{
+  margin-bottom: 12px;
+}
+.logo img{
+  display: block;
+  margin: 0 auto;
+}
+.gift .info{
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 300;
+}
+.gift .line{
+  margin-bottom: 8px;
+}
+.gift .line:last-child{
+  margin-bottom: 0;
+}
+.gift .line,
+.gift .info{
+  display: flex;
+}
+.gift .info p{
+  margin: 0;
+  line-height: 18px;
+}
+.gift .clock{
+  margin-left: 16px;
+}
+.hide{
+  display: none;
+}
+.fade-in{
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 2s;
+}
+
+@keyframes fadeInOpacity{
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
