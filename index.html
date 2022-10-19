@@ -339,6 +339,7 @@
                         <path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
                     </svg>
                     Encontros <p class="togetherSum" id="togetherSum"></p>
+                    <span class="new-date-button" onclick="openModal('new-date')">Novo encontro</span>
                 </div>
             </span>
             <div id="dates-area" class="dates-area viewer">
@@ -394,6 +395,41 @@
                 </div>
             </div>
             <span class="close-modal" onclick="closeModal('dates')">Fechar</span>
+        </div>
+    </div>
+
+    <div class="modal-area" id="new-date" style="display: none;">
+        <div class="dates modal" style="display: block;">
+            <span class="modal-title">
+                <div class="title">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff">
+                        <path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                    </svg>
+                    Novo encontro <p class="togetherSum" id="togetherSum"></p>
+                </div>
+            </span>
+            <div id="dates-area" class="dates-area create">
+                <div class="date show" id="date7">
+                    <span class="details">
+                        <label>Checkin</label>
+                        <input type="datetime-local" id="checkin" value="2017-06-01T10:00">
+                        <label>Checkout</label>
+                        <input type="datetime-local" id="checkout" value="2017-06-01T10:00">
+                        <span class="ticket">
+                            <label>Endereço</label>
+                            <input type="text" id="address" placeholder="Rua X">
+                            <label>Complemento</label>
+                            <input type="text" id="complement" placeholder="Complemento">
+                            <label>Apto</label>
+                            <input type="text" id="apto" placeholder="Apartamento">
+                            <label>Anfitrião</label>
+                            <input type="text" id="host" placeholder="Alguém legal">
+                        </span>
+                        <span class="button" onclick="()">Salvar</button>
+                    </span>
+                </div>
+            </div>
+            <span class="close-modal" onclick="closeModal('new-date')">Cancelar</span>
         </div>
     </div>
     
