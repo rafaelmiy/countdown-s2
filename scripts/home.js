@@ -154,6 +154,7 @@ function checkLastSameAction(message, type){
     }else{
         sendMessage(type, message);
     }
+    updateLastView();
 }
 
 
@@ -500,6 +501,7 @@ function sendMessage(type, message){
     });
     // $('#input').blur();
     $('#input').val('');
+    updateLastView();
 }
 
 

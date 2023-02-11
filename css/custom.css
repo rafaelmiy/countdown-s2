@@ -105,7 +105,7 @@ svg{
     color: #ffffff;
     font-family: 'M PLUS Rounded 1c', sans-serif;
     text-align: center;
-    font-size: 8vw;
+    font-size: 6vw;
     font-weight: 300;
 }
 .clock .title{
@@ -138,7 +138,7 @@ svg{
 }
 .action-buttons{
     display: flex;
-    padding: 10px 0;
+    padding: 10px 0 4px;
 }
 .action-buttons .button{
     /* background: #ffffff; */
@@ -186,7 +186,7 @@ svg{
 .last-view .dot{
     height: 10px;
     width: 10px;
-    background: #fff;
+    background: transparent;
     border-radius: 10px;
     margin: auto 4px;
 }
@@ -923,7 +923,7 @@ svg{
     font-weight: 400;
 }
 .flipdown .rotor-group-heading:before {
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 
