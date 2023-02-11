@@ -98,18 +98,18 @@ firebaseDate.on('value',function(dates){
             break;
         }else if(hide == 1){
             $('.flipdown .rotor-group:nth-child('+a+'):first-child').addClass('hide');
-            resizeMessageBox();
+            // resizeMessageBox();
         }
     }
     if(finished == 1){
         $('#flipdown').addClass('hide');
         $('#text').text("Aproveitem cada segundinho juntos");
-        resizeMessageBox();
+        // resizeMessageBox();
         // $('#text').text("Quando vai ser o próximo encontro?");
     }else{
         $('#flipdown').removeClass('hide');
         $('#text').text("para nos encontrar.");
-        resizeMessageBox();
+        // resizeMessageBox();
     }
 
     // var data = $('#page').html(); //get input (content)
@@ -119,14 +119,14 @@ firebaseDate.on('value',function(dates){
 });
 
 
-function resizeMessageBox(){
-    // FIXA O TAMANHO DO BOX DE MENSAGENS
-    var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
-    $('#messages').css('max-height',topSize-45);
-}
+// function resizeMessageBox(){
+//     // FIXA O TAMANHO DO BOX DE MENSAGENS
+//     var topSize = window.screen.height-($('#clock').outerHeight()+$('#action-area').outerHeight())-$('#header').outerHeight()-parseInt($('#interactions').css("padding-top"))-parseInt($('#messages').css("padding-top"));
+//     $('#messages').css('max-height',topSize-45);
+// }
 
 
-document.getElementsByTagName("body")[0].onresize = function() {resizeMessageBox()};
+// document.getElementsByTagName("body")[0].onresize = function() {resizeMessageBox()};
 
 
 var firebaseAddress = firebase.database().ref('address');
@@ -264,7 +264,7 @@ firebaseMessages.on('value',function(messages){
 
     });
 
-    resizeMessageBox();
+    // resizeMessageBox();
 });
 
 function checkTipDate(){
@@ -276,7 +276,7 @@ function checkTipDate(){
         else{
             document.getElementById('dayTipArea').style.display = "none";
         }
-        resizeMessageBox();
+        // resizeMessageBox();
     }, 5 * 1000);
 }
 // checkTipDate();
@@ -543,7 +543,6 @@ function closeModal(i){
 //     }
 // }
 
-
 // EVITA O ZOOM
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
@@ -739,11 +738,69 @@ firebaseLastDate.on('value',function(dates){
         if(moment().format('YYYYMMDD') > checkoutDate){
             document.getElementById('text').innerHTML = "Quando será o próximo?";
         }
-        resizeMessageBox();
+        // resizeMessageBox();
         
     } else firstRead = false;
+    updateLastView();
 
 });
+
+
+// ATUALIZA A ÚLTIMA VISUALIZAÇÃO DE CADA UM PARA O OUTRO
+function updateLastView(){
+    var lastViewRef = firebase.database().ref('lastView');
+    var user = firebase.auth().currentUser.uid;
+    
+    // QUANDO FOR PARA MIM (QUANDO FOR ELA)
+    if(user == "LwoAoQuKVOOii83IoZAuDdi1OI42"){
+        lastViewRef.update({
+            // GRAVA O VALOR QUE ELA PRECISA SABER
+            skSzuAFRskQmMjfdcV3p4RhU5RE2: getLocalTime()
+        });
+    }
+    
+    // QUANDO FOR PARA ELA (QUANDO FOR EU)
+    else if(user == "skSzuAFRskQmMjfdcV3p4RhU5RE2"){
+        lastViewRef.update({
+            // GRAVA O VALOR QUE EU PRECISO SABER
+            LwoAoQuKVOOii83IoZAuDdi1OI42: getLocalTime()
+        });
+    }
+}
+
+// ATUALIZA TELA TODA VEZ QUE STATUS ATUALIZA NO BD
+firebase.database().ref('lastView').on('value',function(l){
+    var date = l.val()[firebase.auth().currentUser.uid];
+
+    var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
+
+    console.log(since);
+    // ATUALIZA O ENDEREÇO COM A INFORMAÇÃO DO BANCO
+    $('#lastView').html(since);
+
+    var timeUnit = since.split(" ").splice(-1)[0];
+    var color;
+    console.log(timeUnit);
+    switch(timeUnit){
+        case "segundos":
+        case "minuto":
+        case "minutos":
+        case "hora":
+            color = '3dfa4f';
+            break;
+
+        case "horas":
+        case "dia":
+        case "dias":
+            color = "f6fa3d";
+            break;
+
+        default:
+            color = "ffffff6b";
+            break;
+    }
+    $('#lastViewDot').attr('style','background:#'+color);
+})
 
 function addItem(dateID, actualList, reminderAddress){
     actualList = actualList.charAt(0).toUpperCase()+actualList.substr(1).toLowerCase();
