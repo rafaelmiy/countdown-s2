@@ -577,6 +577,13 @@ function createNewDate(){
             //   console.log('Data could not be saved.' + error);
             }
         });
+        $('#checkin').val("");
+        $('#checkout').val("");
+        $('#address').val("");
+        $('#complement').val("");
+        $('#apto').val("");
+        $('#host').val("");
+        closeModal('new-date');
 
     });
 
