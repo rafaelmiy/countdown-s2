@@ -76,7 +76,7 @@ svg{
     font-size: 10vw;
     padding: 40px 0;
     display: block;
-    font-weight: 500;
+    font-weight: 300;
     color: #ffffff;
     text-align: center;
     font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -256,7 +256,7 @@ svg{
 .messages p>b,
 .messages .message b{
     opacity: 50%;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 10px;
     vertical-align: middle;
     text-align: right;
@@ -269,7 +269,7 @@ svg{
     max-width: 80%;
     background: #F10937;
     color: white;
-    padding: 3px 10px;
+    padding: 6px 10px 2px;
     border-radius: 8px;
     display: block;
     margin-bottom: 2px;
@@ -291,7 +291,7 @@ svg{
     margin-bottom: 0;
 }
 .messages .message b{
-    opacity: 70%;
+    opacity: 100%;
     display: block;
     line-height: 13px;
 }
@@ -315,6 +315,12 @@ svg{
 }
 .messages .received.message{
     text-align: right;
+}
+.messages .status-icon{
+    display: initial;
+}
+.messages [data-type="feeling"] b path{
+    fill: #000000;
 }
 .header{
     display: block;
@@ -692,6 +698,9 @@ svg{
 }
 .modal.dates .dates-area input{
     pointer-events: none;
+}
+.modal.dates .dates-area.create input{
+    pointer-events: all;
 }
 .modal.dates .dates-area .date.editor .details input{
     pointer-events: auto;

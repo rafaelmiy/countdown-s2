@@ -52,7 +52,7 @@
     <script type="text/javascript" src="scripts/flipdown.js"></script>
 
     <!-- MY CSS -->
-    <link rel="stylesheet" href="css/custom.css?a=1">
+    <link rel="stylesheet" href="css/main.css?a=1">
 
 </head>
 
@@ -356,19 +356,19 @@
                     </span>
                     <span class="details">
                         <label>Checkin</label>
-                        <input type="datetime-local" id="checkin" value="2017-06-01T10:00">
+                        <input type="datetime-local" value="">
                         <label>Checkout</label>
-                        <input type="datetime-local" id="checkout" value="2017-06-01T10:00">
+                        <input type="datetime-local" value="">
                         <!-- <h5>Ticket</h5> -->
                         <span class="ticket">
                             <label>Endereço</label>
-                            <input type="text" id="address" placeholder="Endereço">
+                            <input type="text" placeholder="Endereço">
                             <label>Complemento</label>
-                            <input type="text" id="complement" placeholder="Complemento">
+                            <input type="text" placeholder="Complemento">
                             <label>Apto</label>
-                            <input type="text" id="apto" placeholder="Apartamento">
+                            <input type="text" placeholder="Apartamento">
                             <label>Anfitrião</label>
-                            <input type="text" id="host" placeholder="Anfitrião">
+                            <input type="text" placeholder="Anfitrião">
                             <button class="button">Salvar</button>
                         </span>
                     </span>
@@ -413,23 +413,23 @@
                 </div>
             </span>
             <div id="dates-area" class="dates-area create">
-                <div class="date show" id="date7">
+                <div class="date show editor" id="date7">
                     <span class="details">
                         <label>Checkin</label>
-                        <input type="datetime-local" id="checkin" value="2017-06-01T10:00">
+                        <input type="datetime-local" id="checkin" value="">
                         <label>Checkout</label>
-                        <input type="datetime-local" id="checkout" value="2017-06-01T10:00">
+                        <input type="datetime-local" id="checkout" value="">
                         <span class="ticket">
                             <label>Endereço</label>
-                            <input type="text" id="address" placeholder="Rua X">
+                            <input type="text" id="address" placeholder="">
                             <label>Complemento</label>
-                            <input type="text" id="complement" placeholder="Complemento">
-                            <label>Apto</label>
-                            <input type="text" id="apto" placeholder="Apartamento">
+                            <input type="text" id="complement" placeholder="">
+                            <label>Apartamento</label>
+                            <input type="text" id="apto" placeholder="">
                             <label>Anfitrião</label>
-                            <input type="text" id="host" placeholder="Alguém legal">
+                            <input type="text" id="host" placeholder="">
                         </span>
-                        <span class="button" onclick="()">Salvar</button>
+                        <span class="button" onclick="createNewDate()">Salvar</button>
                     </span>
                 </div>
             </div>
