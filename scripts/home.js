@@ -1047,6 +1047,6 @@ function focusListTab(id){
 
 // openModal('checkin-ticket');
 // openModal('reminder-list');
-openModal('dates');
+// openModal('dates');
 // openModal('new-date');
 // createNewDate();
