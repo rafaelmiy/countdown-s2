@@ -60,7 +60,18 @@
     <!-- <div id="warning" class="warning"><h1>Acessar de um celular!</h1></div> -->
 	<div id="page" class="page">
 
-        <span id="loading" class="loading">Amor,<br>só faltam...</span>
+        <span id="loading" class="loading">
+            <!-- Amor,<br>só faltam... -->
+            <!--CSS Spinner-->
+            
+            <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
+            <div class="span version">versão 31/Jul/2023</div>
+        </span>
         
         <div id="sound"></div>
 
@@ -435,6 +446,10 @@
             </div>
             <span class="close-modal" onclick="closeModal('new-date')">Cancelar</span>
         </div>
+    </div>
+
+    <div id="offlineAlert" class="offline-alert">
+        <span>Vixi, você está offline bb</span>
     </div>
     
     <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>

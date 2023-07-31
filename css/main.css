@@ -1,14 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap");
 
+:root{
+    --default-color: #f10935;
+}
 html{
-    background: #f10935;
+    background: var(--default-color);
 }
 body {
-    background: #f10935;
+    background: var(--default-color);
     margin:0;
     width: 100%;
     height: 100vh;
     position: fixed;
+}
+body.offline{
+    --default-color: #8f8f8f;
+}
+.offline-alert{
+    display: none;
+}
+body.offline .offline-alert{
+    display: inline;
 }
 .page{
     height: 100%;
@@ -24,7 +36,7 @@ svg{
 .warning{
     height: 100vh;
     z-index: 2;
-    background: #f10935;
+    background: var(--default-color);
     display: block;
     position: absolute;
     text-align: center;
@@ -83,8 +95,15 @@ svg{
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #f10935;
+    background: var(--default-color);
     z-index: 1;
+}
+.loading .version{
+    position: fixed;
+    bottom: 12px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
 }
 .board{
     background: #fe4767;
@@ -142,7 +161,7 @@ svg{
 }
 .action-buttons .button{
     /* background: #ffffff; */
-    box-shadow: -4px -4px 8px #b80526, 4px 4px 8px #e23156;
+    box-shadow: -4px -4px 8px #00000052, 4px 4px 8px #ffffff1c;
     /* border: 1px solid #fff; */
     /* flex: 1; */
     text-align: center;
@@ -161,7 +180,7 @@ svg{
     fill: #fff;
 }
 .action-buttons .button:active{
-    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px #f10935;
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px var(--default-color);
     /* border: 1px solid transparent; */
     font-size: 20px;
 }
@@ -202,6 +221,25 @@ svg{
     flex: 1;
     /* box-shadow: 0 0 10px #0000005e; */
 }
+.offline-alert{
+    position: absolute;
+    margin: 14px auto -50%;
+    width: 100%;
+    text-align: center;
+    z-index: 6;
+    top: 12px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.offline-alert span{
+    margin: 0 auto;
+    background: #202020;
+    padding: 5px 18px;
+    border-radius: 30px;
+    font-size: 18px;
+    color: white;
+    box-shadow: 0 0 10px #000000;
+}
 .messages{
     font-size: 13px;
     border-bottom-left-radius: 10px;
@@ -210,6 +248,9 @@ svg{
     display: block;
     max-width: 100%;
     overflow-y: scroll;
+}
+.messages path{
+    fill: var(--default-color);
 }
 .messages span{
     display: block;
@@ -221,7 +262,7 @@ svg{
 .messages p .qnt{
     font-weight: bolder;
     font-size: 13px;
-    color: #F10937;;
+    color: var(--default-color);
     opacity: 1;
     vertical-align: initial;
 }
@@ -241,7 +282,7 @@ svg{
     content: '';
     width: 0;
     height: 0;
-    border-top: 15px solid #f10935;
+    border-top: 15px solid var(--default-color);
 }
 .messages .message.received:after {
     border-left: 10px solid transparent;
@@ -267,7 +308,7 @@ svg{
 .messages .sent.message,
 .messages .received.message{
     max-width: 80%;
-    background: #F10937;
+    background: var(--default-color);
     color: white;
     padding: 6px 10px 2px;
     border-radius: 8px;
@@ -301,7 +342,7 @@ svg{
     height: 24px;
     position: absolute;
     top: 2px;
-    background: #F10937;
+    background: var(--default-color);
     border: 1px solid white;
     border-radius: 15px;
     display: block;
@@ -334,7 +375,7 @@ svg{
     outline: none;
     font-size: 17px;
     color: #fff;
-    background: #f10935;
+    background: var(--default-color);
     height: 35px;
     border-bottom: 1px solid #fff;
 }
@@ -354,7 +395,7 @@ svg{
 
 /* TICKET MODAL */
 .modal-button{
-    color: #f10935;
+    color: var(--default-color);
     font-size: 17px;
     padding: 10px 15px;
     display: block;
@@ -377,7 +418,7 @@ svg{
     width: 100%;
     left: 0;
     top: 0;
-    background: #f10935;
+    background: var(--default-color);
     padding-top: 10px;
     font-size: 30px;
     border-top-left-radius: 15px;
@@ -408,7 +449,7 @@ svg{
 .modal{
     width: 100%;
     height: 100%;
-    background: #f10935;
+    background: var(--default-color);
     margin: auto;
     border-radius: 15px;
     padding: 0 10px;
@@ -427,7 +468,7 @@ svg{
     margin-bottom: 10px;
 }
 .ticket .address{
-    color: #f10935;
+    color: var(--default-color);
     font-size: 17px;
     padding: 10px 15px;
     display: block;
@@ -461,7 +502,7 @@ svg{
     font-size: 23px;
     width: 65px;
     background: #fff;
-    color: #f10935;
+    color: var(--default-color);
     text-align: center;
     border-radius: 5px;
     display: inline-block;
@@ -484,7 +525,7 @@ svg{
 .ticket .date hr{
     width: 50%;
     margin: 0 auto;
-    border-color: #f10935;
+    border-color: var(--default-color);
 }
 .ticket .check-area{
     display: flex;
@@ -518,7 +559,7 @@ svg{
 .ticket .id-area,
 .ticket .more-info{
     background: #fff;
-    color: #f10935;
+    color: var(--default-color);
     border-radius: 10px;
     padding: 8px 12px;
 }
@@ -532,7 +573,7 @@ svg{
     margin-bottom: 8px;
 }
 .ticket .id-area .address-id span{
-    background: #f10935;
+    background: var(--default-color);
     color: white;
     padding: 5px 8px;
     border-radius: 10px;
@@ -705,11 +746,11 @@ svg{
 .modal.dates .dates-area .date.editor .details input{
     pointer-events: auto;
     background: #ffffff;
-    color: #fe4767;
+    color: var(--default-color);
     border: none;
 }
 .modal.dates .dates-area .date.editor .details input::placeholder{
-    color: #fe4767!important;
+    color: var(--default-color)!important;
 }
 .modal.dates .dates-area .date .details input[type=datetime-local]::-webkit-calendar-picker-indicator{
     filter: invert(1);
@@ -774,7 +815,7 @@ svg{
     margin: auto 0 auto auto;
 }
 .modal.dates .dates-area .date.show .item{
-    color: #fe4767;
+    color: var(--default-color);
     background: #fff;
 }
 .modal.dates .dates-area .date.show .details{
@@ -784,7 +825,7 @@ svg{
     margin-bottom: 5px;
 }
 .modal.dates .dates-area .date.show .item svg{
-    fill: #fe4767;
+    fill: var(--default-color);
     animation-duration: 300ms;
     animation-name: rotate;
     transform: rotate(180deg);
@@ -839,17 +880,17 @@ svg{
 .modal.dates .dates-area .date .details .ticket button{
     height: 42px;
     font-size: 18px;
-    box-shadow: -4px -4px 8px #b80526, 4px 4px 8px #e23156;
+    box-shadow: -4px -4px 8px #00000052, 4px 4px 8px #ffffff1c;
     text-align: center;
     margin-top: 14px;
     border-radius: 10px;
     font-weight: 500;
     width: 100%;
-    background-color: #f10935;
+    background-color: var(--default-color);
     border: 0;
 }
 .modal.dates .dates-area .date .details .ticket button:active {
-    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px #f10935;
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px var(--default-color);
     font-size: 16px;
 }
 .modal.dates .new-date-button{
@@ -870,7 +911,7 @@ svg{
     display: block;
     text-align: center;
     font-size: 20px;
-    color: #f10935;
+    color: var(--default-color);
     border-radius: 6px;
     padding: 4px;
     background-color: #ffffff;
@@ -915,7 +956,7 @@ svg{
 }
 /* Hinge */
 .flipdown.flipdown__theme-dark .rotor:after {
-  border-top: solid 3px #f10935;
+  border-top: solid 3px var(--default-color);
 }
 @media (max-width: 550px){
     .flipdown .rotor-group-heading:before {
@@ -1229,3 +1270,123 @@ svg{
 .carousel--thumb .carousel__indicators .carousel__indicator:nth-of-type(5) {
   background-image: url("https://unsplash.it/1500?random");
 }
+
+
+/* SPINNER LOADING STYLE */
+.spinner-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background-color: red; */
+    z-index: 999999;
+   }
+   
+   .sk-folding-cube {
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    width: 40px;
+    height: 40px;
+    -webkit-transform: rotateZ(45deg);
+    transform: rotateZ(45deg);
+    margin: 20px auto;
+   }
+   
+   .sk-folding-cube .sk-cube {
+    float: left;
+    width: 50%;
+    height: 50%;
+    position: relative;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+   }
+   
+   .sk-folding-cube .sk-cube:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+    animation: sk-foldCubeAngle 2.4s infinite linear both;
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+   }
+   
+   .sk-folding-cube .sk-cube2 {
+    -webkit-transform: scale(1.1) rotateZ(90deg);
+    transform: scale(1.1) rotateZ(90deg);
+   }
+   
+   .sk-folding-cube .sk-cube3 {
+    -webkit-transform: scale(1.1) rotateZ(180deg);
+    transform: scale(1.1) rotateZ(180deg);
+   }
+   
+   .sk-folding-cube .sk-cube4 {
+    -webkit-transform: scale(1.1) rotateZ(270deg);
+    transform: scale(1.1) rotateZ(270deg);
+   }
+   
+   .sk-folding-cube .sk-cube2:before {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+   }
+   
+   .sk-folding-cube .sk-cube3:before {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+   }
+   
+   .sk-folding-cube .sk-cube4:before {
+    -webkit-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+   }
+   
+   @-webkit-keyframes sk-foldCubeAngle {
+    0%,
+    10% {
+     -webkit-transform: perspective(140px) rotateX(-180deg);
+     transform: perspective(140px) rotateX(-180deg);
+     opacity: 0;
+    }
+    25%,
+    75% {
+     -webkit-transform: perspective(140px) rotateX(0deg);
+     transform: perspective(140px) rotateX(0deg);
+     opacity: 1;
+    }
+    90%,
+    100% {
+     -webkit-transform: perspective(140px) rotateY(180deg);
+     transform: perspective(140px) rotateY(180deg);
+     opacity: 0;
+    }
+   }
+   
+   @keyframes sk-foldCubeAngle {
+    0%,
+    10% {
+     -webkit-transform: perspective(140px) rotateX(-180deg);
+     transform: perspective(140px) rotateX(-180deg);
+     opacity: 0;
+    }
+    25%,
+    75% {
+     -webkit-transform: perspective(140px) rotateX(0deg);
+     transform: perspective(140px) rotateX(0deg);
+     opacity: 1;
+    }
+    90%,
+    100% {
+     -webkit-transform: perspective(140px) rotateY(180deg);
+     transform: perspective(140px) rotateY(180deg);
+     opacity: 0;
+    }
+   }
