@@ -638,11 +638,11 @@ function sendMessage(type, message){
     })
     .then(() => {
         // Data saved successfully!
-        console.log("Enviado!");
+        // console.log("Enviado!");
       })
       .catch((error) => {
         // The write failed...
-        console.log("Deu ruim");
+        // console.log("Deu ruim");
       });
 
     
