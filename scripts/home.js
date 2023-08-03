@@ -524,8 +524,8 @@ function updateDateDetails(dateID){
     var newDateHost = $('#date'+dateID+' .host-input').val();
     
     // CONVERSÃO DAS DATAS PARA A DATA FORMATO YYYYMMDDhhmm DO BANCO
-    var checkinInput = moment(newDateCheckin, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDhhmm');
-    var checkoutInput = moment(newDateCheckout, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDhhmm');
+    var checkinInput = moment(newDateCheckin, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
+    var checkoutInput = moment(newDateCheckout, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
     
     firebase.database().ref('dates/'+dateID).update({
         date: checkinInput
