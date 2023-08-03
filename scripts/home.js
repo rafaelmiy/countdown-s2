@@ -439,14 +439,14 @@ firebaseDate.on('value',function(dates){
     for(var d in dates){
         var date = dates[d];
 
-        var checkin = moment(date.date, 'YYYYMMDDhhmm').format('DD/MMM/YY');
+        var checkin = moment(date.date, 'YYYYMMDDHHmm').format('DD/MMM/YY');
 
-        var checkinInput = moment(date.date, 'YYYYMMDDhhmm').format('YYYY-MM-DD'+'T'+'HH:mm');
+        var checkinInput = moment(date.date, 'YYYYMMDDHHmm').format('YYYY-MM-DD'+'T'+'HH:mm');
 
         var ticket = (date.ticket === undefined) ? "" : date.ticket;
-        var checkout = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDhhmm').format('DD/MMM/YY');
+        var checkout = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDHHmm').format('DD/MMM/YY');
 
-        var checkoutInput = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDhhmm').format('YYYY-MM-DD'+'T'+'HH:mm');
+        var checkoutInput = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDHHmm').format('YYYY-MM-DD'+'T'+'HH:mm');
 
         var host = (ticket.host === undefined) ? "" : ticket.host;
         var hostShow = (ticket.host === undefined) ? "hide-toggle" : ticket.host;
@@ -523,7 +523,7 @@ function updateDateDetails(dateID){
     var newDateApto = $('#date'+dateID+' .apto-input').val();
     var newDateHost = $('#date'+dateID+' .host-input').val();
     
-    // CONVERSÃO DAS DATAS PARA A DATA FORMATO YYYYMMDDhhmm DO BANCO
+    // CONVERSÃO DAS DATAS PARA A DATA FORMATO YYYYMMDDHHmm DO BANCO
     var checkinInput = moment(newDateCheckin, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
     var checkoutInput = moment(newDateCheckout, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
     
@@ -554,8 +554,8 @@ function createNewDate(){
         nextDateID = parseInt(lastDateID)+1;
         // console.log(nextDateID);
 
-        var checkinDate = moment($('#checkin').val(), 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDhhmm');
-        var checkoutDate = moment($('#checkout').val(), 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDhhmm');
+        var checkinDate = moment($('#checkin').val(), 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
+        var checkoutDate = moment($('#checkout').val(), 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
 
         var addressDate = $('#address').val();
         var complementDate = $('#complement').val();
