@@ -501,7 +501,8 @@ firebaseDate.on('value',function(dates){
         togetherSum += together;
 
     }
-    $('#togetherSum').html("Já são "+togetherSum+" dias juntinhos");
+    $('#togetherSum').html("Já são <b>"+togetherSum+" dias</b> juntinhos");
+    $('#text').append("<br><span>Já são <b>"+togetherSum+" dias</b> juntinhos</span>");
 
 });
 
@@ -884,9 +885,9 @@ firebaseLastDate.on('value',function(dates){
                 document.getElementById('dateButtons').remove();
             }
         }
-
+        var chevronSVG = `<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_555_17493)"><path d="M15.8333 9.5L13.6008 11.7325L20.8525 19L13.6008 26.2675L15.8333 28.5L25.3333 19L15.8333 9.5Z" fill="white"/></g></svg>`;
         if(moment().format('YYYYMMDD') > checkoutDate){
-            document.getElementById('text').innerHTML = "Quando será o próximo?";
+            document.getElementById('text').innerHTML = "Quando será o próximo? "+chevronSVG;
         }
         // resizeMessageBox();
         

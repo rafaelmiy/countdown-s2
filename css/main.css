@@ -1,20 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 :root{
-    --default-color: #f10935;
+    --color-primary: #f10935;
+    --color-message-area: #ffffff;
+    --color-neutral-white: #ffffff;
+    --color-message-received: #574246;
+}
+.dark-mode{
+    --color-primary: #c5072a;
+    --color-message-area: #000000b3;
 }
 html{
-    background: var(--default-color);
+    background: var(--color-primary);
 }
 body {
-    background: var(--default-color);
+    background: var(--color-primary);
     margin:0;
     width: 100%;
     height: 100vh;
     position: fixed;
 }
 body.offline{
-    --default-color: #8f8f8f;
+    --color-primary: #8f8f8f;
 }
 .offline-alert{
     display: none;
@@ -37,7 +44,7 @@ svg{
 .warning{
     height: 100vh;
     z-index: 2;
-    background: var(--default-color);
+    background: var(--color-primary);
     display: block;
     position: absolute;
     text-align: center;
@@ -96,7 +103,7 @@ svg{
     position: absolute;
     width: 100%;
     height: 100%;
-    background: var(--default-color);
+    background: var(--color-primary);
     z-index: 1;
 }
 .loading .version{
@@ -125,8 +132,11 @@ svg{
     color: #ffffff;
     font-family: 'M PLUS Rounded 1c', sans-serif;
     text-align: center;
-    font-size: 6vw;
+    font-size: 24px;
     font-weight: 300;
+}
+.clock .text span{
+    font-size: 20px;
 }
 .clock .title{
     display: block;
@@ -162,7 +172,7 @@ svg{
 }
 .action-buttons .button{
     /* background: #ffffff; */
-    box-shadow: -4px -4px 8px #00000052, 4px 4px 8px #ffffff1c;
+    box-shadow: 0px 0px 10px 1px #00000052, 4px 4px 8px #ffffff1c;
     /* border: 1px solid #fff; */
     /* flex: 1; */
     text-align: center;
@@ -181,7 +191,7 @@ svg{
     fill: #fff;
 }
 .action-buttons .button:active{
-    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px var(--default-color);
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px var(--color-primary);
     /* border: 1px solid transparent; */
     font-size: 20px;
 }
@@ -214,7 +224,7 @@ svg{
     margin: 0;
 }
 .interactions{
-    background: #ffffff;
+    background: var(--color-message-area);
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -242,6 +252,7 @@ svg{
     box-shadow: 0 0 10px #000000;
 }
 .messages{
+    color: var(--color-neutral-white);
     font-size: 13px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -251,7 +262,7 @@ svg{
     overflow-y: scroll;
 }
 .messages path{
-    fill: var(--default-color);
+    fill: var(--color-primary);
 }
 .messages span{
     display: block;
@@ -263,7 +274,7 @@ svg{
 .messages p .qnt{
     font-weight: bolder;
     font-size: 13px;
-    color: var(--default-color);
+    color: var(--color-primary);
     opacity: 1;
     vertical-align: initial;
 }
@@ -283,12 +294,13 @@ svg{
     content: '';
     width: 0;
     height: 0;
-    border-top: 15px solid var(--default-color);
+    border-top: 15px solid var(--color-primary);
 }
 .messages .message.received:after {
     border-left: 10px solid transparent;
     left: -10px;
     border-top-left-radius: 2px;
+    border-top-color: var(--color-message-received);
 }
 .messages .message.sent:after {
     border-right: 10px solid transparent;
@@ -302,6 +314,7 @@ svg{
     font-size: 10px;
     vertical-align: middle;
     text-align: right;
+    font-family: 'M PLUS Rounded 1c';
 }
 .messages span:first-letter{
     text-transform: capitalize!important;
@@ -309,7 +322,7 @@ svg{
 .messages .sent.message,
 .messages .received.message{
     max-width: 80%;
-    background: var(--default-color);
+    background: var(--color-primary);
     color: white;
     padding: 6px 10px 2px;
     border-radius: 8px;
@@ -322,9 +335,11 @@ svg{
 }
 .messages .sent.message p{
     text-align: left;
+    text-align: right;
 }
 .messages .received.message{
     margin-right: auto;
+    background: var(--color-message-received);
 }
 .messages .received.message p{
     text-align: left;
@@ -338,13 +353,13 @@ svg{
     line-height: 13px;
 }
 .messages .message.like:before{
-    content: url(../svg/mdi_favorite_white_15x15.svg);
+    content: url(../svg/mdi_favorite_red_15x15.svg);
     width: 24px;
     height: 24px;
     position: absolute;
     top: 2px;
-    background: var(--default-color);
-    border: 1px solid white;
+    background: var(--color-message-received);
+    border: 1px solid var(--color-message-area);
     border-radius: 15px;
     display: block;
     padding: 4px;
@@ -354,9 +369,6 @@ svg{
 }
 .messages .message.received.like:before{
     right: -18px;
-}
-.messages .received.message{
-    text-align: right;
 }
 .messages .status-icon{
     display: initial;
@@ -375,10 +387,13 @@ svg{
     padding: 0 8px;
     outline: none;
     font-size: 17px;
-    color: #fff;
-    background: var(--default-color);
+    color: var(--color-neutral-white);
+    background: var(--color-primary);
     height: 35px;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid var(--color-message-area);
+}
+.header input::placeholder {
+    opacity: 0.8;
 }
 .header input::placeholder{
     color: #fff;
@@ -396,7 +411,7 @@ svg{
 
 /* TICKET MODAL */
 .modal-button{
-    color: var(--default-color);
+    color: var(--color-primary);
     font-size: 17px;
     padding: 10px 15px;
     display: block;
@@ -419,7 +434,7 @@ svg{
     width: 100%;
     left: 0;
     top: 0;
-    background: var(--default-color);
+    background: var(--color-primary);
     padding-top: 10px;
     font-size: 30px;
     border-top-left-radius: 15px;
@@ -450,7 +465,7 @@ svg{
 .modal{
     width: 100%;
     height: 100%;
-    background: var(--default-color);
+    background: var(--color-primary);
     margin: auto;
     border-radius: 15px;
     padding: 0 10px;
@@ -469,7 +484,7 @@ svg{
     margin-bottom: 10px;
 }
 .ticket .address{
-    color: var(--default-color);
+    color: var(--color-primary);
     font-size: 17px;
     padding: 10px 15px;
     display: block;
@@ -503,7 +518,7 @@ svg{
     font-size: 23px;
     width: 65px;
     background: #fff;
-    color: var(--default-color);
+    color: var(--color-primary);
     text-align: center;
     border-radius: 5px;
     display: inline-block;
@@ -526,7 +541,7 @@ svg{
 .ticket .date hr{
     width: 50%;
     margin: 0 auto;
-    border-color: var(--default-color);
+    border-color: var(--color-primary);
 }
 .ticket .check-area{
     display: flex;
@@ -560,7 +575,7 @@ svg{
 .ticket .id-area,
 .ticket .more-info{
     background: #fff;
-    color: var(--default-color);
+    color: var(--color-primary);
     border-radius: 10px;
     padding: 8px 12px;
 }
@@ -574,7 +589,7 @@ svg{
     margin-bottom: 8px;
 }
 .ticket .id-area .address-id span{
-    background: var(--default-color);
+    background: var(--color-primary);
     color: white;
     padding: 5px 8px;
     border-radius: 10px;
@@ -747,11 +762,11 @@ svg{
 .modal.dates .dates-area .date.editor .details input{
     pointer-events: auto;
     background: #ffffff;
-    color: var(--default-color);
+    color: var(--color-primary);
     border: none;
 }
 .modal.dates .dates-area .date.editor .details input::placeholder{
-    color: var(--default-color)!important;
+    color: var(--color-primary)!important;
 }
 .modal.dates .dates-area .date .details input[type=datetime-local]::-webkit-calendar-picker-indicator{
     filter: invert(1);
@@ -816,7 +831,7 @@ svg{
     margin: auto 0 auto auto;
 }
 .modal.dates .dates-area .date.show .item{
-    color: var(--default-color);
+    color: var(--color-primary);
     background: #fff;
 }
 .modal.dates .dates-area .date.show .details{
@@ -826,7 +841,7 @@ svg{
     margin-bottom: 5px;
 }
 .modal.dates .dates-area .date.show .item svg{
-    fill: var(--default-color);
+    fill: var(--color-primary);
     animation-duration: 300ms;
     animation-name: rotate;
     transform: rotate(180deg);
@@ -887,11 +902,11 @@ svg{
     border-radius: 10px;
     font-weight: 500;
     width: 100%;
-    background-color: var(--default-color);
+    background-color: var(--color-primary);
     border: 0;
 }
 .modal.dates .dates-area .date .details .ticket button:active {
-    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px var(--default-color);
+    box-shadow: inset 4px 4px 10px rgb(0 0 0 / 50%), inset -4px -4px 10px var(--color-primary);
     font-size: 16px;
 }
 .modal.dates .new-date-button{
@@ -912,7 +927,7 @@ svg{
     display: block;
     text-align: center;
     font-size: 20px;
-    color: var(--default-color);
+    color: var(--color-primary);
     border-radius: 6px;
     padding: 4px;
     background-color: #ffffff;
@@ -957,7 +972,7 @@ svg{
 }
 /* Hinge */
 .flipdown.flipdown__theme-dark .rotor:after {
-  border-top: solid 3px var(--default-color);
+  border-top: solid 3px var(--color-primary);
 }
 @media (max-width: 550px){
     .flipdown .rotor-group-heading:before {
@@ -978,7 +993,6 @@ svg{
 }
 
 
-@import url("https://fonts.googleapis.com/css?family=Roboto:900");
 /**
   * style variables
 */
