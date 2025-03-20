@@ -196,6 +196,7 @@
                 <!-- <div class="button svg" onclick="checkLastSameAction('bite', 'feeling')">
                     <img src="svg/vamp_teeth_30x30.svg" alt="bite icon">
                 </div> -->
+                <div class="future" onclick="toggleFuture()">🔒 Toque aqui</div>
             </div>
             <div class="last-view">
                 <div class="dot" id="lastViewDot"></div>
@@ -448,6 +449,16 @@
             </div>
             <span class="close-modal" onclick="closeModal('new-date')">Cancelar</span>
         </div>
+    </div>
+
+    <div class="future-modal hide">
+        <div></div>
+        <img src="./img/future.gif">
+        <span class="close" onclick="toggleFuture()">X</span>
+        <span class="text">
+            <h2>Essa batida é só o começo...</h2>
+            <h2>Em breve, tudo isso vai ganhar vida, e nos acompanhar em cada momento nosso, para sempre.</h2>
+        </span>
     </div>
 
     <div id="offlineAlert" class="offline-alert">

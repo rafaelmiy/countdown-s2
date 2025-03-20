@@ -1060,3 +1060,7 @@ function focusListTab(id){
 // openModal('dates');
 // openModal('new-date');
 // createNewDate();
+
+function toggleFuture(){
+    $('.future-modal').toggleClass('hide');
+}
