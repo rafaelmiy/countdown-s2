@@ -1,0 +1,541 @@
+:root{
+  --animation-time: 6s;
+  --animation-key: var(--animation-time)/1s;
+  --newbpm: 360 / var(--animation-key);
+  --bpm: var(--animation-key)*10s;
+}
+
+/* Heart and EKG animation time */
+#ekg-area.level-12{
+  --animation-time: 2s;
+}
+#ekg-area.level-9,
+#ekg-area.level-10,
+#ekg-area.level-11{
+  --animation-time: 6s;
+}
+#ekg-area.level-6,
+#ekg-area.level-7,
+#ekg-area.level-8{
+  --animation-time: 9s;
+}
+#ekg-area.level-3,
+#ekg-area.level-4,
+#ekg-area.level-5{
+  --animation-time: 12s;
+}
+#ekg-area.level-0,
+#ekg-area.level-1,
+#ekg-area.level-2{
+  --animation-time: 10s;
+}
+
+/* 4 hearts strength text */
+#ekg-area.level-12 .bpm-text p:after{
+  content: "Acelerado";
+  font-size: 12px;
+}
+/* 3 hearts strength text */
+#ekg-area.level-9 .bpm-text p:after,
+#ekg-area.level-10 .bpm-text p:after,
+#ekg-area.level-11 .bpm-text p:after{
+  content: "Forte";
+}
+/* 2 hearts strength text */
+#ekg-area.level-6 .bpm-text p:after,
+#ekg-area.level-7 .bpm-text p:after,
+#ekg-area.level-8 .bpm-text p:after{
+  content: "Estável";
+}
+/* 1 hearts strength text */
+#ekg-area.level-3 .bpm-text p:after,
+#ekg-area.level-4 .bpm-text p:after,
+#ekg-area.level-5 .bpm-text p:after{
+  content: "Fraco";
+}
+/* 0 hearts strength text */
+#ekg-area.level-0 .bpm-text p:after,
+#ekg-area.level-1 .bpm-text p:after,
+#ekg-area.level-2 .bpm-text p:after{
+  content: "Parado";
+}
+
+/* This  is the one-cycle time */
+.bpm-number{
+  text-align: right;
+}
+.bpm-number:after {
+  font-size: 14px;
+  text-align: right;
+  position: relative;
+  content: "";
+  font-weight: 500;
+}
+/* EKG heart 4 BPM number */
+#ekg-area.level-12 .bpm-number:after {
+  animation: beat calc(var(--animation-time)/4) infinite;
+  content: "150+";
+}
+/* EKG heart 3 BPM number */
+#ekg-area.level-9 .bpm-number:after,
+#ekg-area.level-10 .bpm-number:after,
+#ekg-area.level-11 .bpm-number:after{
+  animation: beat calc(var(--animation-time)/4) infinite;
+  content: "120";
+}
+#ekg-area.level-10 .bpm-number:after{
+  content: "125";
+}
+#ekg-area.level-11 .bpm-number:after{
+  content: "130";
+}
+/* EKG heart 2 BPM number */
+#ekg-area.level-6 .bpm-number:after,
+#ekg-area.level-7 .bpm-number:after,
+#ekg-area.level-8 .bpm-number:after{
+  animation: beat calc(var(--animation-time)/4) infinite;
+  content: "90";
+}
+#ekg-area.level-7 .bpm-number:after{
+  content: "95";
+}
+#ekg-area.level-8 .bpm-number:after{
+  content: "100";
+}
+/* EKG heart 1 BPM number */
+#ekg-area.level-3 .bpm-number:after,
+#ekg-area.level-4 .bpm-number:after,
+#ekg-area.level-5 .bpm-number:after{
+  animation: beat calc(var(--animation-time)/4) infinite;
+  content: "60";
+}
+#ekg-area.level-4 .bpm-number:after{
+  content: "65";
+}
+#ekg-area.level-5 .bpm-number:after{
+  content: "70";
+}
+/* EKG heart 0 BPM number */
+#ekg-area.level-0 .bpm-number:after,
+#ekg-area.level-1 .bpm-number:after,
+#ekg-area.level-2 .bpm-number:after{
+  content: "0";
+}
+
+/* Area to color the hearts to each level */
+#ekg-area{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-3.svg);
+  --fourth-heart: url(../svg/heart-3.svg);
+}
+#ekg-area .hearts .heart:nth-child(1){
+  background-image: var(--first-heart);
+}
+#ekg-area .hearts .heart:nth-child(2){
+  background-image: var(--second-heart);
+}
+#ekg-area .hearts .heart:nth-child(3){
+  background-image: var(--third-heart);
+}
+#ekg-area .hearts .heart:nth-child(4){
+  background-image: var(--fourth-heart);
+}
+
+/* Hearts level for each level */
+/* Level 12 */
+#ekg-area.level-12{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-3.svg);
+  --fourth-heart: url(../svg/heart-3.svg);
+}
+
+/* Level 11 */
+#ekg-area.level-11{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-3.svg);
+  --fourth-heart: url(../svg/heart-2.svg);
+}
+
+/* Level 10 */
+#ekg-area.level-10{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-3.svg);
+  --fourth-heart: url(../svg/heart-1.svg);
+}
+
+/* Level 9 */
+#ekg-area.level-9{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-3.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 8 */
+#ekg-area.level-8{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-2.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 7 */
+#ekg-area.level-7{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-1.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 6 */
+#ekg-area.level-6{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-3.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 5 */
+#ekg-area.level-5{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-2.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 4 */
+#ekg-area.level-4{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-1.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 3 */
+#ekg-area.level-3{
+  --first-heart: url(../svg/heart-3.svg);
+  --second-heart: url(../svg/heart-0.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 2 */
+#ekg-area.level-2{
+  --first-heart: url(../svg/heart-2.svg);
+  --second-heart: url(../svg/heart-0.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 1 */
+#ekg-area.level-1{
+  --first-heart: url(../svg/heart-1.svg);
+  --second-heart: url(../svg/heart-0.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* Level 0 */
+#ekg-area.level-0{
+  --first-heart: url(../svg/heart-0.svg);
+  --second-heart: url(../svg/heart-0.svg);
+  --third-heart: url(../svg/heart-0.svg);
+  --fourth-heart: url(../svg/heart-0.svg);
+}
+
+/* EKG Graph for each heart level LIGHT MODE */
+[tema="1"] #ekg-area.level-0 .graph .cell,
+[tema="1"] #ekg-area.level-1 .graph .cell,
+[tema="1"] #ekg-area.level-2 .graph .cell{
+  background-image: url(../svg/ekg/ekg-0_light.svg);
+}
+[tema="1"] #ekg-area.level-3 .graph .cell,
+[tema="1"] #ekg-area.level-4 .graph .cell,
+[tema="1"] #ekg-area.level-5 .graph .cell{
+  background-image: url(../svg/ekg/ekg-1_light.svg);
+}
+[tema="1"] #ekg-area.level-6 .graph .cell,
+[tema="1"] #ekg-area.level-7 .graph .cell,
+[tema="1"] #ekg-area.level-8 .graph .cell{
+  background-image: url(../svg/ekg/ekg-2_light.svg);
+}
+[tema="1"] #ekg-area.level-9 .graph .cell,
+[tema="1"] #ekg-area.level-10 .graph .cell,
+[tema="1"] #ekg-area.level-11 .graph .cell{
+  background-image: url(../svg/ekg/ekg-3_light.svg);
+}
+[tema="1"] #ekg-area.level-12 .graph .cell {
+  background-image: url(../svg/ekg/ekg-4_light.svg);
+}
+
+/* EKG Graph for each heart level DARK MODE */
+[tema="2"] #ekg-area.level-0 .graph .cell,
+[tema="2"] #ekg-area.level-1 .graph .cell,
+[tema="2"] #ekg-area.level-2 .graph .cell{
+  background-image: url(../svg/ekg/ekg-0_dark.svg);
+}
+[tema="2"] #ekg-area.level-3 .graph .cell,
+[tema="2"] #ekg-area.level-4 .graph .cell,
+[tema="2"] #ekg-area.level-5 .graph .cell{
+  background-image: url(../svg/ekg/ekg-1_dark.svg);
+}
+[tema="2"] #ekg-area.level-6 .graph .cell,
+[tema="2"] #ekg-area.level-7 .graph .cell,
+[tema="2"] #ekg-area.level-8 .graph .cell{
+  background-image: url(../svg/ekg/ekg-2_dark.svg);
+}
+[tema="2"] #ekg-area.level-9 .graph .cell,
+[tema="2"] #ekg-area.level-10 .graph .cell,
+[tema="2"] #ekg-area.level-11 .graph .cell{
+  background-image: url(../svg/ekg/ekg-3_dark.svg);
+}
+[tema="2"] #ekg-area.level-12 .graph .cell {
+  background-image: url(../svg/ekg/ekg-4_dark.svg);
+}
+
+/* .bpm-number:after {
+  display: block;
+  position: absolute;
+  content: "60";
+  top: 0;
+  left: 0;
+} */
+/* .bpm-number span {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 1;
+  animation: beat calc(var(--animation-time)/4) infinite;
+} */
+/* 
+body {
+  background: #151515;
+  margin: 2rem 0;
+  background-position: top left, top right;
+  color: #37af8c;
+  font-family: "Exo 2", sans-serif;
+  font-size: 18px;
+  text-shadow: 0 0 4px #37af8c;
+} */
+/* body:after {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.2) 80%);
+  background-size: 5px 3px;
+  display: block;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+} */
+
+#ekg-area{
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 0 var(--size-lateral-padding);
+}
+#ekg-area .monitor{
+  width: 60%;
+  outline: 1px solid #ffffff;
+  border-radius: 6px;
+  color: #ffffff;
+}
+#ekg-area .monitor .monitor-text{
+  background: #ffffff;
+  padding: 8px 12px;
+  color: var(--color-primary);
+  text-align: center;
+  border-radius: 0 0 4px 4px;
+  line-height: 11px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+#ekg-area .monitor .monitor-text:after{
+  font-size: 11px;
+  margin: 0;
+  content: "Avisa o b, que deu ruim!";
+}
+
+/* 4 Hearts */
+#ekg-area.level-12 .monitor-text:after{
+  content: "Nossa conexão está restaurada por completo!";
+}
+/* 3 Hearts */
+#ekg-area.level-11 .monitor-text:after{
+  content: "Estamos quase lá! Só mais um pouquin!";
+}
+#ekg-area.level-10 .monitor-text:after{
+  content: "Isso! Estamos mandando bem! Não para não!";
+}
+#ekg-area.level-9 .monitor-text:after{
+  content: "Estamos em sintonia! A conexão está quase completa!";
+}
+/* 2 Hearts */
+#ekg-area.level-8 .monitor-text:after{
+  content: "Estamos trazendo isso de volta! Continua, continua...";
+}
+#ekg-area.level-7 .monitor-text:after{
+  content: "Dá pra sentir a energia voltando!";
+}
+#ekg-area.level-6 .monitor-text:after{
+  content: "Estamos conectados! Vamos manter esse ritmo juntin?";
+}
+/* 1 Heart */
+#ekg-area.level-5 .monitor-text:after{
+  content: "Já dá pra sentir o calor daqui! Falta pouco!";
+}
+#ekg-area.level-4 .monitor-text:after{
+  content: "Continua! A cada batida, ele se completa.";
+}
+#ekg-area.level-3 .monitor-text:after{
+  content: "Foi b! Mas veja o nosso coração ao lado, bate baixin... Vamos dar um impulso?";
+}
+/* 0 Heart */
+#ekg-area.level-2 .monitor-text:after{
+  content: "Boa! Falta só mais um tico para reviver!";
+}
+#ekg-area.level-1 .monitor-text:after{
+  content: "Isso! Cada batida importa. Continue...";
+}
+#ekg-area.level-0 .monitor-text:after{
+  content: "Conexão está fraca... Vamos reacender juntos? (toque no monitor acima)";
+}
+
+#ekg-area .monitor-header{
+  display: flex;
+  /* background: linear-gradient(0deg, rgb(255 255 255 / 0%) 40%, rgb(255 255 255 / 20%) 80%); */
+  background-size: 5px 3px;
+  padding: 4px 8px 0;
+  z-index: 1;
+  position: relative;
+  background-color: var(--color-primary);
+  border-radius: 6px 6px 0 0;
+}
+#ekg-area .monitor-header .bpm-number{
+  flex: none;
+  width: 15%;
+}
+#ekg-area .monitor-header .bpm-text{
+  width: 25%;
+}
+
+#ekg-area .monitor-header .hearts-area{
+  flex: 1;
+}
+#ekg-area .monitor-header .bpm-text p{
+  margin: 0;
+}
+
+#ekg-area .hearts-area .hearts{
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+}
+#ekg-area .hearts-area .heart{
+  width: 20px;
+  height: 20px;
+  background-image: url(../svg/heart-3.svg);
+  background-size: cover;
+}
+
+.graph {
+  padding: 0;
+  background: linear-gradient(90deg, var(--color-primary) 0, #ffffff 50%, var(--color-primary) 50%);
+  animation: travel var(--animation-time) infinite linear;
+  display: flex;
+  background-size: 100% auto;
+  background-position: -380px 0;
+  height: 80px;
+  margin-top: -2px;
+}
+
+.cell {
+  margin: 0;
+  display: flex;
+  width: 25%;
+  height: 100%;
+  background-size: 500% auto;
+  animation: shuffle var(--animation-time)*4 steps(1) infinite;
+}
+.cell-1 {
+  background-position: 0, 0;
+  animation-delay: (var(--animation-time)/4)*-2;
+}
+
+.cell-2 {
+  background-position: 25%, 0;
+  animation-delay: (var(--animation-time)/4)*-13;
+}
+
+.cell-3 {
+  background-position: 50%, 0;
+  animation-delay: (var(--animation-time)/4)*-30;
+}
+
+.cell-4 {
+  background-position: 75%, 0;
+  animation-delay: (var(--animation-time)/4)*-5;
+}
+
+@keyframes shuffle {
+  0% {
+    background-position: 75%, 0;
+  }
+  25% {
+    background-position: 0%, 0;
+  }
+  50% {
+    background-position: 25%, 0;
+  }
+  75% {
+    background-position: 50%, 0;
+  }
+}
+@keyframes beat {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes travel {
+  0% {
+    background-position: -380px 0;
+  }
+  100% {
+    background-position: 380px 0;
+  }
+}

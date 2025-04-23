@@ -1,0 +1,121 @@
+#heart-beat{ 
+    animation: calc(var(--animation-time)/3) linear 0s normal none infinite pulse;
+    z-index: -1;
+}
+:root{
+    --color-heart-state-0: #A80024;
+    --color-heart-state-1: #ff5378;
+    --color-heart-state-2: #ffa5b8;
+    --color-heart-state-3: #ffd6de;
+    --color-heart-state-4: #FFFFFF;
+}
+#ekg-area.level-0 #heart-beat,
+#ekg-area.level-1 #heart-beat,
+#ekg-area.level-2 #heart-beat{
+    animation: none;
+}
+#ekg-area.level-12{
+    --heart-color: var(--color-heart-state-4);
+}
+#ekg-area.level-9,
+#ekg-area.level-10,
+#ekg-area.level-11{
+    --heart-color: var(--color-heart-state-3);
+}
+#ekg-area.level-6,
+#ekg-area.level-7,
+#ekg-area.level-8{
+    --heart-color: var(--color-heart-state-2);
+}
+#ekg-area.level-3,
+#ekg-area.level-4,
+#ekg-area.level-5{
+    --heart-color: var(--color-heart-state-1);
+}
+#ekg-area.level-0,
+#ekg-area.level-1,
+#ekg-area.level-2{
+    --heart-color: var(--color-heart-state-0);
+}
+@keyframes pulse{
+    0%   { transform: scale(1); }
+    10%  { transform: scale(1.2); }
+    20%  { transform: scale(1); }
+    30%  { transform: scale(1.2); }
+    40%  { transform: scale(1); }
+    50%  { transform: scale(1); }
+    60%  { transform: scale(1.2); }
+    70%  { transform: scale(1); }
+    80%  { transform: scale(1.2); }
+    90%  { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+#heart-beat { 
+    position: relative; 
+    width: 100px; 
+    height: 90px; 
+    margin: auto;
+    z-index: 0;
+} 
+#heart-beat:before, 
+#heart-beat:after { 
+    position: absolute; 
+    content: ""; 
+    left: 50px; 
+    top: 6px; 
+    width: 50px; 
+    height: 80px; 
+    background: white; 
+    border-radius: 50px 50px 10px 10px; 
+    transform: rotate(-45deg); 
+    transform-origin: 0 100%; 
+} 
+#heart-beat:after { 
+    left: 0; 
+    transform: rotate(45deg);  
+    transform-origin :100% 100%; 
+}
+
+/* Heart shadow for each level */
+#ekg-area.level-12 .heart-beat:before,
+#ekg-area.level-12 .heart-beat:after{
+    box-shadow: 0 0 50px var(--heart-color);
+}
+#ekg-area.level-9 .heart-beat:before,
+#ekg-area.level-9 .heart-beat:after,
+#ekg-area.level-10 .heart-beat:before,
+#ekg-area.level-10 .heart-beat:after,
+#ekg-area.level-11 .heart-beat:before,
+#ekg-area.level-11 .heart-beat:after{
+    box-shadow: 0 0 30px var(--heart-color);
+}
+#ekg-area.level-6 .heart-beat:before,
+#ekg-area.level-6 .heart-beat:after,
+#ekg-area.level-7 .heart-beat:before,
+#ekg-area.level-7 .heart-beat:after,
+#ekg-area.level-8 .heart-beat:before,
+#ekg-area.level-8 .heart-beat:after{
+    box-shadow: 0 0 20px var(--heart-color);
+}
+#ekg-area.level-3 .heart-beat:before,
+#ekg-area.level-3 .heart-beat:after,
+#ekg-area.level-4 .heart-beat:before,
+#ekg-area.level-4 .heart-beat:after,
+#ekg-area.level-5 .heart-beat:before,
+#ekg-area.level-5 .heart-beat:after{
+    box-shadow: 0 0 15px var(--heart-color);
+}
+#ekg-area.level-0 .heart-beat:before,
+#ekg-area.level-0 .heart-beat:after,
+#ekg-area.level-1 .heart-beat:before,
+#ekg-area.level-1 .heart-beat:after,
+#ekg-area.level-2 .heart-beat:before,
+#ekg-area.level-2 .heart-beat:after{
+    box-shadow: 0;
+}
+
+/* Heart color for each level */
+#ekg-area .heart-beat:before,
+#ekg-area .heart-beat:after{
+    background-color: var(--heart-color);
+}

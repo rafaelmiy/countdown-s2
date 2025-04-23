@@ -51,10 +51,30 @@
     <!-- Add Firebase products that you want to use -->
     <!-- <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script> -->
 
-    <script type="text/javascript" src="scripts/flipdown.js"></script>
+    <!-- <script type="text/javascript" src="scripts/flipdown.js"></script> -->
+
+    <!-- EKG CSS -->
+    <link rel="stylesheet" href="css/ekg.css">
+
+    <!-- EKG JS -->
+    <script type="text/javascript" src="scripts/ekg.js"></script>
+
+    <!-- Heart Beat CSS -->
+    <link rel="stylesheet" href="css/heart-beat.css">
+
+    <!-- Rainning Hearts CSS -->
+    <link rel="stylesheet" href="css/rainninghearts.css">
+
+    <!-- New modal CSS -->
+    <link rel="stylesheet" href="css/new-modal.css">
 
     <!-- MY CSS -->
     <link rel="stylesheet" href="css/main.css?a=1">
+
+    <!-- App settings CSS -->
+    <link rel="stylesheet" href="css/app-settings.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
 
@@ -78,58 +98,7 @@
         <div id="sound"></div>
 
         <div id="content" class="container page-area hide">
-            <div id="clock" class="clock">
-
-                <!-- <div class="carousel-container">
-                    <div class="carousel my-carousel carousel--translate">
-                        <input class="carousel__activator" type="radio" name="carousel" id="F" checked="checked"/>
-                        <input class="carousel__activator" type="radio" name="carousel" id="G"/>
-                        <input class="carousel__activator" type="radio" name="carousel" id="H"/>
-                        <input class="carousel__activator" type="radio" name="carousel" id="I"/>
-                        <input class="carousel__activator" type="radio" name="carousel" id="J"/>
-                        <div class="carousel__controls">
-                        <label class="carousel__control carousel__control--backward" for="J"></label>
-                        <label class="carousel__control carousel__control--forward" for="G"></label>
-                        </div>
-                        <div class="carousel__controls">
-                        <label class="carousel__control carousel__control--backward" for="F"></label>
-                        <label class="carousel__control carousel__control--forward" for="H"></label>
-                        </div>
-                        <div class="carousel__controls">
-                        <label class="carousel__control carousel__control--backward" for="G"></label>
-                        <label class="carousel__control carousel__control--forward" for="I"></label>
-                        </div>
-                        <div class="carousel__controls">
-                        <label class="carousel__control carousel__control--backward" for="H"></label>
-                        <label class="carousel__control carousel__control--forward" for="J"></label>
-                        </div>
-                        <div class="carousel__controls">
-                        <label class="carousel__control carousel__control--backward" for="I"></label>
-                        <label class="carousel__control carousel__control--forward" for="F"></label>
-                        </div>
-                        <div class="carousel__track">
-                        <li class="carousel__slide">
-                        </li>
-                        <li class="carousel__slide">
-                        </li>
-                        <li class="carousel__slide">
-                        </li>
-                        <li class="carousel__slide">
-                        </li>
-                        <li class="carousel__slide">
-                        </li>
-                        </div>
-                        <div class="carousel__indicators">
-                        <label class="carousel__indicator" for="F"></label>
-                        <label class="carousel__indicator" for="G"></label>
-                        <label class="carousel__indicator" for="H"></label>
-                        <label class="carousel__indicator" for="I"></label>
-                        <label class="carousel__indicator" for="J"></label>
-                        </div>
-                    </div>
-                </div> -->
-
-
+            <!-- <div id="clock" class="clock">
                 <span id="countdown" class="countdown hide">
                     <span id="days" class="days">
                         <span id="d1" class="board"></span>
@@ -183,29 +152,115 @@
                          Lista
                     </div>
                 </div>
-            </div>
-            <div class="action-buttons" id="action-area">
-                <!-- <div class="legend">🐝❤️🦁</div> -->
+            </div> -->
+            <!-- <div class="action-buttons" id="action-area">
                 <div class="button svg" onclick="checkLastSameAction('heart', 'feeling')">
-                    <!-- CORAÇÃO -->
                     <svg width="19" height="19" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 26.6875L13.1875 25.0375C6.75 19.2 2.5 15.35 2.5 10.625C2.5 6.775 5.525 3.75 9.375 3.75C11.55 3.75 13.6375 4.7625 15 6.3625C16.3625 4.7625 18.45 3.75 20.625 3.75C24.475 3.75 27.5 6.775 27.5 10.625C27.5 15.35 23.25 19.2 16.8125 25.05L15 26.6875Z"></path></svg>
                 </div>
                 <div class="button svg" onclick="checkLastSameAction('kiss', 'feeling')">
                     <svg width="19" height="19" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.20392 14.1311C4.94785 15.7529 3.58586 20.7112 4.12522 21.3584C4.66457 22.0057 5.51055 22.362 7.57709 20.927C11.4604 18.2302 11.0265 16.4766 12.3234 15.5334C13.51 14.6704 14.2651 15.4255 15.8832 14.4547C17.5012 13.4838 16.6383 12.9445 18.0406 11.9737C19.4429 11.0028 19.8744 11.4343 23.1105 10.3556C25.6994 9.49262 25.4837 8.41391 25.268 7.55094C25.0522 6.68797 21.7082 5.60926 19.8744 5.0699C17.4673 4.36194 15.6674 3.45184 13.9415 4.42268C12.5094 5.2282 13.2943 6.36436 11.9998 7.44307C10.7054 8.52178 9.73451 7.22732 8.00857 8.09029C6.28264 8.95326 5.52754 12.0815 5.20392 14.1311Z"></path><path d="M20.5216 23.0844C26.2388 19.4168 26.886 10.7871 26.3467 10.3556C25.8073 9.9241 23.4126 10.6145 22.0318 11.2186C20.3059 11.9737 19.0114 15.2098 17.3934 16.2885C15.7753 17.3672 13.2943 16.9357 10.5975 19.201C8.44006 21.0132 6.71412 22.7608 6.92986 23.5159C7.14561 24.271 14.8044 26.752 20.5216 23.0844Z"></path></svg>
                 </div>
-                <!-- <div class="button svg" onclick="checkLastSameAction('bite', 'feeling')">
-                    <img src="svg/vamp_teeth_30x30.svg" alt="bite icon">
+            </div> -->
+            <div class="fast-access">
+                <div class="button settings" onclick="toggleModal('settings')">
+                    <span class="material-icons md-42">settings</span>
+                </div>
+                <div class="button history" onclick="toggleModal('history')">
+                    <span class="material-icons md-42">history</span>
+                    <div class="remaining-days hide">
+                        <span class="days">
+                            <b data-days>999</b>
+                            <span>d</span>
+                        </span>
+                        <span class="hours">
+                            <b data-hours>99</b>
+                            <span>h</span>
+                        </span>
+                        <span class="minutes">
+                            <b data-minutes>99</b>
+                            <span>m</span>
+                        </span>
+                        <span class="seconds">
+                            <b data-seconds>99</b>
+                            <span>s</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="button travel" onclick="toggleModal('travel')">
+                    <span class="material-icons md-42">airplane_ticket</span>
+                    <div class="remaining-days hide">
+                        <span class="local">Chile</span>
+                        <span> em</span>
+                        <br>
+                        <span class="days">44</span>
+                        <span> dias</span>
+                    </div>
+                </div>
+                <!-- <div class="button checklist" onclick="toggleModal('checklist')">
+                    <span class="material-icons md-42">checklist</span>
+                    <span class="button__badge">8</span>
                 </div> -->
             </div>
+
+            <div id="ekg-area" class="level-0" onclick="levelUpEKG()" bonus-rainning="off">
+                
+                <click-spark></click-spark>
+
+                <div id="heart-beat" class="heart-beat">
+
+                </div>
+
+                <div class="monitor">
+                    <div class="monitor-header">
+                        <span class="bpm-text">
+                            <p></p>
+                        </span>
+                        <div class="hearts-area">
+                            <div class="hearts">
+                                <div class="heart"></div>
+                                <div class="heart"></div>
+                                <div class="heart"></div>
+                                <div class="heart"></div>
+                            </div>
+                        </div>
+                        <div class="bpm-number"></div>
+                    </div>
+
+                    <div class="col-10_sm-12 graph">
+                            <div class="cell cell-1"></div>
+                            <div class="cell cell-2"></div>
+                            <div class="cell cell-3"></div>
+                            <div class="cell cell-4"></div>
+                    </div>
+
+                    <div class="monitor-text"></div>
+                </div>
+
+            </div>
+
+
             <div class="last-view">
                 <div class="dot" id="lastViewDot"></div>
                 <p>Online&nbsp;<p id="lastView">(sem status)</p></p>
             </div>
-            <div class="interactions" id="interactions">
-                <div class="header" id="header">
-                    <input id="input" placeholder="Escreva aqui tudo que importa 🐝❤️🦁">
+            <div class="background-image">
+                <div class="interactions" id="interactions">
+                    <div class="header" id="header">
+                        <span id="chatInput" class="chat textarea" role="textbox" contenteditable></span>
+                        <div id="actionFeeling" class="action-feeling">
+                            <div class="action" onclick="checkLastSameAction('kiss', 'feeling')">
+                                <div class="icon kiss"></div>
+                                <p>Beijo</p>
+                            </div>
+                            <div class="action" onclick="checkLastSameAction('heart', 'feeling')">
+                                <div class="icon hug"></div>
+                                <p>Carinho</p>
+                            </div>
+                            <div class="icon-feeling" onclick="toggleFeelingWindow()"></div>
+                        </div>
+                    </div>
+                    <div id="messages" class="messages"></div>
                 </div>
-                <div id="messages" class="messages"></div>
             </div>
         </div>
 
@@ -348,114 +403,398 @@
         </div>
     </div>
 
-    <div class="modal-area" id="dates" style="display: none;">
-        <div class="dates modal" style="display: block;">
-            <span class="modal-title">
-                <div class="title">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff">
-                        <path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                    </svg>
-                    Encontros <p class="togetherSum" id="togetherSum"></p>
-                    <span class="new-date-button" onclick="openModal('new-date')">Novo encontro</span>
-                </div>
+    <div class="new-modal-area settings" id="settings">
+        <div class="header">
+            <span class="close-modal" onclick="toggleModal('settings')"></span>
+            <span class="title">
+                <span class="material-icons md-42">settings</span>
+                <p>Configurações</p>
             </span>
-            <div id="dates-area" class="dates-area viewer">
-                <div class="date show" id="date7">
-                    <span class="item" onclick="toggleAccordion('date7')">
-                        <span class="meeting-num">7</span>
-                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
-                        </svg>
-                    </span>
-                    <span class="details">
-                        <label>Checkin</label>
-                        <input type="datetime-local" value="">
-                        <label>Checkout</label>
-                        <input type="datetime-local" value="">
-                        <!-- <h5>Ticket</h5> -->
-                        <span class="ticket">
-                            <label>Endereço</label>
-                            <input type="text" placeholder="Endereço">
-                            <label>Complemento</label>
-                            <input type="text" placeholder="Complemento">
-                            <label>Apto</label>
-                            <input type="text" placeholder="Apartamento">
-                            <label>Anfitrião</label>
-                            <input type="text" placeholder="Anfitrião">
-                            <button class="button">Salvar</button>
-                        </span>
-                    </span>
+        </div>
+        <div class="content">
+            <div class=" section">
+                <div class="title">
+                    <p>Tema</p>
                 </div>
-                <div class="date" id="date6" onclick="toggleAccordion('date6')">
-                    <span class="item">
-                        <span class="meeting-num">6</span>
-                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
-                        </svg>
-                    </span>
-                </div>
-                <div class="date">
-                    <span class="item" id="date5">
-                        <span class="meeting-num">5</span>
-                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
-                        </svg>
-                    </span>
-                </div>
-                <div class="date">
-                    <span class="item" id="date4">
-                        <span class="meeting-num">4</span>
-                        <p class="range">23/Mar/21 - 29/Mar/21 (6 dias)</p>
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
-                        </svg>
-                    </span>
+                <div class="content tema">
+                    <div class="option-1" onclick="setSettings('tema', 1)">
+                        <div></div>
+                        <p>Claro</p>
+                        <div class="radio-option"></div>
+                    </div>
+                    <div class="option-2" onclick="setSettings('tema', 2)">
+                        <div></div>
+                        <p>Escuro</p>
+                        <div class="radio-option"></div>
+                    </div>
+                    <div class="option-3" onclick="setSettings('tema', 3)">
+                        <div></div>
+                        <p>Automático</p>
+                        <div class="radio-option"></div>
+                    </div>
                 </div>
             </div>
-            <span class="close-modal" onclick="closeModal('dates')">Fechar</span>
+            <div class=" section">
+                <div class="title">
+                    <p>Fundo de tela</p>
+                </div>
+                <div class="content fundo">
+                    <div class="option-1" onclick="setSettings('fundo', 1)">
+                        <div class="radio-option"></div>
+                        <p>Cor</p>
+                        <div></div>
+                    </div>
+                    <div class="option-2" onclick="setSettings('fundo', 2)">
+                        <div class="radio-option"></div>
+                        <p>Foto 1</p>
+                        <div></div>
+                    </div>
+                    <div class="option-3" onclick="setSettings('fundo', 3)">
+                        <div class="radio-option"></div>
+                        <p>Foto 2</p>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+            <div class=" section">
+                <div class="title">
+                    <p>Contador</p>
+                </div>
+                <div class="content contador">
+                    <div class="option-1" onclick="setSettings('contador', 1)">
+                        <div class="radio-option"></div>
+                        <p>Viagem</p>
+                        <div></div>
+                    </div>
+                    <div class="option-2" onclick="setSettings('contador', 2)">
+                        <div class="radio-option"></div>
+                        <p>Juntos</p>
+                        <div></div>
+                    </div>
+                    <div class="option-3" onclick="setSettings('contador', 3)">
+                        <div class="radio-option"></div>
+                        <p>Automático</p>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="new-modal-area history" id="history">
+        <div class="header">
+            <span class="close-modal" onclick="toggleModal('history')"></span>
+            <span class="title">
+                <span class="material-icons md-42">history</span>
+                <p>Histórico</p>
+            </span>
+        </div>
+        <div class="content">
+            <div class="infinity-count">
+                <p>Estamos juntos há</p>
+                <div class="counters">
+                    <span id="counterDays" class="days" data-days>999</span>
+                    <p>dias</p>
+                    <span id="counterHours" class="hours" data-hours>99</span>
+                    <p>horas</p>
+                </div>
+                <div class="counters">
+                    <span id="counterMinutes" class="minutes" data-minutes>99</span>
+                    <p>minutos</p>
+                    <span id="counterSeconds" class="seconds" data-seconds>99</span>
+                    <p>segundos</p>
+                </div>
+            </div>
+            <div class="list-area">
+                <div id="foreverDate"></div>
+                <div class="list-header">
+                    <div class="dates">
+                        <span id="historyDatesCount">99</span>
+                        <p>Encontros</p>
+                    </div>
+                    <div class="total">
+                        <span id="historyDatesCountDays">999</span>
+                        <p>dias</p>
+                    </div>
+                </div>
+                <div id="datesList">
+
+                    <div id="192642" class="date-area">
+                        <div class="date" onclick="toggleClass(192642, 'opened')">
+                            <span class="num">55</span>
+                            <span class="period">21/Dez/24 - 05/Fev/25</span>
+                            <span class="date-count">47 dias</span>
+                            <div class="arrow-down"></div>
+                        </div>
+                        <div class="date-content">
+                            <div class="flex">
+                                <div class="form">
+                                    <input type="datetime-local" autocomplete="off" placeholder=" ">
+                                    <label>Checkin</label>
+                                </div>
+                                <div class="form">
+                                    <input type="datetime-local" autocomplete="off" placeholder=" ">
+                                    <label>Checkout</label>
+                                </div>
+                            </div>
+                            <div class="form">
+                                <input type="text" autocomplete="off" placeholder=" ">
+                                <label>Endereço</label>
+                            </div>
+                            <div class="form">
+                                <input type="text" autocomplete="off" placeholder=" ">
+                                <label>Complemento</label>
+                            </div>
+                            <div class="form">
+                                <input type="text" autocomplete="off" placeholder=" ">
+                                <label>Apto</label>
+                            </div>
+                            <div class="form">
+                                <input type="text" autocomplete="off" placeholder=" ">
+                                <label>Anfitrião</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="travel" class="new-modal-area travel">
+        <div class="header">
+            <span class="close-modal" onclick="toggleModal('travel')"></span>
+            <span class="title">
+                <span class="material-icons md-42">airplane_ticket</span>
+                <p>Viagens</p>
+            </span>
+        </div>
+        <div class="tab">
+            <div id="nextTravelTab" class="next-travel opened" travel-id="0" onclick="travelTabSelector('nextTravel')">Lugar</div>
+            <div id="ourTravelsTab" class="our-travels" onclick="travelTabSelector('ourTravels')">Nossas viagens</div>
+            <!-- <div id="oldTravels" class="old-travels" onclick="travelTabSelector('oldTravels')">Passadas</div> -->
+        </div>
+        <div class="content">
+
+            <div id="nextTravel" class="next-travel">
+                <div class="countdown-travel-area">
+                    <div id="countdownTravel" class="countdown-travel">
+                        <span>Chile</span> em <b>44</b> dias
+                    </div>
+                    <div id="travelDate" class="date">20/Mar/2025 - 25/Mar/2025 (3 dias)</div>
+                </div>
+                <div class="address">
+                    <span class="material-icons md-22">hotel</span>
+                    <span id="travelAddress">Avenida dos vinheiros, 69</span>
+                </div>
+                <div id="aditionalsArea">
+                    <div class="aditional">
+                        <span class="material-icons md-22">looks_one</span>
+                        <span>O quarto fica do lado de trás do prédio, e é necessário entrar pela porta do lado direito.</span>
+                    </div>
+                </div>
+                
+                <span class="title">
+                    <span class="material-icons md-22">local_movies</span>
+                    <p>Lembranças</p>
+                </span>
+                <div id="memoriesList" class="memories-list">
+                    <span class="memory">"A b derrubou todo o vinho da taça"</span>
+                    <span class="memory">"Economizamos por causa do ap"</span>
+                </div>
+                <span id="memoryInput" data- class="memory-input textarea" role="textbox" contenteditable></span>
+                        
+                <span class="title">
+                    <span class="material-icons md-22">location_pin</span>
+                    <p>Interesses</p>
+                </span>
+                <div id="interestsList" class="interests-list">
+                    <div id="interestsListToDo">
+                        <span class="interest">
+                            <span class="material-icons md-30">check_box_outline_blank</span>
+                            <span>Vinícola Concha y Toro</span>
+                        </span>
+                        <span class="interest">
+                            <span class="material-icons md-30">check_box_outline_blank</span>
+                            <span>Vinícola Concha y Toro</span>
+                        </span>
+                    </div>
+                    <div id="interestsListDone">
+                        <span class="interest">
+                            <span class="material-icons md-30">check_box</span>
+                            <span>Vinícola Concha y Toro</span>
+                        </span>
+                    </div>
+                    <span id="interestInput" data- class="interest-input textarea" role="textbox" contenteditable></span>
+                </div>
+            </div>
+
+            
+            <div id="OurTravelsList" class="our-travels list-area">
+                <section>Próximas</section>
+                <div class="future-travels-list">
+                    <div class="future-travel">
+                        <span class="material-icons md-24">radio_button_checked</span>
+                        <div id="192642" class="date-area">
+                            <div class="date" onclick="toggleClass(192642, 'opened')">
+                                <span class="period">Santiago, Chile (3 dias)</span>
+                                <span class="date-count">em 44 dias</span>
+                                <div class="arrow-down"></div>
+                            </div>
+                            <div class="date-content">
+                                <div class="flex">
+                                    <div class="form">
+                                        <input type="datetime-local" autocomplete="off" placeholder=" ">
+                                        <label>Ida</label>
+                                    </div>
+                                    <div class="form">
+                                        <input type="datetime-local" autocomplete="off" placeholder=" ">
+                                        <label>Volta</label>
+                                    </div>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Título do card</label>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Local</label>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Endereço</label>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Informação adicional</label>
+                                </div>
+                                <div class="travel-lists">
+                                    <span>Listas da viagem</span>
+                                    <div class="flex">
+                                        <span class="form button">
+                                            <span class="material-icons md-24">local_movies</span>
+                                            <span>Lembranças</span>
+                                            <span class="button__badge">2</span>
+                                        </span>
+                                        <span class="form button">
+                                            <span class="material-icons md-24">location_pin</span>
+                                            <span>Interesses</span>
+                                            <span class="button__badge">5</span>
+                                        </span>
+                                    </div>
+                                    <span class="form button">
+                                        <span class="material-icons md-24">checklist</span>
+                                        <span>Lista de tarefas</span>
+                                        <span class="button__badge">4</span>
+                                    </span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="future-travel">
+                        <span class="material-icons md-24">radio_button_unchecked</span>
+                        <div id="192643" class="date-area editor">
+                            <div class="date" onclick="toggleClass(192643, 'opened')">
+                                <span class="period">Willemstad, Curaçao (7 dias)</span>
+                                <span class="date-count">em 60 dias</span>
+                                <div class="arrow-down"></div>
+                            </div>
+                            <div class="date-content">
+                                <div class="flex">
+                                    <div class="form">
+                                        <input type="datetime-local" autocomplete="off" placeholder=" ">
+                                        <label>Ida</label>
+                                    </div>
+                                    <div class="form">
+                                        <input type="datetime-local" autocomplete="off" placeholder=" ">
+                                        <label>Volta</label>
+                                    </div>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Título do card</label>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Local</label>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Endereço</label>
+                                </div>
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Informação adicional</label>
+                                </div>
+                                <div class="travel-lists">
+                                    <span>Listas da viagem</span>
+                                    <div class="flex">
+                                        <span class="form button">
+                                            <span class="material-icons md-24">local_movies</span>
+                                            <span>Lembranças</span>
+                                            <span class="button__badge">2</span>
+                                        </span>
+                                        <span class="form button">
+                                            <span class="material-icons md-24">location_pin</span>
+                                            <span>Interesses</span>
+                                            <span class="button__badge">5</span>
+                                        </span>
+                                    </div>
+                                    <span class="form button">
+                                        <span class="material-icons md-24">checklist</span>
+                                        <span>Lista de tarefas</span>
+                                        <span class="button__badge">4</span>
+                                    </span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-travel">
+                    <span>Nova viagem (Em breve)</span>
+                    <span class="material-icons md-24">open_in_new</span>
+                </div>
+                <section>Passadas</section>
+                <div class="past-travels-list"></div>
+                               
+            </div>
+
         </div>
     </div>
 
-    <div class="modal-area" id="new-date" style="display: none;">
-        <div class="dates modal" style="display: block;">
-            <span class="modal-title">
-                <div class="title">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff">
-                        <path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                    </svg>
-                    Novo encontro <p class="togetherSum" id="togetherSum"></p>
-                </div>
-            </span>
-            <div id="dates-area" class="dates-area create">
-                <div class="date show editor" id="date7">
-                    <span class="details">
-                        <label>Checkin</label>
-                        <input type="datetime-local" id="checkin" value="">
-                        <label>Checkout</label>
-                        <input type="datetime-local" id="checkout" value="">
-                        <span class="ticket">
-                            <label>Endereço</label>
-                            <input type="text" id="address" placeholder="">
-                            <label>Complemento</label>
-                            <input type="text" id="complement" placeholder="">
-                            <label>Apartamento</label>
-                            <input type="text" id="apto" placeholder="">
-                            <label>Anfitrião</label>
-                            <input type="text" id="host" placeholder="">
-                        </span>
-                        <span class="button" onclick="createNewDate()">Salvar</button>
-                    </span>
-                </div>
-            </div>
-            <span class="close-modal" onclick="closeModal('new-date')">Cancelar</span>
+    <div id="alertArea" class="alert-area">
+        <!-- <div class="success">
+            <span>Mensagem copiada</span>
+            <span class="material-icons md-24">check_circle</span>
         </div>
+        <div class="error">
+            <span>Deu ruim</span>
+            <span class="material-icons md-24">error</span>
+        </div> -->
     </div>
-
     <div id="offlineAlert" class="offline-alert">
         <span>Vixi, você está offline bb</span>
     </div>
     
-    <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
-    <script src="scripts/home.js?4"></script>    
+    <div class="message-overlay"></div>
 
+    <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+    <!-- Sparks click -->
+    <script type="text/javascript" src="scripts/sparks-click.js"></script>
+    <script type="text/javascript" src="scripts/rainningheart.js"></script>
+
+    <!-- Script que inicia e instancia o banco de dados Firebase -->
+     <!-- Precisa estar antes dos scripts que usam funções Firebase -->
+    <script src="scripts/home.js?9"></script>
+
+    <!-- Script para puxar as configurações de perfil -->
+    <script src="scripts/app-settings.js"></script>
+
+    <script>toggleModal('travel')</script>
 </body>
 </html>

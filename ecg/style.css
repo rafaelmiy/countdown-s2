@@ -1,0 +1,140 @@
+:root{
+  --animation-time: 6s;
+  --animation-key: var(--animation-time)/1s;
+  --newbpm: 360 / var(--animation-key);
+  --bpm: var(--animation-key)*10s;
+}
+
+/* This  is the one-cycle time */
+.number-1 {
+  font-size: 6rem;
+  text-align: center;
+  width: 6rem;
+  position: relative;
+}
+.number-1:after {
+  display: block;
+  position: absolute;
+  content: "60";
+  width: 12rem;
+  height: 10rem;
+  top: 0;
+  left: 0;
+}
+.number-1 span {
+  font-size: 2rem;
+  position: relative;
+  top: -2rem;
+  left: -5rem;
+  opacity: 1;
+  animation: beat var(--animation-time)/4 infinite;
+}
+
+body {
+  background: #151515;
+  margin: 2rem 0;
+  background-position: top left, top right;
+  color: #37af8c;
+  font-family: "Exo 2", sans-serif;
+  font-size: 18px;
+  text-shadow: 0 0 4px #37af8c;
+}
+body:after {
+  /* Interlace effect */
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.2) 80%);
+  background-size: 5px 3px;
+  display: block;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.graph {
+  /* the green gradient */
+  outline: 1px #ffffff solid;
+  box-shadow: 0 0 4px #37af8c;
+  padding: 0;
+  background: linear-gradient(90deg, #c5072a 0, #ffffff 50%, #c5072a 50%);
+  animation: travel var(--animation-time) infinite linear;
+  display: flex;
+  background-size: 100% auto;
+  background-position: -380px 0;
+  height: 200px;
+}
+
+.cell {
+  margin: 0;
+  display: flex;
+  width: 25%;
+  height: 100%;
+  background: url(../svg/ekg.svg);
+  background-size: 500% auto;
+  animation: shuffle var(--animation-time)*4 steps(1) infinite;
+}
+.cell-1 {
+  background-position: 0, 0;
+  animation-delay: (var(--animation-time)/4)*-2;
+}
+
+.cell-2 {
+  background-position: 25%, 0;
+  animation-delay: (var(--animation-time)/4)*-13;
+}
+
+.cell-3 {
+  background-position: 50%, 0;
+  animation-delay: (var(--animation-time)/4)*-30;
+}
+
+.cell-4 {
+  background-position: 75%, 0;
+  animation-delay: (var(--animation-time)/4)*-5;
+}
+
+@keyframes shuffle {
+  0% {
+    background-position: 75%, 0;
+  }
+  25% {
+    background-position: 0%, 0;
+  }
+  50% {
+    background-position: 25%, 0;
+  }
+  75% {
+    background-position: 50%, 0;
+  }
+}
+@keyframes beat {
+  0% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes travel {
+  0% {
+    background-position: -380px 0;
+  }
+  100% {
+    background-position: 380px 0;
+  }
+}

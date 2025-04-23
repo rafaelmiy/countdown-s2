@@ -1,0 +1,15 @@
+.rainningheart{
+    position: fixed;
+    top: -1vh;
+    font-size: 2rem;
+    transform: translateY(0);
+    animation: fall 3s linear forwards;
+    color: #ffffff;
+    z-index: -1;
+}
+
+@keyframes fall {
+    to{
+        transform: translateY(105vh);
+    }
+}

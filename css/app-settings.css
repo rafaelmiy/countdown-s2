@@ -1,0 +1,40 @@
+body[tema="1"]{
+    --color-primary: var(--color-primary-light);
+    --color-message-received: #B19DA1;
+    --color-background-contrast: #711828;
+}
+body[tema="2"]{
+    --color-primary: var(--color-primary-dark);
+    --color-message-received: #574246;
+    --color-background-contrast: #620415;
+}
+body[fundo="1"] .background-image{
+    background: var(--color-primary);
+}
+body[fundo="2"] .background-image{
+    background-image: url(../img/img1.jpg);
+}
+body[fundo="3"] .background-image{
+    background-image: url(../img/img2.jpg);
+}
+
+
+/*
+GLOSSÁRIO DE CONFIGURAÇÕES
+
+Tema
+1 = Claro
+2 = Escuro
+3 = Automático (muda conforme hora do dia)
+
+Fundo (de tela das mensagens) 
+1 = Cor
+2 = Foto 1
+3 = Foto 2
+
+Contador
+1 = Viagem (contagem regressiva da viagem)
+2 = Juntos (contagem de quanto tempo juntos)
+3 = Automático (1o viagem e depois tempo juntos)
+
+*/

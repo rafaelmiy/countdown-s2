@@ -72,7 +72,7 @@ firebaseDate.on('value',function(dates){
     lastDate = dates[lastDateID].date;
 
     dating = moment(lastDate, 'YYYYMMDDHHmm').unix();
-
+    /*
     // clear Flipdown
     $('#flipdown').empty();
     // Set up FlipDown
@@ -121,6 +121,7 @@ firebaseDate.on('value',function(dates){
         $('#text').text("para nos encontrar.");
         // resizeMessageBox();
     }
+    */
 
     // var data = $('#page').html(); //get input (content)
     // TODO: ARRUMAR O CONVERSOR DE QUALQUER TEXTO PARA LINK
@@ -156,8 +157,20 @@ function checkLastSameAction(message, type){
     var lastObjectMessage = $('#messages span').data('message');
     var lastObjectCount = $('#messages span').data('count');
     var lastObjectUID = $('#messages span').data('uid');
+    var lastObjectDate = $('#messages span').data('date');
 
-    if(lastObjectType == type && lastObjectMessage == message && lastObjectUID == firebase.auth().currentUser.uid){
+    var now = moment().format('YYYYMMDDHHmmss');
+
+    var start = moment(lastObjectDate, 'YYYYMMDDHHmmss');
+    var end = moment(now, 'YYYYMMDDHHmmss');
+
+    // Calcula quanto tempo faz desde a última interação de alguém
+    var lastActionMinutes = end.diff(start, 'minutes');
+
+    if(lastObjectType == type && 
+        lastObjectMessage == message && 
+        lastObjectUID == firebase.auth().currentUser.uid &&
+        lastActionMinutes <= 2){
         firebase.database().ref('messages/' + lastObjectID).update({
             count: lastObjectCount+1
         });
@@ -168,16 +181,10 @@ function checkLastSameAction(message, type){
 }
 
 
-var firstLoad = 1;
-
 // CARREGA AS MENSAGENS DO BANCO DE DADOS
-var firebaseMessages = firebase.database().ref('messages').limitToLast(80);
+var firebaseMessages = firebase.database().ref('messages').limitToLast(100);
 firebaseMessages.on('value',function(messages){
     var messages = messages.val();
-
-    if(firstLoad == 1){
-        firstLoad = 0;
-    }else playSound('pop');
     
     if(messages == null){
         document.getElementById('messages').innerHTML = '<center><p style="color:#f10935;font-weight:600;">Não existem mensagens aqui 🥺</p></center>';
@@ -188,6 +195,11 @@ firebaseMessages.on('value',function(messages){
     
     var messagesIDs = Object.keys(messages);
     // console.log(messagesIDs);
+    var lastMessagePosition = messagesIDs.length-1;
+    var lastMessageCountReceived = moment().format("YYYYMMDDHHmmss") - messages[messagesIDs[lastMessagePosition]].date;
+    if(lastMessageCountReceived <= 5){
+        playSound('pop');
+    }
 
     for(var i=0; i<messagesIDs.length; i++){
         var message = messages[messagesIDs[i]];
@@ -199,8 +211,24 @@ firebaseMessages.on('value',function(messages){
         var msg = message.message;
         var id = messagesIDs[i];
 
-        like = message.like == true ? "like" : "";
-        // console.log(like);
+        var lastMessageStyle;
+        var nextMessage = messages[messagesIDs[i+1]];
+        if(type == "message" && i < messagesIDs.length-1){
+            if(uid != nextMessage.uid || type != nextMessage.type){
+                lastMessageStyle = " last-message";
+            }
+            else{
+                lastMessageStyle = "";
+            }
+        }
+        else if(i == messagesIDs.length-1){
+            lastMessageStyle = " last-message";
+        }
+        else{
+            lastMessageStyle = "";
+        }
+
+        like = message.like == true ? " like" : "";
         var feelingPT = "";
 
         var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
@@ -215,16 +243,19 @@ firebaseMessages.on('value',function(messages){
 
         if(type == "feeling"){
             if(msg == "kiss"){
-                feelingPT = ` beijo ${kissSVG}`;
-                feelingsPT = ` beijos ${kissSVG}`;
+                feelingPT = ` Beijo ${kissSVG}`;
+                feelingsPT = ` Beijos ${kissSVG}`;
             }
             else if(msg == "heart"){
-                feelingPT = ` carinho ${heartSVG}`;
-                feelingsPT = ` carinhos ${heartSVG}`;
+                feelingPT = ` Carinho ${heartSVG}`;
+                feelingsPT = ` Carinhos ${heartSVG}`;
             }
             else if(msg == "bite"){
                 feelingPT = `a mordida ${biteSVG}`;
                 feelingsPT = ` mordidas ${biteSVG}`;
+            }
+            else if(msg == "heart-beat"){
+                feelingPT = ` Coração! ${heartSVG}`;
             }
             // console.log(feelingPT);
 
@@ -232,19 +263,24 @@ firebaseMessages.on('value',function(messages){
                 var msgCount = message.count;
             } else var msgCount = 1;
 
-            // VERIFICA SE O ID É IGUAL AO DA AÇÃO
+            // VERIFICA SE O ID DA MENSAGEM É IGUAL AO DO USUÁRIO LOGADO
             if(uid == firebase.auth().currentUser.uid){
                 var status = "sent";
                 var statusPT = "enviou";
 
                 // QUANDO É MAIS DE UMA AÇÃO IGUAL, É SOMADO
                 if(msgCount>1){
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since} &nbsp;</b>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}</p></span>`);
+                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}" data-date="${date}"><p><b>${since} &nbsp;</b>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}</p></span>`);
                     // $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since} <span class="status-icon" id="status" class="status">${checkSent}</span>&nbsp;</b>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}</p></span>`);
                 }
                 // QUANDO É SÓ UMA ACÃO
                 else{
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since} &nbsp;</b>Você ${statusPT} um${feelingPT}</p></span>`);
+                    if(msg == "heart-beat"){
+                        $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}" data-date="${date}"><p><b>${since} &nbsp;</b>Você reacendeu o${feelingPT}</p></span>`);
+                    }
+                    else{
+                        $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}" data-date="${date}"><p><b>${since} &nbsp;</b>Você ${statusPT} um${feelingPT}</p></span>`);
+                    }
                     // $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p><b>${since} <span class="status-icon" id="status" class="status">${checkSent}</span>&nbsp;</b>Você ${statusPT} um${feelingPT}</p></span>`);
                 }
             }
@@ -254,11 +290,16 @@ firebaseMessages.on('value',function(messages){
 
                 // QUANDO É MAIS DE UMA AÇÃO IGUAL, É SOMADO
                 if(msgCount>1){
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}&nbsp;<b>${since}</b></p></span>`);
+                    $('#messages').prepend(`<span class="${status}}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}" data-date="${date}"><p>Você ${statusPT} <b class="qnt">${msgCount}</b> ${feelingsPT}&nbsp;<b>${since}</b></p></span>`);
                 }
                 // QUANDO É SÓ UMA ACÃO
                 else{
-                    $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}"><p>Você ${statusPT} um${feelingPT}&nbsp;<b>${since}</b></p></span>`);
+                    if(msg == "heart-beat"){
+                        $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}" data-date="${date}"><p>B reacendeu o${feelingPT}&nbsp;<b>${since}</b></p></span>`);
+                    }
+                    else{
+                        $('#messages').prepend(`<span class="${status}" data-id="${id}" data-uid="${uid}" data-type="${type}" data-message="${msg}" data-count="${msgCount}" data-date="${date}"><p>Você ${statusPT} um${feelingPT}&nbsp;<b>${since}</b></p></span>`);
+                    }
                 }
                 
             }
@@ -271,27 +312,242 @@ firebaseMessages.on('value',function(messages){
                 var status = "received";
             }
             // IMPRIME A MENSAGEM NA LISTA DE MENSAGENS
-            $('#messages').prepend(`<span data-id="${id}" data-uid="${uid}" class="message ${status} ${like}"><p>${msg}<b>${since} </b></p></span>`);
+            $('#messages').prepend(`<span data-id="${id}" data-uid="${uid}" class="message ${status}${like}${lastMessageStyle}" data-date="${date}"><p><span>${msg}</span><b>${since} </b></p></span>`);
             // $('#messages').prepend(`<span data-id="${id}" data-uid="${uid}" class="message ${status} ${like}"><p>${msg}<b>${since} <span class="status-icon" class="status">${checkSent}</span></b></p></span>`);
         }
     }
 
     $('#content').removeClass('hide');
     $('#loading').addClass('hide');
-
-    $(".received").dblclick(function(){
-        var id = $(this).data("id");
-        var like = $(this).hasClass("like") == true ? false : true;
-        
-        firebase.database().ref('messages/' + id).update({
-            like: like
-        });
-
-    });
+    
+    doubleClickLike();
+    longPressAction();
 
     // resizeMessageBox();
     checkOnlineStatus();
 });
+
+// function teste() {
+//     // $(".message").removeClass("last-message"); // Limpa a classe antes de reaplicar
+
+//     let lastClass = "";
+//     let lastElement = null;
+//     let firstOfNewGroup = null;
+
+//     $(".message").each(function () {
+//         let currentClass = $(this).hasClass("sent") ? "sent" : "received";
+
+//         // Se o elemento anterior não tem "message", já aplica "last-message" neste
+//         if (!$(this).prev().hasClass("message")) {
+//             $(this).addClass("last-message");
+//         }
+
+//         // Se a classe mudou (de "sent" para "received" ou vice-versa)
+//         if (lastElement && currentClass !== lastClass) {
+//             $(lastElement).addClass("last-message"); // Aplica "last-message" no último do grupo anterior
+//             firstOfNewGroup = this; // Marca este como o primeiro do novo grupo
+//         }
+
+//         lastClass = currentClass;
+//         lastElement = this;
+//     });
+
+//     // Aplica "last-message" ao último elemento processado
+//     if (lastElement) {
+//         $(lastElement).addClass("last-message");
+//     }
+// }
+
+// Função para detectar duplo clique em alguma mensagem recebida e atualiza com <3 no banco
+function doubleClickLike() {
+    let lastTap = 0;
+
+    $(".received").on("dblclick", function (e) {
+        e.preventDefault();
+        likeMessage($(this));
+    });
+
+    $(".received").on("touchend", function (e) {
+        e.preventDefault();
+
+        let currentTime = new Date().getTime();
+        let tapLength = currentTime - lastTap;
+
+        if (tapLength < 500 && tapLength > 0) { // Duplo toque detectado
+            likeMessage($(this));
+        }
+
+        lastTap = currentTime;
+    });
+
+    function likeMessage(element) {
+        if (window.getSelection) {
+            window.getSelection().removeAllRanges(); // Remove seleção de texto
+        } else if (document.selection) {
+            document.selection.empty();
+        }
+
+        var id = element.data("id");
+        var like = element.hasClass("like") ? false : true;
+
+        firebase.database().ref('messages/' + id).update({
+            like: like
+        });
+    }
+}
+
+// Função para detectar um clique longo e destacar a mensagem
+function longPressAction() {
+    let holdTimer;
+
+    $(".message.sent").on("mousedown touchstart", function (e) {
+        e.preventDefault();
+        let message = $(this);
+        var messageID = $(this).attr('data-id');
+        var sinceMessage = moment().format('YYYYMMDDHHmmss')-$(this).attr('data-date');
+
+        holdTimer = setTimeout(() => {
+            // console.log("Clique longo detectado!");
+
+            // Adiciona overlay na tela se ainda não existir
+            if (!$(".message-overlay").length) {
+                $("body").append('<div class="message-overlay"></div>');
+            }
+            $(".message-overlay").fadeIn();
+
+            // Destaca a mensagem
+            $(".message").removeClass("highlighted"); // Remove destaque de outras mensagens
+            message.addClass("highlighted");
+
+            
+            // Remove qualquer menu flutuante existente antes de criar um novo
+            $(".floating-message-menu").remove();
+
+            var deleteMessage = "";
+            // Se a mensagem tiver sido enviada há no máximo 10 minutos, habilita opção de deletar
+            if(sinceMessage <= 1000){
+                deleteMessage = `
+                    <div onclick="deleteMessage('${messageID}')" style="border-top: 1px solid #ffffff85">
+                        <span class="action">Excluir mensagem</span>
+                        <span class="material-icons md-22">delete</span>
+                    </div>
+                `;
+            }
+
+            // Cria a div flutuante
+            $("body").prepend(`
+                <div class="floating-message-menu">
+                    <div onclick="copyMessage('${messageID}')">
+                        <span class="action">Copiar</span>
+                        <span class="material-icons md-22">content_copy</span>
+                    </div>
+                    ${deleteMessage}
+                </div>
+                
+            `);
+
+            // Posição da div flutuante
+            let messageOffset = message.offset();
+            $(".floating-message-menu").css({
+                top: messageOffset.top + message.outerHeight() + 5, // Posição logo abaixo da mensagem
+                // left: messageOffset.left,
+                right: "24px",
+                display: "inline-block"
+            });
+
+            // Clicar fora remove o destaque e o menu flutuante
+            $(".message-overlay").on("click", function () {
+                $(this).fadeOut(() => $(this).remove()); // Remove overlay
+                message.removeClass("highlighted"); // Remove destaque
+                $(".floating-message-menu").remove(); // Remove menu flutuante
+            });
+
+        }, 600); // Tempo para ativar o efeito (0.6s)
+    });
+
+    $(".message.sent").on("mouseup mouseleave touchend touchcancel", function () {
+        clearTimeout(holdTimer); // Cancela o efeito se soltar antes do tempo
+    });
+}
+
+// Timeout para mensagem de aviso fazê-la sumir
+setTimeout(function () {
+    $('.temp-alert').fadeOut(500, function () {
+        $(this).remove(); // Remove o elemento do DOM após o fade
+    });
+}, 200); // 2000ms = 2 segundos
+
+// Função para copiar o conteúdo da mensagem
+function copyMessage(messageID) {
+    var text = $('#messages span[data-id=' + messageID + '] span').text();
+
+    navigator.clipboard.writeText(text).then(function () {
+        showAlert('success', 'Mensagem copiada', 'check_circle');
+    }).catch(function (err) {
+        showAlert('error', 'Erro ao copiar', 'error');
+    });
+
+    $('.message-overlay').remove(); // Remove overlay
+    $('.messages .message').removeClass("highlighted"); // Remove destaque
+    $(".floating-message-menu").remove(); // Remove menu flutuante
+}
+
+function showAlert(type, message, icon) {
+    const alert = $(`
+        <div class="${type} temp-alert">
+            <span>${message}</span>
+            <span class="material-icons md-24">${icon}</span>
+        </div>
+    `);
+
+    $('#alertArea').append(alert);
+
+    setTimeout(() => {
+        alert.addClass('exit');
+        setTimeout(() => {
+            alert.remove();
+        }, 500); // Tempo da animação de saída
+    }, 2000);
+}
+
+function deleteMessage(messageID) {
+    confirmDialog("Tem certeza que deseja excluir esta mensagem?", function () {
+        firebase.database().ref('messages/' + messageID).remove();
+        showAlert('success', 'Mensagem excluída', 'check_circle');
+
+        $('.message-overlay').remove(); // Remove overlay
+        $('.messages .message').removeClass("highlighted"); // Remove destaque
+        $(".floating-message-menu").remove(); // Remove menu flutuante
+    });
+}
+
+// Função para confirmar ação
+function confirmDialog(message, onConfirm) {
+    const dialog = $(`
+        <div class="confirm-overlay">
+            <div class="confirm-box">
+                <p>${message}</p>
+                <div class="confirm-actions">
+                    <button class="confirm-yes">Excluir</button>
+                    <button class="confirm-no">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    `);
+
+    $('body').append(dialog);
+
+    dialog.find('.confirm-yes').on('click', function () {
+        dialog.fadeOut(() => dialog.remove());
+        onConfirm();
+    });
+
+    dialog.find('.confirm-no').on('click', function () {
+        dialog.fadeOut(() => dialog.remove());
+    });
+}
+
+
 
 // FUNÇÃO QUE VERIFICA E ATIVA O INDICATIVO OFFLINE SE NECESSÁRIO
 function checkOnlineStatus(){
@@ -418,6 +674,22 @@ function checkTipDate(){
 
 // });
 
+// Ao segurar o dedo em alguma mensagem
+var holdTimer;
+
+$(".message").on("mousedown touchstart", function (e) {
+    e.preventDefault(); // Impede comportamentos padrão
+    window.getSelection().removeAllRanges(); // Remove qualquer seleção de texto
+
+    holdTimer = setTimeout(() => {
+        console.log("Clique segurado por 1 segundo!");
+        // Adicione aqui a ação desejada
+    }, 1000); // 1 segundo
+});
+
+$(".message").on("mouseup mouseleave touchend touchcancel", function () {
+    clearTimeout(holdTimer); // Cancela a ação se soltar antes de 1s
+});
 
 // PREENCHE O MODAL DE CONTROLE DE ENCONTROS
 var firebaseDate = firebase.database().ref('dates').orderByKey();
@@ -431,10 +703,20 @@ firebaseDate.on('value',function(dates){
     }
 
 
-    $('#dates-area').empty();
+    $('#datesList').empty();
 
-    var togetherSum = 0;
+    var togetherDaysSum = 0;
+    var togetherHoursSum = 0;
+    var togetherMinutesSum = 0;
+    var togetherSecondsSum = 0;
+
+    // Variável para identificar quando existir o encontro que marca nossa morada juntos
+    var forever = 0;
+
     $('#togetherSum').html("");
+    $('#foreverDate').html("");
+
+    var foreverCheckinDate = "";
 
     for(var d in dates){
         var date = dates[d];
@@ -444,8 +726,13 @@ firebaseDate.on('value',function(dates){
         var checkinInput = moment(date.date, 'YYYYMMDDHHmm').format('YYYY-MM-DD'+'T'+'HH:mm');
 
         var ticket = (date.ticket === undefined) ? "" : date.ticket;
-        var checkout = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDHHmm').format('DD/MMM/YY');
-
+        if(date.forever == 1){
+            var checkout = moment().format('YYYYMMDDHHmmss');
+        }
+        else{
+            var checkout = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDHHmm').format('DD/MMM/YY');
+        }
+        
         var checkoutInput = (ticket.checkout.date === undefined) ? "" : moment(ticket.checkout.date, 'YYYYMMDDHHmm').format('YYYY-MM-DD'+'T'+'HH:mm');
 
         var host = (ticket.host === undefined) ? "" : ticket.host;
@@ -460,51 +747,684 @@ firebaseDate.on('value',function(dates){
         var apto = (ticket.apto === undefined) ? "" : ticket.apto;
         var aptoShow = (ticket.apto === undefined) ? "hide-toggle" : ticket.apto;
 
-        var start = moment(date.date, 'YYYYMMDD');
-        var end = moment(ticket.checkout.date, 'YYYYMMDD');
-        var together = end.diff(start, 'days')+1;
+        var start = moment(date.date, 'YYYYMMDDmmss');
+        var end = moment(ticket.checkout.date, 'YYYYMMDDmmss');
 
-        // console.log(date);
+        var togetherDays = end.diff(start, 'days');
+        var togetherSeconds = end.diff(start, 'seconds');
 
-        $('#dates-area').prepend(`
-            <div class="date" id="date${d}">
-                <span class="item" onclick="toggleAccordion('date${d}')">
-                    <span class="meeting-num">${d}</span>
-                    <p class="range">${checkin} - ${checkout} (${together} dias)</p>
-                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
-                    </svg>
-                </span>
-                <span class="details">
-                    <label>Checkin</label>
-                    <input type="datetime-local" class="checkin-input" value="${checkinInput}">
-                    <label>Checkout</label>
-                    <input type="datetime-local" class="checkout-input" value="${checkoutInput}">
-                    <!-- <h5>Ticket</h5> -->
-                    <span class="ticket">
-                        <label class=${streetShow}>Endereço</label>
-                        <input class="${streetShow} address-input" type="text" placeholder="Coloque o endereço" value="${street}">
-                        <label class=${streetComplementShow}>Complemento</label>
-                        <input class="${streetComplementShow} complement-input" type="text" placeholder="Coloque o complemento" value="${streetComplement}">
-                        <label class="${aptoShow}">Apto</label>
-                        <input class="${aptoShow} apto-input" type="text" placeholder="Coloque o apartamento" value="${apto}">
-                        <label class="${hostShow}">Anfitrião</label>
-                        <input class="${hostShow} host-input" type="text" placeholder="Coloque o anfitrião" value="${host}">
-                        <div class="buttons-area">
-                            <button class="button edit" onclick="toggleDateEdit(${d})">Editar</button>
-                            <button class="button cancel" onclick="cancelDateEdit(${d})">Cancelar</button>
-                            <button class="button save" onclick="updateDateDetails(${d})">Salvar</button>
+        var ref = "#datesList";
+        var inputType = "datetime-local";
+        var countDaysText = "dias";
+
+        // Parâmetros para quando for um encontro forever
+        if(date.forever == 1){
+            forever = 1;
+            ref = "#foreverDate";
+            togetherDays = "∞";
+            checkout = "Sempre";
+            inputType = "text"
+            checkoutInput = "∞";
+
+            var end = moment(moment().format('YYYYMMDDHHmmss'), 'YYYYMMDDHHmmss');
+
+            togetherSeconds = end.diff(start, 'seconds');
+        };
+        if(togetherDays <= 1){
+            togetherDays = 1;
+            countDaysText = "dia";
+        }
+
+        $(ref).prepend(`
+            <div id="date${d}" class="date-area">
+                <div class="date" onclick="toggleClass('date${d}', 'opened')">
+                    <span class="num">${d}</span>
+                    <span class="period">${checkin} - ${checkout}</span>
+                    <span class="date-count">${togetherDays} ${countDaysText}</span>
+                    <div class="arrow-down"></div>
+                </div>
+                <div class="date-content">
+                    <div class="flex">
+                        <div class="form">
+                            <input type="datetime-local" class="checkin-input" autocomplete="off" placeholder=" " value="${checkinInput}">
+                            <label>Checkin</label>
                         </div>
-                    </span>
-                </span>
+                        <div class="form">
+                            <input type="${inputType}" class="checkout-input" autocomplete="off" placeholder=" " value="${checkoutInput}">
+                            <label>Checkout</label>
+                        </div>
+                    </div>
+                    <div class="form">
+                        <input type="text" class="address-input" autocomplete="off" placeholder=" " value="${street}">
+                        <label>Endereço</label>
+                    </div>
+                    <div class="form">
+                        <input type="text" class="complement-input" autocomplete="off" placeholder=" " value="${streetComplement}">
+                        <label>Complemento</label>
+                    </div>
+                    <div class="form">
+                        <input type="text" class="apto-input" autocomplete="off" placeholder=" " value="${apto}">
+                        <label>Apto</label>
+                    </div>
+                    <div class="form">
+                        <input type="text" class="host-input" autocomplete="off" placeholder=" " value="${host}">
+                        <label>Anfitrião</label>
+                    </div>
+                    <div class="form edit">
+                        <button class="tertiary" onclick="toggleClass('date${d}', 'editor')">Editar encontro</button>
+                    </div>
+                    <div class="form flex save">
+                        <button class="secondary" onclick="toggleClass('date${d}', 'editor')">Cancelar</button>
+                        <button class="primary" onclick="updateDateDetails('${d}')">Salvar</button>
+                    </div>
+                </div>
             </div>
-        `);
-        togetherSum += together;
+        `)
+        if(togetherDays == "∞"){
+            togetherDays = 0;
+            // togetherHours = 0;
+            // togetherMinutes = 0;
+            togetherSecondsForeverDate = togetherSeconds;
+            // togetherSeconds = 0;
+        }
+        togetherDaysSum += togetherDays;
+        // togetherHoursSum += togetherHours;
+        // togetherMinutesSum += togetherMinutes;
+        togetherSecondsSum += togetherSeconds;
 
     }
-    $('#togetherSum').html("Já são <b>"+togetherSum+" dias</b> juntinhos");
-    $('#text').append("<br><span>Já são <b>"+togetherSum+" dias</b> juntinhos</span>");
 
+    if(forever == 1){
+        // Subtrai 1 dia da lista de encontros totais quando existe o encontro "para sempre"
+        d -= 1;
+    }
+
+    // Atualiza o contador de encontros na lista de encontros
+    $('#historyDatesCount').html(d);
+    // Atualiza contador de dias da lista de encontros
+    $('#historyDatesCountDays').html(togetherDaysSum); // Esse valor é arredondado, não leva em conta horas ou segundos a mais
+    // moment(now, 'YYYYMMDDHHmmss')
+
+    // togetherSecondsSum += togetherSecondsForeverDate;
+
+    var days = Math.floor(togetherSecondsSum / (24 * 3600)); // Extrai a quantidade de dias
+    var resto = togetherSecondsSum % (24 * 3600); // Resto após remover os dias
+
+    var hours = Math.floor(resto / 3600); // Extrai a quantidade de horas (0-23)
+    resto = resto % 3600; // Resto após remover as horas
+
+    var minutes = Math.floor(resto / 60); // Extrai a quantidade de minutos (0-59)
+    var seconds = resto % 60; // O que sobra são os segundos (0-59)
+
+    // console.log(togetherSecondsSum+" Segundos");
+
+    $('[data-days]').html(days); // Esse valor leva em conta até as horas ou segundos, então deve dar mais dias do que o valor de togetherDaysSum
+    $('[data-hours]').html(hours);
+    $('[data-minutes]').html(minutes);
+    $('[data-seconds]').html(seconds);    
+
+    if(forever == 1){
+        
+        startCounter(days, hours, minutes, seconds);
+    }
 });
+
+
+// Função para selecionar a tab do modal Viagens
+function travelTabSelector(id){
+    $('.new-modal-area.travel .tab div').removeClass('opened');
+    $('#'+id+'Tab').addClass('opened');
+}
+
+var firebaseUsers = firebase.database().ref('users/');
+// Lógica para gerenciar a escolha da viagem de cada usuário
+firebaseUsers.on('value',function(users){
+    var users = users.val();
+
+    var myPreferences = users[firebase.auth().currentUser.uid];
+    var travelSelectedID = myPreferences.travel;
+    var contador = myPreferences.contador;
+
+    var now = moment().format('YYYYMMDDHHmm');
+
+    // Pega a data das viagens e caso necessário atualiza preferência de viagem do usuário
+    var firebaseTravels = firebase.database().ref('travels/');
+    firebaseTravels.on('value',function(travels){
+        var travels = travels.val();
+
+        if(travelSelectedID != 0){
+            $('.button.checklist').show();
+            $('#nextTravelTab').removeClass('hide');
+            // $('.button.travel .remaining-days').removeClass('hide');
+            
+            // Se a viagem atual não for do passado, continua com a seleção
+            if(now >= travels[travelSelectedID].checkin && now <= travels[travelSelectedID].checkout || now < travels[travelSelectedID].checkin){
+                
+            }
+            else{
+                var newTravelSelector = 0;
+                for(var t in travels){
+                    // var travel = travels[t];
+
+                    if(now >= travels[t].checkin && now <= travels[t].checkout || now < travels[t].checkin){
+                        newTravelSelector = t;
+                    }
+                }
+                firebase.database().ref('users/'+firebase.auth().currentUser.uid).update({
+                    travel: Number(newTravelSelector)
+                });
+            }
+        }
+        else{
+            $('.button.checklist').hide();
+            $('#nextTravelTab').addClass('hide');
+            travelTabSelector('ourTravels');
+            // $('.button.travel .remaining-days').addClass('hide');
+        }
+        switch(contador){
+            case 1:
+                if(travelSelectedID != 0 || newTravelSelector != 0){
+                    $('.button.travel .remaining-days').removeClass('hide');
+                }
+                $('.button.history .remaining-days').addClass('hide');
+                break;
+            case 2:
+                $('.button.history .remaining-days').removeClass('hide');
+                $('.button.travel .remaining-days').addClass('hide');
+                break;
+            case 3:
+                if(travelSelectedID != 0 || newTravelSelector != 0){
+                    $('.button.travel .remaining-days').removeClass('hide');
+                    $('.button.history .remaining-days').addClass('hide');
+                }
+                else{
+                    $('.button.travel .remaining-days').addClass('hide');
+                    $('.button.history .remaining-days').removeClass('hide');
+                }
+                break;
+            default:
+        }
+        
+    });
+});
+
+// Lógica para pegar a preferência de escolha de viagem do usuário e popular a PRIMEIRA ABA
+var firebaseUsers = firebase.database().ref('users/');
+firebaseUsers.on('value',function(users){
+    var users = users.val();
+    var myPreferences = users[firebase.auth().currentUser.uid];
+
+    var travelID = myPreferences.travel;
+
+    if(travelID != 0){
+        // Lógica para preencher o modal de Viagens, na aba de próximo destino (a primeira aba)
+        var firebaseTravel = firebase.database().ref('travels/'+travelID);
+        firebaseTravel.on('value',function(travel){
+            var travel = travel.val();
+
+            var title = travel.title;
+
+            // var checkinInput = moment(newDateCheckin, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
+            var place = travel.place;
+            var checkin = moment(travel.checkin, 'YYYYMMDDHHmm').format('YYYYMMDDHHmm');
+            var checkout = moment(travel.checkout, 'YYYYMMDDHHmm').format('YYYYMMDDHHmm');
+            var address = travel.address;
+
+            var daysTravelling = daysCount(checkin, checkout);
+            var daysTravellingPT = "dias";
+
+            if(daysTravelling <= 1){
+                daysTravelling = 1;
+                daysTravellingPT = "dia";
+            }
+
+            var today = moment().format('YYYYMMDDHHmmss');
+            var memories = travel.memories;
+            var interests = travel.interests;
+            var aditionals = travel.aditionals;
+
+            var countdownDaysPT;
+
+            var countdownDays = daysCount(today, checkin);
+            if(countdownDays == 1){
+                countdownDaysPT = "dia";
+            }else countdownDaysPT = "dias";
+
+            // Condicional para quando estiver na viagem
+            if(countdownDays <= 0){
+                // Atualiza o botão superior
+                $('#countdownTravel').html(`
+                    <span>Em ${place}</span>
+                `);
+                // Atualiza o texto do modal Viagem
+                $('.fast-access .button.travel .remaining-days').html(`
+                    <span class="local">Desbravando</span>
+                    <br>
+                    <span class="days">${title}</span>
+                `);
+            }
+            else{
+                // Atualiza o botão superior
+                $('#countdownTravel').html(`
+                    <span>${place}</span> em <b>${countdownDays}</b> ${countdownDaysPT}
+                `);
+                // Atualiza o texto do modal Viagem
+                $('.fast-access .button.travel .remaining-days').html(`
+                    <span class="local">${title}</span>
+                            <span>em</span>
+                            <br>
+                            <span class="days">${countdownDays}</span>
+                            <span>${countdownDaysPT}</span>
+                `);
+            }
+
+            checkin = moment(travel.checkin, 'YYYYMMDDHHmm').format('DD/MMM/YYYY');
+            checkout = moment(travel.checkout, 'YYYYMMDDHHmm').format('DD/MMM/YYYY');
+            $('#travelDate').text("");
+            $('#travelDate').append(`
+                ${checkin} - ${checkout} (${daysTravelling} ${daysTravellingPT})
+            `);
+
+            $('#travelAddress').text(address);
+
+            $('#memoriesList').text("");
+            $('#memoriesList').attr("travel-id",travelID);
+
+            // Popula a lista de Lembranças
+            if(memories == undefined){
+                $('#memoriesList').append(`
+                    <span class="no-register">Ainda não existem Lembranças 😕</span>
+                `);
+            }
+            else{
+                for(var m in memories){
+                    var memory = memories[m];
+                    
+                    var text = memory.text;
+                    $('#memoriesList').append(`
+                        <span memory-id="${m}" class="textarea memory" contenteditable>"${text}"</span>
+                    `);
+
+                };
+            }
+
+            $('#interestsListToDo').text("");
+            $('#interestsListDone').text("");
+            $('#interestsList').attr("travel-id",travelID);
+
+            // Popula a lista de Interesses
+            if(interests == undefined){
+                $('#interestsListToDo').append(`
+                    <span class="no-register">Ainda não existem Interesses 😕</span>
+                `);
+            }
+            else{
+                for(var i in interests){
+                    var interest = interests[i];
+
+                    var text = interest.text;
+
+                    var checkbox;
+                    var destiny;
+
+                    // Verifica qual o estado do checkbox no banco
+                    if(interest.done == 0){
+                        checkbox = `<span class="material-icons md-30" onclick="toggleInterest(${travelID}, '${i}',1)">check_box_outline_blank</span>`;
+                        destiny = "interestsListToDo";
+
+                    }else{
+                        checkbox = `<span class="material-icons md-30" onclick="toggleInterest(${travelID}, '${i}',0)">check_box</span>`;
+                        destiny = "interestsListDone";
+                    }
+
+                    $('#'+destiny).append(`
+                        <span class="interest" interest-id="${i}">
+                            ${checkbox}
+                            <span class="textarea" contenteditable>${text}</span>
+                        </span>
+                    `);
+
+                };
+            }
+
+            // Popula a lista adicionais
+            $('#aditionalsArea').text("");
+            var aditionalCount = 0;
+            var aditionalIcon = ["looks_one","looks_two","looks_3","looks_4","looks_5","looks_6", "more_horiz"];
+
+            for(var a in aditionals){
+                var aditional = aditionals[a];
+
+                var text = aditional.text;
+
+                $('#aditionalsArea').append(`
+                    <div class="aditional">
+                        <span class="material-icons md-22">${aditionalIcon[aditionalCount]}</span>
+                        <span>${text}</span>
+                    </div>
+                `);
+                if(aditionalCount < 6){
+                    aditionalCount++;
+                }
+
+            };
+        });
+    }
+});
+
+
+var firebaseUsers = firebase.database().ref('users/');
+
+// Lógica para popular as próximas viagens no modal de Viagens na ABA NOSSAS VIAGENS
+firebaseUsers.on('value',function(users){
+    var users = users.val();
+    var myPreferences = users[firebase.auth().currentUser.uid];
+
+    var travelSelectedID = myPreferences.travel;
+    
+    $('#nextTravelTab').attr('travel-id',travelSelectedID);
+
+    var firebaseTravels = firebase.database().ref('travels');
+    firebaseTravels.on('value',function(travels){
+        var travels = travels.val();
+        
+        $('#OurTravelsList .future-travels-list').text('');
+        $('#OurTravelsList .past-travels-list').text('');
+        for(var t in travels){
+            var travel = travels[t];
+
+            if(travelSelectedID == t){
+                $('#nextTravelTab').text(travel.title);
+            }
+    
+            var place = travel.place;
+            var title = travel.title;
+            var checkin = moment(travel.checkin, 'YYYYMMDDHHmm').format('YYYYMMDDHHmm');
+            var checkinInput = moment(travel.checkin, 'YYYYMMDDHHmm').format('YYYY-MM-DD'+'T'+'HH:mm');
+            var checkout = moment(travel.checkout, 'YYYYMMDDHHmm').format('YYYYMMDDHHmm');
+            var checkoutInput = moment(travel.checkout, 'YYYYMMDDHHmm').format('YYYY-MM-DD'+'T'+'HH:mm');
+            var address = travel.address;
+    
+            var memories = travel.memories;
+            var interests = travel.interests;
+            var aditionals = travel.aditionals;
+            var checklist = travel.checklist;
+    
+            var today = moment().format('YYYYMMDDHHmmss');
+            var daysLeft = daysCount(today, checkin);
+    
+            var daysTravelling = daysCount(checkin, checkout);
+            var daysTravellingPT = "dias";
+            var daysLeftPT = "dias";
+    
+            if(daysTravelling <= 1){
+                daysTravelling = 1;
+                daysTravellingPT = "dia";
+            }
+            if(daysLeft <= 1){
+                daysLeftPT = "dia";
+            }
+
+            var radioButtonState;
+            if(t == travelSelectedID){
+                radioButtonState = '<span class="material-icons md-24" onclick="selectTravel('+t+')">radio_button_checked</span>';
+            }
+            else{
+                radioButtonState = '<span class="material-icons md-24" onclick="selectTravel('+t+')">radio_button_unchecked</span>';
+            }
+            
+            var countdownText;
+            // Verifica se viagem está acontecendo
+            if(daysLeft > 0){
+                countdownText = '<span class="date-count">em '+daysLeft+' '+daysLeftPT+'</span>';
+            }
+            else{
+                countdownText = '<span class="date-count">Agora</span>';
+            }
+
+            var now = moment().format('YYYYMMDDHHmm');
+            var travelHTMLDestiny;
+            // Condicional para saber se a viagem é futura ou passada
+            if(now >= travels[t].checkin && now <= travels[t].checkout || now < travels[t].checkin){
+                travelHTMLDestiny = 'future';
+            }
+            else{
+                travelHTMLDestiny = 'past';
+                radioButtonState = '';
+                countdownText = moment(checkin, 'YYYYMMDDHHmm').format('MMM/YY');
+            }
+
+            var diary = `
+                <span>Diário de Bordo</span>
+                <div class="flex">
+                    <span class="form button memories">
+                        <span class="material-icons md-24">local_movies</span>
+                        <span>Lembranças</span>
+                        <span class="button__badge">2</span>
+                    </span>
+                    <span class="form button interests">
+                        <span class="material-icons md-24">location_pin</span>
+                        <span>Interesses</span>
+                        <span class="button__badge">5</span>
+                    </span>
+                </div>
+                <span class="form button checklist">
+                    <span class="material-icons md-24">checklist</span>
+                    <span>Lista de tarefas</span>
+                    <span class="button__badge">4</span>
+                </span>
+            `;
+
+            // Desativando função checklist enquanto não é desenvolvida
+            diary = "";
+
+            // Estutura do HTML da viagem referente
+            $('#OurTravelsList .'+travelHTMLDestiny+'-travels-list').append(`
+                <div class="future-travel">
+                    ${radioButtonState}
+                    <div id="travel${t}" class="date-area"> 
+                        <div class="date" onclick="toggleClass('travel${t}', 'opened')">
+                            <span class="period">${place} (${daysTravelling} ${daysTravellingPT})</span>
+                            ${countdownText}
+                            <div class="arrow-down"></div>
+                        </div>
+                        <div class="date-content">
+                            <div class="flex">
+                                <div class="form">
+                                    <input class="checkin-input" type="datetime-local" autocomplete="off" placeholder=" " value="${checkinInput}">
+                                    <label>Ida</label>
+                                </div>
+                                <div class="form">
+                                    <input class="checkout-input" type="datetime-local" autocomplete="off" placeholder=" " value="${checkoutInput}">
+                                    <label>Volta</label>
+                                </div>
+                            </div>
+                            <div class="form">
+                                <input class="title-input" type="text" autocomplete="off" placeholder=" " value="${title}">
+                                <label>Título do card</label>
+                            </div>
+                            <div class="form">
+                                <input class="place-input" type="text" autocomplete="off" placeholder=" " value="${place}">
+                                <label>Local</label>
+                            </div>
+                            <div class="form">
+                                <input class="address-input" type="text" autocomplete="off" placeholder=" "  value="${address}">
+                                <label>Endereço</label>
+                            </div>
+                            <div class="aditional-list">
+                                <div class="form">
+                                    <input type="text" autocomplete="off" placeholder=" ">
+                                    <label>Informação adicional</label>
+                                </div>
+                            </div>
+                            <div class="form edit">
+                                <button class="tertiary" onclick="toggleClass('travel${t}', 'editor')">Editar viagem</button>
+                            </div>
+                            <div class="form flex save">
+                                <button class="secondary" onclick="toggleClass('travel${t}', 'editor')">Cancelar</button>
+                                <button class="primary" onclick="updateTravelDetails('${t}')">Salvar</button>
+                            </div>
+                            <div class="travel-lists">
+                                ${diary}
+                                <span>Em breve um diário de bordo...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+                        
+            // Verifica se existem Lembranças
+            if(memories != undefined){
+                $('.future-travel #travel'+t+' .memories .button__badge').text('');
+                var memoriesCount = 0;
+                for(var m in memories){
+                    memoriesCount++;
+                }
+                $('.future-travel #travel'+t+' .memories .button__badge').text(memoriesCount);
+            }
+            else{
+                $('.future-travel #travel'+t+' .memories .button__badge').hide();
+            }
+
+            // Verifica se existem Interesses
+            if(interests != undefined){
+                $('.future-travel #travel'+t+' .interests .button__badge').text('');
+                var interestsCount = 0;
+                for(var i in interests){
+                    interestsCount++;
+                }
+                $('.future-travel #travel'+t+' .interests .button__badge').text(interestsCount);
+            }
+            else{
+                $('.future-travel #travel'+t+' .interests .button__badge').hide();
+            }
+
+            // Verifica se existem itens na Checklist
+            if(checklist != undefined){
+                $('.future-travel #travel'+t+' .checklist .button__badge').text('');
+                var checklistCount = 0;
+                for(var i in interests){
+                    checklistCount++;
+                }
+                $('.future-travel #travel'+t+' .checklist .button__badge').text(interestsCount);
+            }
+            else{
+                $('.future-travel #travel'+t+' .checklist .button__badge').hide();
+            }
+
+            // Verifica se existem itens Adicionais
+            if(aditionals != undefined){
+                $('.future-travel #travel'+t+' .aditional-list').text('');
+                
+                var aditionalCount = 1;
+                for(var a in aditionals){
+                    var aditional = aditionals[a];
+
+                    $('.future-travel #travel'+t+' .aditional-list').append(`
+                        <div class="form">
+                            <input aditional-id="${a}" type="text" autocomplete="off" placeholder=" " value="${aditional.text}">
+                            <label>Informação adicional ${aditionalCount}</label>
+                        </div>
+                    `);
+                    aditionalCount++;
+                }
+                $('.future-travel #travel'+t+' .aditional-list').append(`
+                    <div class="form">
+                        <input class="new-aditional" type="text" autocomplete="off" placeholder=" " value="">
+                        <label>Informação adicional ${aditionalCount}</label>
+                    </div>
+                `);
+            }
+            
+        }
+    });
+});
+
+// Monitora quando é necessário incluir novo campo de Informação adicional vazio no modal Viagens
+$(document).on("keyup", ".new-aditional", function(event) {
+    let parentId = $(this).closest('.date-area').attr('id');
+    let inputValue = $(this).val(); // Obtém o valor do input sem espaços extras
+
+    // Pegando a lista de inputs dentro da mesma .aditional-list
+    let aditionalList = $(this).closest('.aditional-list');
+    let inputs = aditionalList.find('.new-aditional'); // Todos os inputs
+    let lastInput = inputs.last(); // Último input
+    let secondLastInput = inputs.eq(-2); // Penúltimo input
+
+    // Se os dois últimos inputs estiverem vazios, remove o último
+    if (inputs.length > 1 && lastInput.val() === "" && secondLastInput.val() === "") {
+        lastInput.closest('.form').remove();
+        inputs = aditionalList.find('.new-aditional'); // Atualiza a lista de inputs
+    }
+
+    // Atualiza a contagem de irmãos após possíveis remoções
+    // Pegando a quantidade de irmãos no mesmo nível (dentro de .aditional-list)
+    let siblingsCount = $(this).closest('.aditional-list').find('.form').length;
+    siblingsCount += 1;
+
+    // Se o último input não estiver vazio, adiciona um novo campo
+    if (lastInput.val() !== "") {
+        aditionalList.append(`
+            <div class="form">
+                <input class="new-aditional" type="text" autocomplete="off" placeholder=" ">
+                <label>Informação adicional ${siblingsCount}</label>
+            </div>
+        `);
+    }
+});
+
+
+
+
+// Lógica para atualização da seleção da viagem escolhida do usuário
+function selectTravel(travelID){
+    firebase.database().ref('users/'+firebase.auth().currentUser.uid).update({
+        travel: travelID
+    });
+}
+
+
+// Ativa o contador no cronômetro caso tenha o encontro "para sempre"
+var firstUpdate = true;
+function startCounter(days,hours,minutes,seconds) {
+    setInterval(() => {
+        seconds++;
+        if(firstUpdate != true){
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+            }
+        
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+        
+            if (hours >= 24) {
+                hours = 0;
+                days++;
+            }
+        }
+        // Atualize os elementos na tela com os valores atualizados
+        if($('[data-days]').html() != days || firstUpdate == true){
+            $('[data-days]').html(days);
+        }
+        if($('[data-hours]').html() != hours || firstUpdate == true){
+            $('[data-hours]').html(hours);
+        }
+        if($('[data-minutes]').html() != minutes || firstUpdate == true){
+            $('[data-minutes]').html(minutes);
+        }
+        if($('[data-seconds]').html() != seconds || firstUpdate == true){
+            $('[data-seconds]').html(seconds);
+        }
+        
+        // console.log('contando');
+        firstUpdate = false;
+
+    }, 1000); // Executa a cada 1 segundo
+}
+
 
 function toggleDateEdit(id){
     $('#date'+id).toggleClass('editor');
@@ -534,15 +1454,78 @@ function updateDateDetails(dateID){
     firebase.database().ref('dates/'+dateID+'/ticket/checkin/').update({
         date: checkinInput
     });
-    firebase.database().ref('dates/'+dateID+'/ticket/checkout/').update({
-        date: checkoutInput
-    });
+    if(newDateCheckout != "∞"){
+        firebase.database().ref('dates/'+dateID+'/ticket/checkout/').update({
+            date: checkoutInput
+        });
+    }
     firebase.database().ref('dates/'+dateID+'/ticket/').update({
         street: newDateAddress,
         streetComplement: newDateComplement,
         apto: newDateApto,
         host: newDateHost
     });
+}
+
+// FUNÇÃO QUE SALVA A EDIÇÃO DE UMA VIAGEM
+function updateTravelDetails(travelID){
+    var newTravelCheckin = $('#travel'+travelID+' .checkin-input').val();
+    var newTravelCheckout = $('#travel'+travelID+' .checkout-input').val();
+    var newTravelTitle = $('#travel'+travelID+' .title-input').val();
+    var newTravelPlace = $('#travel'+travelID+' .place-input').val();
+    var newTravelAddress = $('#travel'+travelID+' .address-input').val();
+
+    var aditionalCount = $('#travel'+travelID+' .aditional-list input[aditional-id]').length;
+
+    var newAditionals = $('#travel'+travelID+' .aditional-list input:not([aditional-id]):not(:placeholder-shown)');
+
+    var aditionalIDs = $('#travel'+travelID+' .aditional-list input[aditional-id]');
+
+    var aditionalArray = [];
+    for(var x = 0; aditionalCount > x; x++){
+        aditionalArray[x] = [];
+        aditionalArray[x][0] = aditionalIDs.eq(x).attr('aditional-id');
+        aditionalArray[x][1] = aditionalIDs.eq(x).val();
+    }
+
+    // CONVERSÃO DAS DATAS PARA A DATA FORMATO YYYYMMDDHHmm DO BANCO
+    var checkinInput = moment(newTravelCheckin, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
+    var checkoutInput = moment(newTravelCheckout, 'YYYY-MM-DD'+'T'+'HH:mm').format('YYYYMMDDHHmm');
+
+    firebase.database().ref('travels/'+travelID).update({
+        checkin: checkinInput,
+        checkout: checkoutInput,
+        title: newTravelTitle,
+        place: newTravelPlace,
+        address: newTravelAddress
+    });
+
+    for (var a = 0; a < aditionalArray.length; a++) {
+        var aditionalID = aditionalArray[a][0]; // Obtém o aditionalID do array
+        var aditionalText = aditionalArray[a][1]; // Obtém o aditionalText do array
+    
+        if (aditionalText == "" || aditionalText == undefined) {
+            firebase.database().ref('travels/' + travelID + '/aditionals/' + aditionalID).remove();
+        } else {
+            firebase.database().ref('travels/' + travelID + '/aditionals/' + aditionalID).update({
+                text: aditionalText
+            });
+        }
+    }
+    
+    
+    if(newAditionals.length > 0){
+        for(var a = 0; newAditionals.length > a; a++){
+            var newAditionalText = newAditionals.eq(a).val();
+
+            firebase.database().ref('travels/'+travelID+'/aditionals').push({
+                text: newAditionalText
+            });
+        }
+        
+    };
+    
+    
 }
 
 // function createNewDate(checkin, checkout, address, complement, apto, host){
@@ -616,7 +1599,7 @@ function toggleAccordion(e) {
 function daysCount(startDay, endDay){
     var start = moment(startDay, 'YYYYMMDD');
     var end = moment(endDay, 'YYYYMMDD');
-    return end.diff(start, 'days')+1;
+    return end.diff(start, 'days');
 }
 
 function updateTip(dateID, tipDate){
@@ -649,9 +1632,23 @@ function sendMessage(type, message){
     
 
     // $('#input').blur();
-    $('#input').val('');
+    $('#chatInput').text('');
     updateLastViewed();
 }
+
+// Configurando o input da página inicial para responsividade
+function calcHeight(value) {
+    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
+    // min-height + lines x line-height + padding + border
+    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
+    return newHeight;
+}
+$('.textarea').on('keyup', function(){
+    if($(this).text().length == 0){
+        $(this).text("");
+    }
+})
+  
 
 
 // FAZ QUALQUER LINK VIRAR LINK DENTRO DO ARQUIVO
@@ -663,26 +1660,150 @@ function linkify(str) {
     $('div').html(newStr); //fill output area
 }
 
-$(document.getElementById("input")).keypress(function(event) {
+$(document.getElementById("chatInput")).keypress(function(event) {
     // EVITA COLOCAR ESPAÇO COMO PRIMEIRO CARACTER
-    if (event.keyCode == 32 & $('#input').val().length == 0){
+    if (event.keyCode == 32 & $('#chatInput').text().length == 0){
         return false;
     }
     if(event.which == 13) {
+        event.preventDefault();
         // alert('You pressed enter!');
-        var message = $('#input').val();
-        if($('#input').val().length >0){
+        var message = $('#chatInput').text();
+        if($('#chatInput').text().length >0){
             sendMessage("message", message);
         }
     }
 });
 
-function openModal(id){
-    document.getElementById(id).style.display = "block";
+$(document.getElementById("memoryInput")).keypress(function(event) {
+    // EVITA COLOCAR ESPAÇO COMO PRIMEIRO CARACTER
+    if (event.keyCode == 32 & $('#memoryInput').text().length == 0){
+        return false;
+    }
+    if(event.which == 13) {
+        event.preventDefault();
+        // alert('You pressed enter!');
+        var message = $('#memoryInput').text();
+        if($('#memoryInput').text().length >0){
+            newMemory();
+        }
+    }
+});
+
+$(document.getElementById("interestInput")).keypress(function(event) {
+    // EVITA COLOCAR ESPAÇO COMO PRIMEIRO CARACTER
+    if (event.keyCode == 32 && $('#interestInput').text().length == 0){
+        return false;
+    }
+    if(event.which == 13) {
+        event.preventDefault();
+        // alert('You pressed enter!');
+        var message = $('#interestInput').text();
+        if($('#interestInput').text().length >0){
+            newInterest();
+        }
+    }
+});
+
+let ignoreFocusout = false;
+
+$(document).on("keypress", ".memories-list .memory", function(event) {
+    if (event.which === 13) {
+        event.preventDefault();
+        
+        var travelID = $(this).closest('[travel-id]').attr('travel-id');
+        var memoryID = $(this).attr('memory-id');
+        var text = $(this).text();
+
+        ignoreFocusout = true;
+        updateMemory(travelID, memoryID, text);
+        
+        $(':focus').blur(); // remove o foco para forçar o focusout, se quiser
+
+        setTimeout(() => {
+            ignoreFocusout = false; // limpa o flag
+        }, 100); // espera curto para evitar conflitos
+    }
+});
+
+$(document).on("focusout", ".memories-list .memory", function(event) {
+    if (ignoreFocusout) return; // impede chamada duplicada
+
+    var travelID = $(this).closest('[travel-id]').attr('travel-id');
+    var memoryID = $(this).attr('memory-id');
+    var text = $(this).text();
+
+    updateMemory(travelID, memoryID, text);
+});
+
+
+$(document).on("focus", ".memories-list .memory", function(event) {
+    var memoryID = $(this).attr('memory-id');
+    removeQuotations(memoryID);
+});
+
+
+$(document).on("keypress", ".interests-list .interest", function(event) {
+    if (event.which === 13) {
+        event.preventDefault();
+        
+        var travelID = $(this).closest('[travel-id]').attr('travel-id');
+        var interestID = $(this).attr('interest-id');
+        var text = $(this).find('.textarea').text();
+
+        ignoreFocusout = true;
+        updateInterest(travelID, interestID, text);
+        
+        $(':focus').blur(); // remove o foco para forçar o focusout, se quiser
+
+        setTimeout(() => {
+            ignoreFocusout = false; // limpa o flag
+        }, 100); // espera curto para evitar conflitos
+    }
+});
+
+// Atualiza o Interesse no focusOut
+$(document).on("focusout", ".interests-list .interest", function(event) {
+    if (ignoreFocusout) return; // impede chamada duplicada
+    
+    var travelID = $(this).closest('[travel-id]').attr('travel-id');
+    var interestID = $(this).attr('interest-id');
+    var text = $(this).find('.textarea').text();
+
+    updateInterest(travelID, interestID, text);
+});
+
+
+function toggleModal(id) {
+    var modal = $("#" + id);
+    var button = $(".fast-access .button." + id);
+
+    if (modal.hasClass("opened") || button.hasClass("selected")) {
+        // Adiciona a classe de fechamento
+        modal.removeClass("opened").addClass("closing");
+        button.removeClass("selected");
+
+        // Aguarda o tempo da animação antes de remover a opacidade
+        setTimeout(() => {
+            modal.css("opacity", "0");
+        }, 300); // Tempo igual ao da animação
+    } else {
+        // Fecha qualquer outro modal aberto antes de abrir um novo
+        $(".fast-access .button").removeClass("selected");
+        $(".new-modal-area").removeClass("opened closing").css("opacity", "0");
+
+        // Abre o novo modal
+        modal.css("opacity", "1").addClass("opened");
+        button.addClass("selected");
+    }
 }
-function closeModal(i){
-    document.getElementById(i).style.display = "none";
-}
+
+
+
+// function closeModal(i){
+//     document.getElementById(i).style.display = "none";
+//     $(".fast-access .button.selected").removeClass("selected");
+// }
 
 // function checkNextTip(){
 //     // QUANDO FOR ELA
@@ -708,6 +1829,7 @@ function playSound(filename){
 var lastDateID;
 var firstRead = true;
 
+// Lógica da lista de checklist
 var firebaseLastDate = firebase.database().ref('dates').orderByKey().limitToLast(1);
 firebaseLastDate.on('value',function(dates){
     var dates = dates.val();
@@ -886,9 +2008,9 @@ firebaseLastDate.on('value',function(dates){
             }
         }
         var chevronSVG = `<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_555_17493)"><path d="M15.8333 9.5L13.6008 11.7325L20.8525 19L13.6008 26.2675L15.8333 28.5L25.3333 19L15.8333 9.5Z" fill="white"/></g></svg>`;
-        if(moment().format('YYYYMMDD') > checkoutDate){
-            document.getElementById('text').innerHTML = "Quando será o próximo? "+chevronSVG;
-        }
+        // if(moment().format('YYYYMMDD') > checkoutDate){
+        //     document.getElementById('text').innerHTML = "Quando será o próximo? "+chevronSVG;
+        // }
         // resizeMessageBox();
         
     } else firstRead = false;
@@ -1052,11 +2174,202 @@ function focusListTab(id){
     document.getElementById(`${id}`).style.display = "block";
 };
 
+firebase.database().ref('heart-status/').on('value',function(h){
+    var val = h.val();
+    var level = val.level;
+    var lastAction = val.lastAction;
+    var lastUserLevel = val.lastUserLevel;
+    
+    if(level == undefined || lastAction == undefined || lastUserLevel == undefined){
+        setNewParametersVersion();
+    }
 
+    var now = moment().format('YYYYMMDDHHmmss');
 
+    var start = moment(lastAction, 'YYYYMMDDHHmmss');
+    var end = moment(now, 'YYYYMMDDHHmmss');
+
+    // Calcula quanto tempo faz desde a última interação de alguém
+    var lastActionHours = end.diff(start, 'hours');
+
+    // Parâmetro de tempo usado para regredir e atualizar o estado
+    var timeVariation = 8; // 8 hours
+
+    var nextLevel = 0;
+    var correctLevel = 0;
+
+    // Verifica se o status do usuário está condizendo com o status do coração
+    // levando em consideração o parâmetro de timeVariation para atualizar para
+    // o estado correto
+    if(parseInt(lastActionHours / timeVariation) > 0 || level < 12){
+        correctLevel = lastUserLevel - parseInt(lastActionHours / 8);
+        if(correctLevel < 0){
+            correctLevel = 0;
+        }
+        nextLevel = correctLevel+1;
+    }
+    else{
+        correctLevel = level;
+        nextLevel = null;
+    }
+
+    // Chove corações por 2 horas depois que ele for totalmente restaurado
+    if(level == 12 && lastActionHours < 2){
+        setInterval(createHeart, 60);
+        $('#ekg-area').attr('bonus-rainning', 'on');
+    }
+    else{
+        $('#ekg-area').attr('bonus-rainning', 'off');
+    }
+
+    var actualUser = firebase.auth().currentUser.uid;
+
+    $('#ekg-area').attr('class','level-'+correctLevel);
+    $('#ekg-area').attr('onclick','levelUpEKG('+nextLevel+', "'+actualUser+'")');
+
+    if(level != correctLevel && correctLevel >= 0){
+        firebase.database().ref('heart-status/').update({
+            level: correctLevel
+        });
+    }
+    
+});
+
+function toggleFeelingWindow(){
+    $('#actionFeeling').toggleClass('on');
+}
+
+function toggleClass(id, Class){
+    $('#'+id).toggleClass(Class);
+}
+
+function newMemory(){
+    var text = $('#memoryInput').text();
+    var travelID = $('.travel [travel-id]').attr('travel-id');
+
+    firebase.database().ref('travels/'+travelID+'/memories/').push({
+        text: text
+    });
+
+    // Limpa o campo de texto no front
+    $('#memoryInput').text("");
+
+}
+function updateMemory(travelID, memoryID, text){
+    if(text == ""){
+        firebase.database().ref('travels/'+travelID+'/memories/'+memoryID).remove();
+    }
+    else{
+        $("span[memory-id='"+memoryID+"']").prepend('"');
+        $("span[memory-id='"+memoryID+"']").append('"');
+        firebase.database().ref('travels/'+travelID+'/memories/'+memoryID).update({
+            text: text
+        });
+    }
+
+}
+function removeQuotations(memoryID){
+    var text = $("span[memory-id='"+memoryID+"']").text();
+
+    text = text.replace(new RegExp('"', 'g'),'');
+    $("span[memory-id='"+memoryID+"']").text(text);
+}
+
+function toggleInterest(travelID, interestID, state){
+    firebase.database().ref('travels/'+travelID+'/interests/'+interestID).update({
+        done: state
+    });
+}
+
+function newInterest(){
+    var text = $('#interestInput').text();
+    var travelID = $('.travel [travel-id]').attr('travel-id');
+
+    firebase.database().ref('travels/'+travelID+'/interests/').push({
+        text: text,
+        done: 0
+    });
+
+    // Limpa o campo de texto no front
+    $('#interestInput').text("");
+
+}
+function updateInterest(travelID, interestID, text){
+    if(text == ""){
+        firebase.database().ref('travels/'+travelID+'/interests/'+interestID).remove();
+    }
+    else{
+        firebase.database().ref('travels/'+travelID+'/interests/'+interestID).update({
+            text: text
+        });
+    }
+
+}
+
+// var since = moment(date, 'YYYYMMDDHHmmss').fromNow();
+
+// Heart Levels
+//heart   status
+// 0    -   0
+//          1
+//          2
+// 1    -   3
+//          4
+//          5
+// 2    -   6
+//          7
+//          8
+// 3    -   9
+//          10
+//          11
+// 4    -   12
 
 // openModal('checkin-ticket');
 // openModal('reminder-list');
 // openModal('dates');
 // openModal('new-date');
 // createNewDate();
+
+window.addEventListener("DOMContentLoaded", function () {
+    const fastAccess = document.querySelector(".fast-access");
+
+    if (!fastAccess) {
+        console.warn(".fast-access não encontrada no DOM.");
+        return;
+    }
+
+    const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            // console.log("Tamanho mudou:", entry.contentRect.width, "x", entry.contentRect.height);
+
+            // Conta apenas os filhos visíveis dentro da fast-access
+            const visibleItems = $('.fast-access').children(':visible').length;
+
+            // Quando tiver 4 botões visíveis
+            if (visibleItems === 4) {
+                if (entry.contentRect.width <= 440) {
+                    $('.fast-access .remaining-days .seconds').hide();
+                } else {
+                    $('.fast-access .remaining-days .seconds').show();
+                }
+
+                if (entry.contentRect.width <= 380) {
+                    $('.fast-access .remaining-days .minutes').hide();
+                } else {
+                    $('.fast-access .remaining-days .minutes').show();
+                }
+            }
+
+            // Quando tiver 3 botões visíveis
+            if (visibleItems === 3) {
+                if (entry.contentRect.width <= 382) {
+                    $('.fast-access .remaining-days .seconds').hide();
+                } else {
+                    $('.fast-access .remaining-days .seconds').show();
+                }
+            }
+        }
+    });
+
+    resizeObserver.observe(fastAccess);
+});
